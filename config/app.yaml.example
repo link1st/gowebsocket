@@ -1,0 +1,12 @@
+app:
+  logFile: log/gin.log
+  httpPort: 8080
+  webSocketPort: 8089
+
+
+redis:
+  addr: "localhost:6379"
+  password: ""
+  DB: 0
+  poolSize: 30
+  minIdleConns: 30
