@@ -50,6 +50,15 @@ ws.send('{"seq":"2323","cmd":"heartbeat","data":{}}');
 ws.close();
 ```
 
+
+#### goVendor
+```bash
+govendor add github.com/gin-gonic/gin@v1.4.0
+govendor add -tree github.com/go-redis/redis
+govendor add -tree github.com/gorilla/websocket
+govendor add -tree github.com/spf13/viper
+```
+
 #### 待办事项
 - 读取配置文件
 - 定时脚本，清理过期未心跳链接
