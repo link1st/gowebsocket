@@ -29,6 +29,7 @@ func main() {
 	router := gin.Default()
 	// 初始化路由
 	routers.Init(router)
+	routers.WebsocketInit()
 
 	go websocket.StartWebSocket()
 
