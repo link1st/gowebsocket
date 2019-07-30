@@ -12,23 +12,53 @@ import (
 	"github.com/gin-gonic/gin"
 	"gowebsocket/common"
 	"gowebsocket/controllers"
+	"gowebsocket/servers/users"
+	"strconv"
 )
 
 // 查看用户是否在线
 func Online(c *gin.Context) {
 
-	// 获取参数
-	name := c.DefaultPostForm("name", "")
-	fmt.Println("Hello", name)
+	userId := c.Query("userId")
+	appIdStr := c.Query("appId")
+
+	fmt.Println("http_request 查看用户是否在线", userId, appIdStr)
+	appId, _ := strconv.ParseInt(appIdStr, 10, 32)
 
 	data := make(map[string]interface{})
 
-	data["name"] = name
+	online := users.CheckUserOnline(uint32(appId), userId)
+	data["userId"] = userId
+	data["online"] = online
 
 	controllers.Response(c, common.OK, "", data)
 }
 
 // 给用户发送消息
 func SendMessage(c *gin.Context) {
+	// 获取参数
+	appIdStr := c.PostForm("appId")
+	userId := c.PostForm("userId")
+	message := c.PostForm("message")
+
+	fmt.Println("http_request 给用户发送消息", appIdStr, userId, message)
+
+	appId, _ := strconv.ParseInt(appIdStr, 10, 32)
+
+	data := make(map[string]interface{})
+
+	sendResults, err := users.SendUserMessage(uint32(appId), userId, message)
+	if err != nil {
+		data["sendResultsErr"] = err.Error()
+
+	}
+
+	data["sendResults"] = sendResults
+
+	controllers.Response(c, common.OK, "", data)
+}
+
+// 给全体用户发送消息
+func SendMessageAll(c *gin.Context) {
 
 }

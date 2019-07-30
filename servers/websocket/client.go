@@ -22,7 +22,7 @@ type Login struct {
 
 // 读取客户端数据
 func (l *Login) GetKey() (key string) {
-	key = getUserKey(l.AppId, l.UserId)
+	key = GetUserKey(l.AppId, l.UserId)
 
 	return
 }
@@ -54,7 +54,7 @@ func NewClient(addr string, socket *websocket.Conn, firstTime uint64) (client *C
 
 // 读取客户端数据
 func (c *Client) GetKey() (key string) {
-	key = getUserKey(c.AppId, c.UserId)
+	key = GetUserKey(c.AppId, c.UserId)
 
 	return
 }

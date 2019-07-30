@@ -1,3 +1,8 @@
+## 目录
+- [goWebSocket](#goWebSocket)
+- [架构图](#架构图)
+ * 二级目录
+
 ### goWebSocket
 golang websocket websocket 中间键，单机支持百万连接，使用gin框架、nginx负载、可以水平部署、程序内部相互通讯、使用grpc通讯协议
 
@@ -37,19 +42,14 @@ ws.onclose = function(evt) {
 ### 发送数据
 ```$xslt
 登录:
-ws.send('{"seq":"2323","cmd":"login","data":{"userId":"11"}}');
- 
- 
+ws.send('{"seq":"2323","cmd":"login","data":{"userId":"11","appId":101}}');
+
 心跳:
-ws.send('{"seq":"2323","cmd":"heartbeat","data":{}}');
- 
- 
- 
+ws.send('{"seq":"2324","cmd":"heartbeat","data":{}}');
  
 关闭连接:
 ws.close();
 ```
-
 
 #### goVendor
 ```bash
@@ -60,11 +60,12 @@ govendor add -tree github.com/spf13/viper
 ```
 
 #### 待办事项
-- 读取配置文件
+- 读取配置文件 完成
 - 定时脚本，清理过期未心跳链接
-- http接口，获取登录、链接数量
+- http接口，获取登录、链接数量 完成
+- http接口，发送push、查询有多少人在线 完成
 - grpc 程序内部通讯，发送消息
-- http接口，发送push、查询有多少人在线
 - appIds 一个用户在多个平台登录
 - 界面，把所有在线的人拉倒一个群里面，发送消息
-- 群聊、单聊
+- ~~群聊~~、单聊
+- 实现分布式，水平扩张

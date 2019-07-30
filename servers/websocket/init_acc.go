@@ -24,6 +24,11 @@ var (
 	serverPort string
 )
 
+func GetAppIds() []uint32 {
+
+	return appIds
+}
+
 func InAppIds(appId uint32) (inAppId bool) {
 
 	for _, value := range appIds {
