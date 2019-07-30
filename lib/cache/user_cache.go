@@ -27,7 +27,7 @@ func getUserOnlineKey(userKey string) (key string) {
 	return
 }
 
-func GerUserOnlineInfo(userKey string) (userOnline *models.UserOnline, err error) {
+func GetUserOnlineInfo(userKey string) (userOnline *models.UserOnline, err error) {
 	redisClient := redislib.GetClient()
 
 	key := getUserOnlineKey(userKey)
@@ -35,12 +35,12 @@ func GerUserOnlineInfo(userKey string) (userOnline *models.UserOnline, err error
 	data, err := redisClient.Get(key).Bytes()
 	if err != nil {
 		if err == redis.Nil {
-			fmt.Println("GerUserOnlineInfo", userKey, err)
+			fmt.Println("GetUserOnlineInfo", userKey, err)
 
 			return
 		}
 
-		fmt.Println("GerUserOnlineInfo", userKey, err)
+		fmt.Println("GetUserOnlineInfo", userKey, err)
 
 		return
 	}

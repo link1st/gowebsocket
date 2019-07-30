@@ -42,19 +42,14 @@ ws.onclose = function(evt) {
 ### 发送数据
 ```$xslt
 登录:
-ws.send('{"seq":"2323","cmd":"login","data":{"userId":"11"}}');
- 
- 
+ws.send('{"seq":"2323","cmd":"login","data":{"userId":"11","appId":101}}');
+
 心跳:
-ws.send('{"seq":"2323","cmd":"heartbeat","data":{}}');
- 
- 
- 
+ws.send('{"seq":"2324","cmd":"heartbeat","data":{}}');
  
 关闭连接:
 ws.close();
 ```
-
 
 #### goVendor
 ```bash

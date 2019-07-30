@@ -95,7 +95,7 @@ func HeartbeatController(client *Client, seq string, message []byte) (code int, 
 		return
 	}
 
-	userOnline, err := cache.GerUserOnlineInfo(client.GetKey())
+	userOnline, err := cache.GetUserOnlineInfo(client.GetKey())
 	if err != nil {
 		if err == redis.Nil {
 			code = common.NotLoggedIn

@@ -39,27 +39,13 @@ func NewClientManager() (clientManager *ClientManager) {
 }
 
 // 获取用户key
-func getUserKey(appId uint32, userId string) (key string) {
+func GetUserKey(appId uint32, userId string) (key string) {
 	key = fmt.Sprintf("%d_%s", appId, userId)
 
 	return
 }
 
 /**************************  manager  ***************************************/
-
-// 获取用户的连接
-func (manager *ClientManager) GetClient(appId uint32, userId string) (client *Client) {
-
-	manager.UserLock.RLock()
-	defer manager.UserLock.RUnlock()
-
-	userKey := getUserKey(appId, userId)
-	if value, ok := manager.Users[userKey]; ok {
-		client = value
-	}
-
-	return
-}
 
 // 添加客户端
 func (manager *ClientManager) AddClients(client *Client) {
@@ -75,6 +61,20 @@ func (manager *ClientManager) DelClients(client *Client) {
 	defer manager.ClientsLock.Unlock()
 
 	delete(manager.Clients, client)
+}
+
+// 获取用户的连接
+func (manager *ClientManager) GetUserClient(appId uint32, userId string) (client *Client) {
+
+	manager.UserLock.RLock()
+	defer manager.UserLock.RUnlock()
+
+	userKey := GetUserKey(appId, userId)
+	if value, ok := manager.Users[userKey]; ok {
+		client = value
+	}
+
+	return
 }
 
 // 添加用户
@@ -102,8 +102,6 @@ func (manager *ClientManager) send(message []byte, ignore *Client) {
 	}
 }
 
-/**************************  manager event  ***************************************/
-
 // 用户建立连接事件
 func (manager *ClientManager) EventRegister(client *Client) {
 	manager.AddClients(client)
@@ -121,7 +119,7 @@ func (manager *ClientManager) EventLogin(Login *Login) {
 	client := Login.Client
 	// 连接存在，在添加
 	if _, ok := manager.Clients[Login.Client]; ok {
-		userKey := getUserKey(Login.AppId, Login.UserId)
+		userKey := Login.GetKey()
 		manager.AddUsers(userKey, Login.Client)
 	}
 
@@ -133,11 +131,11 @@ func (manager *ClientManager) EventUnregister(client *Client) {
 	manager.DelClients(client)
 
 	// 删除用户连接
-	userKey := getUserKey(client.AppId, client.UserId)
+	userKey := GetUserKey(client.AppId, client.UserId)
 	manager.DelUsers(userKey)
 
 	// 清除redis登录数据
-	userOnline, err := cache.GerUserOnlineInfo(client.GetKey())
+	userOnline, err := cache.GetUserOnlineInfo(client.GetKey())
 	if err == nil {
 		userOnline.LogOut()
 		cache.SetUserOnlineInfo(client.GetKey(), userOnline)
@@ -175,10 +173,45 @@ func (manager *ClientManager) start() {
 				case conn.Send <- message:
 				default:
 					close(conn.Send)
-					delete(manager.Clients, conn)
 				}
 			}
 		}
-
 	}
+}
+
+/**************************  manager info  ***************************************/
+// 获取管理者信息
+func GetManagerInfo(isDebug string) (managerInfo map[string]interface{}) {
+	managerInfo = make(map[string]interface{})
+
+	managerInfo["clientsLen"] = len(clientManager.Clients)
+	managerInfo["usersLen"] = len(clientManager.Users)
+	managerInfo["chanRegisterLen"] = len(clientManager.Register)
+	managerInfo["chanLoginLen"] = len(clientManager.Login)
+	managerInfo["chanUnregisterLen"] = len(clientManager.Unregister)
+	managerInfo["chanBroadcastLen"] = len(clientManager.Broadcast)
+
+	if isDebug == "true" {
+		clients := make([]string, 0)
+		for client := range clientManager.Clients {
+			clients = append(clients, client.Addr)
+		}
+
+		users := make([]string, 0)
+		for key := range clientManager.Users {
+			users = append(users, key)
+		}
+
+		managerInfo["clients"] = clients
+		managerInfo["users"] = users
+	}
+
+	return
+}
+
+// 获取用户所在的连接
+func GetUserClient(appId uint32, userId string) (client *Client) {
+	client = clientManager.GetUserClient(appId, userId)
+
+	return
 }
