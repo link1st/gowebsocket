@@ -13,6 +13,7 @@ import (
 	"github.com/spf13/viper"
 	"gowebsocket/lib/redislib"
 	"gowebsocket/routers"
+	"gowebsocket/servers/task"
 	"gowebsocket/servers/websocket"
 	"io"
 	"net/http"
@@ -30,6 +31,9 @@ func main() {
 	// 初始化路由
 	routers.Init(router)
 	routers.WebsocketInit()
+
+	// 定时任务
+	task.Init()
 
 	go websocket.StartWebSocket()
 

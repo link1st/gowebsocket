@@ -13,6 +13,11 @@ import (
 	"runtime/debug"
 )
 
+const (
+	// 用户连接超时时间
+	heartbeatExpirationTime = 6 * 60
+)
+
 // 用户登录
 type Login struct {
 	AppId  uint32
@@ -64,8 +69,12 @@ func (c *Client) read() {
 	defer func() {
 		if r := recover(); r != nil {
 			fmt.Println("write stop", string(debug.Stack()), r)
-
 		}
+	}()
+
+	defer func() {
+		fmt.Println("读取客户端数据 关闭send", c)
+		close(c.Send)
 	}()
 
 	for {
@@ -77,12 +86,12 @@ func (c *Client) read() {
 		}
 
 		// 处理程序
-		fmt.Println("读取客户端数据 处理", string(message))
+		fmt.Println("读取客户端数据 处理:", string(message))
 		ProcessData(c, message)
 	}
 }
 
-// 读取客户端数据
+// 向客户端写数据
 func (c *Client) write() {
 	defer func() {
 		if r := recover(); r != nil {
@@ -134,6 +143,15 @@ func (c *Client) Login(appId uint32, userId string, loginTime uint64) {
 // 用户心跳
 func (c *Client) Heartbeat(currentTime uint64) {
 	c.HeartbeatTime = currentTime
+
+	return
+}
+
+// 心跳超时
+func (c *Client) IsHeartbeatTimeout(currentTime uint64) (timeout bool) {
+	if c.HeartbeatTime+heartbeatExpirationTime <= currentTime {
+		timeout = true
+	}
 
 	return
 }

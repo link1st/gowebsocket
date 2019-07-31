@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"gowebsocket/lib/cache"
 	"sync"
+	"time"
 )
 
 // 连接管理
@@ -139,9 +140,6 @@ func (manager *ClientManager) EventUnregister(client *Client) {
 	if err == nil {
 		userOnline.LogOut()
 		cache.SetUserOnlineInfo(client.GetKey(), userOnline)
-
-		// 退出登录事件
-		// currentTime := uint64(time.Now().Unix())
 	}
 
 	// 关闭 chan
@@ -214,4 +212,18 @@ func GetUserClient(appId uint32, userId string) (client *Client) {
 	client = clientManager.GetUserClient(appId, userId)
 
 	return
+}
+
+// 定时清理超时连接
+func ClearTimeoutConnections() {
+
+	currentTime := uint64(time.Now().Unix())
+
+	for client := range clientManager.Clients {
+		if client.IsHeartbeatTimeout(currentTime) {
+			fmt.Println("心跳时间超时 关闭连接", client.Addr, client.UserId, client.LoginTime, client.HeartbeatTime)
+
+			client.Socket.Close()
+		}
+	}
 }
