@@ -79,3 +79,4 @@ govendor add -tree github.com/spf13/viper
 - 界面优化
 - 有人加入以后广播全体
 - 定义加入聊天室的消息结构
+- 引入机器人

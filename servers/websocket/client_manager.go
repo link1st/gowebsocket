@@ -95,7 +95,7 @@ func (manager *ClientManager) DelUsers(key string) {
 }
 
 // 向全部成员(除了自己)发送数据
-func (manager *ClientManager) send(message []byte, ignore *Client) {
+func (manager *ClientManager) sendAll(message []byte, ignore *Client) {
 	for conn := range manager.Clients {
 		if conn != ignore {
 			conn.Send <- message
@@ -226,4 +226,12 @@ func ClearTimeoutConnections() {
 			client.Socket.Close()
 		}
 	}
+}
+
+// 全员广播
+func AllSendMessages(appId uint32, userId string, data string) {
+	fmt.Println("全员广播", appId, userId, data)
+
+	ignore := clientManager.GetUserClient(appId, userId)
+	clientManager.sendAll([]byte(data), ignore)
 }

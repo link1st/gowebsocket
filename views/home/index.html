@@ -4,246 +4,246 @@
 <head>
     <title>{{ .title }}</title>
     <style type="text/css">
-    /*公共样式*/
-    body,
-    h1,
-    h2,
-    h3,
-    h4,
-    p,
-    ul,
-    ol,
-    li,
-    form,
-    button,
-    input,
-    textarea,
-    th,
-    td {
-        margin: 0;
-        padding: 0
-    }
+        /*公共样式*/
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        p,
+        ul,
+        ol,
+        li,
+        form,
+        button,
+        input,
+        textarea,
+        th,
+        td {
+            margin: 0;
+            padding: 0
+        }
 
-    body,
-    button,
-    input,
-    select,
-    textarea {
-        font: 12px/1.5 Microsoft YaHei UI Light, tahoma, arial, "\5b8b\4f53";
-        *line-height: 1.5;
-        -ms-overflow-style: scrollbar
-    }
+        body,
+        button,
+        input,
+        select,
+        textarea {
+            font: 12px/1.5 Microsoft YaHei UI Light, tahoma, arial, "\5b8b\4f53";
+            *line-height: 1.5;
+            -ms-overflow-style: scrollbar
+        }
 
-    h1,
-    h2,
-    h3,
-    h4 {
-        font-size: 100%
-    }
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-size: 100%
+        }
 
-    ul,
-    ol {
-        list-style: none
-    }
+        ul,
+        ol {
+            list-style: none
+        }
 
-    a {
-        text-decoration: none
-    }
+        a {
+            text-decoration: none
+        }
 
-    a:hover {
-        text-decoration: underline
-    }
+        a:hover {
+            text-decoration: underline
+        }
 
-    img {
-        border: 0
-    }
+        img {
+            border: 0
+        }
 
-    button,
-    input,
-    select,
-    textarea {
-        font-size: 100%
-    }
+        button,
+        input,
+        select,
+        textarea {
+            font-size: 100%
+        }
 
-    table {
-        border-collapse: collapse;
-        border-spacing: 0
-    }
+        table {
+            border-collapse: collapse;
+            border-spacing: 0
+        }
 
-    /*rem*/
-    html {
-        font-size: 62.5%;
-    }
+        /*rem*/
+        html {
+            font-size: 62.5%;
+        }
 
-    body {
-        font: 16px/1.5 "microsoft yahei", 'tahoma';
-    }
+        body {
+            font: 16px/1.5 "microsoft yahei", 'tahoma';
+        }
 
-    body .mobile-page {
-        font-size: 1.6rem;
-    }
+        body .mobile-page {
+            font-size: 1.6rem;
+        }
 
-    /*浮动*/
-    .fl {
-        float: left;
-    }
+        /*浮动*/
+        .fl {
+            float: left;
+        }
 
-    .fr {
-        float: right;
-    }
+        .fr {
+            float: right;
+        }
 
-    .clearfix:after {
-        content: '';
-        display: block;
-        height: 0;
-        clear: both;
-        visibility: hidden;
-    }
+        .clearfix:after {
+            content: '';
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden;
+        }
 
-    body {
-        background-color: #F5F5F5;
-    }
+        body {
+            background-color: #F5F5F5;
+        }
 
-    .mobile-page {
-        max-width: 600px;
-    }
+        .mobile-page {
+            max-width: 600px;
+        }
 
-    .mobile-page .admin-img,
-    .mobile-page .user-img {
-        width: 45px;
-        height: 45px;
-    }
+        .mobile-page .admin-img,
+        .mobile-page .user-img {
+            width: 45px;
+            height: 45px;
+        }
 
-    i.triangle-admin,
-    i.triangle-user {
-        width: 0;
-        height: 0;
-        position: absolute;
-        top: 10px;
-        display: inline-block;
-        border-top: 10px solid transparent;
-        border-bottom: 10px solid transparent;
-    }
+        i.triangle-admin,
+        i.triangle-user {
+            width: 0;
+            height: 0;
+            position: absolute;
+            top: 10px;
+            display: inline-block;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+        }
 
-    .mobile-page i.triangle-admin {
-        left: 4px;
-        border-right: 12px solid #fff;
-    }
+        .mobile-page i.triangle-admin {
+            left: 4px;
+            border-right: 12px solid #fff;
+        }
 
-    .mobile-page i.triangle-user {
-        right: 4px;
-        border-left: 12px solid #9EEA6A;
-    }
+        .mobile-page i.triangle-user {
+            right: 4px;
+            border-left: 12px solid #9EEA6A;
+        }
 
-    .mobile-page .admin-group,
-    .mobile-page .user-group {
-        padding: 6px;
-        display: flex;
-        display: -webkit-flex;
-    }
+        .mobile-page .admin-group,
+        .mobile-page .user-group {
+            padding: 6px;
+            display: flex;
+            display: -webkit-flex;
+        }
 
-    .mobile-page .admin-group {
-        justify-content: flex-start;
-        -webkit-justify-content: flex-start;
-    }
+        .mobile-page .admin-group {
+            justify-content: flex-start;
+            -webkit-justify-content: flex-start;
+        }
 
-    .mobile-page .user-group {
-        justify-content: flex-end;
-        -webkit-justify-content: flex-end;
-    }
+        .mobile-page .user-group {
+            justify-content: flex-end;
+            -webkit-justify-content: flex-end;
+        }
 
-    .mobile-page .admin-reply,
-    .mobile-page .user-reply {
-        display: inline-block;
-        padding: 8px;
-        border-radius: 4px;
-        background-color: #fff;
-        margin: 0 15px 12px;
-    }
+        .mobile-page .admin-reply,
+        .mobile-page .user-reply {
+            display: inline-block;
+            padding: 8px;
+            border-radius: 4px;
+            background-color: #fff;
+            margin: 0 15px 12px;
+        }
 
-    .mobile-page .admin-reply {
-        box-shadow: 0px 0px 2px #ddd;
-    }
+        .mobile-page .admin-reply {
+            box-shadow: 0px 0px 2px #ddd;
+        }
 
-    .mobile-page .user-reply {
-        text-align: left;
-        background-color: #9EEA6A;
-        box-shadow: 0px 0px 2px #bbb;
-    }
+        .mobile-page .user-reply {
+            text-align: left;
+            background-color: #9EEA6A;
+            box-shadow: 0px 0px 2px #bbb;
+        }
 
-    .mobile-page .user-msg,
-    .mobile-page .admin-msg {
-        width: 75%;
-        position: relative;
-    }
+        .mobile-page .user-msg,
+        .mobile-page .admin-msg {
+            width: 75%;
+            position: relative;
+        }
 
-    .mobile-page .user-msg {
-        text-align: right;
-    }
+        .mobile-page .user-msg {
+            text-align: right;
+        }
 
-    /*界面*/
-    .interface {
-        width: 1000px;
-        height: 700px;
-    }
+        /*界面*/
+        .interface {
+            width: 1000px;
+            height: 700px;
+        }
 
-    .personnel-list {
-        float: left;
-        width: 200px;
-        height: 500px;
-        background-color: #bbbbbb;
-        border-style: solid;
-        border-color: #000000;
-        overflow: scroll;
-    }
+        .personnel-list {
+            float: left;
+            width: 200px;
+            height: 500px;
+            background-color: #bbbbbb;
+            border-style: solid;
+            border-color: #000000;
+            overflow: scroll;
+        }
 
-    /*聊天框*/
-    .chat-with {
-        float: left;
-        width: 600px;
-        height: 400px;
-        background-color: #bbbbbb;
-        border-style: solid;
-        border-color: #000000;
-        overflow: scroll;
-    }
+        /*聊天框*/
+        .chat-with {
+            float: left;
+            width: 600px;
+            height: 400px;
+            background-color: #bbbbbb;
+            border-style: solid;
+            border-color: #000000;
+            overflow: scroll;
+        }
 
-    .send-msg {
-        float: left;
-        width: 600px;
-        height: 100px;
-        background-color: #bbbbbb;
-        border-style: solid;
-        border-color: #000000;
-        overflow: scroll;
-    }
+        .send-msg {
+            float: left;
+            width: 600px;
+            height: 100px;
+            background-color: #bbbbbb;
+            border-style: solid;
+            border-color: #000000;
+            overflow: scroll;
+        }
     </style>
 </head>
 
 <body>
-    <div class="mobile-page">
-        <div class="interface">
-            <div class="personnel-list">
-                <!-- 在线列表 -->
-            </div>
-            <div class="chat-with">
-                <div class="admin-group">
-                    <div class="admin-img">
-                        管理员
-                    </div>
-                    <div class="admin-msg">
-                        <i class="triangle-admin"></i>
-                        <span class="admin-reply">欢迎加入聊天~</span>
-                    </div>
+<div class="mobile-page">
+    <div class="interface">
+        <div class="personnel-list">
+            <!-- 在线列表 -->
+        </div>
+        <div class="chat-with">
+            <div class="admin-group">
+                <div class="admin-img">
+                    管理员
+                </div>
+                <div class="admin-msg">
+                    <i class="triangle-admin"></i>
+                    <span class="admin-reply">欢迎加入聊天~</span>
                 </div>
             </div>
-            <div class="send-msg">
-                    <input type="text" name="msg" value="你想要发送的消息" size="35">
-                <button>  send </button>
-            </div>
         </div>
-        <script src="http://91vh.com/js/jquery-2.1.4.min.js"></script>
-        <script type="text/javascript">
+        <div class="send-msg">
+            <input type="text" name="msg" placeholder="你想要发送的消息" value="" size="35">
+            <button> send</button>
+        </div>
+    </div>
+    <script src="http://91vh.com/js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript">
         function currentTime() {
             let timeStamp = (new Date()).valueOf();
 
@@ -298,11 +298,18 @@
             return html
         }
 
+        function addChatWith(msg) {
+            $(".chat-with").append(msg);
+            // 页面滚动条置底
+            $('.chat-with').animate({scrollTop: document.body.clientHeight +10000+ 'px'}, 80);
+
+        }
+
 
         // 连接webSocket
         ws = new WebSocket("ws://127.0.0.1:8089/acc");
 
-        ws.onopen = function(evt) {
+        ws.onopen = function (evt) {
             console.log("Connection open ...");
 
             // // 连接以后
@@ -320,15 +327,21 @@
             setInterval(heartbeat, 30 * 1000)
         };
 
-        ws.onmessage = function(evt) {
+        // 收到消息
+        ws.onmessage = function (evt) {
             console.log("Received Message: " + evt.data);
             data_array = JSON.parse(evt.data);
             console.log(data_array);
 
-            $("p").append(" <b>Hello world!</b>");
+            if (data_array.cmd === "msg") {
+                data = data_array.response.data
+                addChatWith(msg(data.from, data.msg))
+            }
+
+
         };
 
-        ws.onclose = function(evt) {
+        ws.onclose = function (evt) {
             console.log("Connection closed.");
         };
 
@@ -340,13 +353,33 @@
         }
 
         // 点击按钮事件
-        $("button").click(function() {
+        $("button").click(function () {
             let msg = $("input[name='msg']").val()
-            console.log("button 点击." + msg);
-            $(".chat-with").append(myMsg(person, msg));
+            console.log("button 点击:" + msg);
+            if (msg !== "") {
+
+                $.ajax({
+                    type: "POST",
+                    url: 'http://127.0.0.1:8080/user/sendMessageAll',
+                    data: {
+                        appId: "101",
+                        userId: person,
+                        msgId: sendId(),
+                        message: msg,
+                    },
+                    contentType: "application/x-www-form-urlencoded",
+                    success: function (data) {
+                        console.log(data);
+                        addChatWith(myMsg(person, msg))
+                    }
+                });
+
+
+            }
+
         });
-        </script>
-    </div>
+    </script>
+</div>
 </body>
 
 </html>

@@ -72,12 +72,6 @@ func ProcessData(client *Client, message []byte) {
 	seq := request.Seq
 	cmd := request.Cmd
 
-	// 返回数据
-	head := &models.Head{
-		Seq: seq,
-		Cmd: cmd,
-	}
-
 	var (
 		code int
 		msg  string
@@ -97,15 +91,9 @@ func ProcessData(client *Client, message []byte) {
 
 	msg = common.GetErrorMessage(code, msg)
 
-	response := models.Response{
-		Code: code,
-		Msg:  msg,
-		Data: data,
-	}
+	responseHead := models.NewResponseHead(seq, cmd, code, msg, data)
 
-	head.Response = response
-
-	headByte, err := json.Marshal(head)
+	headByte, err := json.Marshal(responseHead)
 	if err != nil {
 		fmt.Println("处理数据 json Marshal", err)
 

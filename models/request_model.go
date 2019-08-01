@@ -26,24 +26,3 @@ type Login struct {
 type HeartBeat struct {
 	UserId string `json:"userId,omitempty"`
 }
-
-/************************  响应数据  **************************/
-type Head struct {
-	Seq      string   `json:"seq"`      // 消息的Id
-	Cmd      string   `json:"cmd"`      // 消息的cmd
-	Response Response `json:"response"` // 消息体
-}
-
-type Response struct {
-	Code int         `json:"code"`
-	Msg  string      `json:"msg"`
-	Data interface{} `json:"data"` // 数据 json
-}
-
-// push 数据结构体
-type PushMsg struct {
-	Seq  string `json:"seq"`
-	Uuid uint64 `json:"uuid"`
-	Type string `json:"type"`
-	Msg  string `json:"msg"`
-}

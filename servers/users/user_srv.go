@@ -11,7 +11,9 @@ import (
 	"errors"
 	"fmt"
 	"github.com/go-redis/redis"
+	"gowebsocket/common"
 	"gowebsocket/lib/cache"
+	"gowebsocket/models"
 	"gowebsocket/servers/websocket"
 )
 
@@ -54,10 +56,12 @@ func checkUserOnline(appId uint32, userId string) (online bool, err error) {
 }
 
 // 给用户发送消息
-func SendUserMessage(appId uint32, userId string, message string) (sendResults bool, err error) {
+func SendUserMessage(appId uint32, userId string, msgId, message string) (sendResults bool, err error) {
+
+	data := getTextMsgData(userId, msgId, message)
 
 	// TODO::需要判断不在本机的情况
-	sendResults, err = sendUserMessageLocal(appId, userId, message)
+	sendResults, err = sendUserMessageLocal(appId, userId, data)
 	if err != nil {
 		fmt.Println("给用户发送消息", appId, userId, err)
 	}
@@ -66,7 +70,7 @@ func SendUserMessage(appId uint32, userId string, message string) (sendResults b
 }
 
 // 给本机用户发送消息
-func sendUserMessageLocal(appId uint32, userId string, message string) (sendResults bool, err error) {
+func sendUserMessageLocal(appId uint32, userId string, data string) (sendResults bool, err error) {
 
 	client := websocket.GetUserClient(appId, userId)
 	if client == nil {
@@ -76,8 +80,25 @@ func sendUserMessageLocal(appId uint32, userId string, message string) (sendResu
 	}
 
 	// 发送消息
-	client.SendMsg([]byte(message))
+	client.SendMsg([]byte(data))
 	sendResults = true
 
 	return
+}
+
+// 给全体用户发消息
+func SendUserMessageAll(appId uint32, userId string, msgId, message string) (sendResults bool, err error) {
+	sendResults = true
+
+	data := getTextMsgData(userId, msgId, message)
+	websocket.AllSendMessages(appId, userId, data)
+
+	return
+}
+
+func getTextMsgData(uuId, msgId, message string) string {
+	textMsg := models.NewTestMsg(uuId, message)
+	head := models.NewResponseHead(msgId, "msg", common.OK, "Ok", textMsg)
+
+	return head.String()
 }
