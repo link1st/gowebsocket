@@ -16,6 +16,22 @@ import (
 	"strconv"
 )
 
+// 查看全部在线用户
+func List(c *gin.Context) {
+
+	appIdStr := c.Query("appId")
+	appId, _ := strconv.ParseInt(appIdStr, 10, 32)
+
+	fmt.Println("http_request 查看全部在线用户", appId)
+
+	data := make(map[string]interface{})
+
+	userList := users.UserList()
+	data["userList"] = userList
+
+	controllers.Response(c, common.OK, "", data)
+}
+
 // 查看用户是否在线
 func Online(c *gin.Context) {
 

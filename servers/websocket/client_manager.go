@@ -9,7 +9,9 @@ package websocket
 
 import (
 	"fmt"
+	"gowebsocket/helper"
 	"gowebsocket/lib/cache"
+	"gowebsocket/models"
 	"sync"
 	"time"
 )
@@ -125,6 +127,8 @@ func (manager *ClientManager) EventLogin(Login *Login) {
 	}
 
 	fmt.Println("EventLogin 用户登录", client.Addr, Login.AppId, Login.UserId)
+
+	AllSendMessages(Login.AppId, Login.UserId, models.GetTextMsgDataEnter(Login.UserId, helper.GetOrderIdTime(), "哈喽~"))
 }
 
 // 用户断开连接
@@ -146,6 +150,10 @@ func (manager *ClientManager) EventUnregister(client *Client) {
 	// close(client.Send)
 
 	fmt.Println("EventUnregister 用户断开连接", client.Addr, client.AppId, client.UserId)
+
+	if client.UserId != "" {
+		AllSendMessages(client.AppId, client.UserId, models.GetTextMsgDataExit(client.UserId, helper.GetOrderIdTime(), "用户已经离开~"))
+	}
 }
 
 // 管道处理程序
@@ -226,6 +234,19 @@ func ClearTimeoutConnections() {
 			client.Socket.Close()
 		}
 	}
+}
+
+// 获取全部用户
+func GetUserList() (userList []string) {
+
+	userList = make([]string, 0)
+	fmt.Println("获取全部用户")
+
+	for _, v := range clientManager.Users {
+		userList = append(userList, v.UserId)
+	}
+
+	return
 }
 
 // 全员广播

@@ -225,6 +225,10 @@
     <div class="interface">
         <div class="personnel-list">
             <!-- 在线列表 -->
+            用户列表
+            进入的时候拉取用户列表
+            有人加入的时候添加
+            有人退出以后删除
         </div>
         <div class="chat-with">
             <div class="admin-group">
@@ -298,6 +302,15 @@
             return html
         }
 
+        function userDiv(name ){
+
+            let html = '<div id="'+name+'">' +
+                 name+
+                '</div>';
+            return html
+            
+        }
+
         function addChatWith(msg) {
             $(".chat-with").append(msg);
             // 页面滚动条置底
@@ -336,6 +349,12 @@
             if (data_array.cmd === "msg") {
                 data = data_array.response.data
                 addChatWith(msg(data.from, data.msg))
+            }else if (data_array.cmd === "enter"){
+                data = data_array.response.data
+                addChatWith(msg("管理员", "欢迎"+data.from+"加入~"))
+            }else if (data_array.cmd === "exit"){
+                data = data_array.response.data
+                addChatWith(msg("管理员", data.from+"悄悄的离开了~"))
             }
 
 
@@ -373,11 +392,34 @@
                         addChatWith(myMsg(person, msg))
                     }
                 });
-
-
             }
-
         });
+
+        $.ajax({
+            type:"GET",
+            url:"http://127.0.0.1:8080/user/list",
+            dataType:"json",
+            success:function(data){
+                console.log("user list:" +data.code+ "userList:"+data.data.userList);
+                if (data.code != 200){
+                    return false
+                }
+                var music="<ul>";
+                //i表示在data中的索引位置，n表示包含的信息的对象
+                $.each(data.data.userList,function(i,n){
+                    //获取对象中属性为optionsValue的值                
+                    music+="<li>"+n+"</li>";
+                });
+                music+="</ul>";
+                $(".personnel-list").append(music);
+
+                return false
+            }
+        });
+
+
+
+
     </script>
 </div>
 </body>

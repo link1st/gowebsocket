@@ -7,6 +7,8 @@
 
 package models
 
+import "gowebsocket/common"
+
 const (
 	messageTypeText = "text"
 )
@@ -28,4 +30,26 @@ func NewTestMsg(from string, Msg string) (message *Message) {
 	}
 
 	return
+}
+
+func getTextMsgData(cmd, uuId, msgId, message string) string {
+	textMsg := NewTestMsg(uuId, message)
+	head := NewResponseHead(msgId, cmd, common.OK, "Ok", textMsg)
+
+	return head.String()
+}
+
+func GetTextMsgData(uuId, msgId, message string) string {
+
+	return getTextMsgData("msg", uuId, msgId, message)
+}
+
+func GetTextMsgDataEnter(uuId, msgId, message string) string {
+
+	return getTextMsgData("enter", uuId, msgId, message)
+}
+
+func GetTextMsgDataExit(uuId, msgId, message string) string {
+
+	return getTextMsgData("exit", uuId, msgId, message)
 }
