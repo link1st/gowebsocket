@@ -62,12 +62,18 @@ func StartWebSocket() {
 func wsPage(w http.ResponseWriter, req *http.Request) {
 
 	// 升级协议
-	conn, err := (&websocket.Upgrader{CheckOrigin: func(r *http.Request) bool { return true }}).Upgrade(w, req, nil)
+	conn, err := (&websocket.Upgrader{CheckOrigin: func(r *http.Request) bool {
+		fmt.Println("升级协议", "ua:", r.Header["User-Agent"], "referer:", r.Header["Referer"])
+
+		return true
+	}}).Upgrade(w, req, nil)
 	if err != nil {
 		http.NotFound(w, req)
 
 		return
 	}
+
+	conn.CloseHandler()
 
 	fmt.Println("webSocket 建立连接:", conn.RemoteAddr().String())
 
