@@ -335,7 +335,7 @@
 
 
         // 连接webSocket
-        ws = new WebSocket("ws://127.0.0.1:8089/acc");
+        ws = new WebSocket("ws://{{ .webSocketUrl }}/acc");
 
         ws.onopen = function(evt) {
             console.log("Connection open ...");
@@ -407,7 +407,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: 'http://127.0.0.1:8080/user/sendMessageAll',
+                    url: 'http://{{ .httpUrl }}/user/sendMessageAll',
                     data: {
                         appId: "101",
                         userId: person,
@@ -429,7 +429,7 @@
         function getUserList() {
             $.ajax({
                 type: "GET",
-                url: "http://127.0.0.1:8080/user/list",
+                url: "http://{{ .httpUrl }}/user/list",
                 dataType: "json",
                 success: function(data) {
                     console.log("user list:" + data.code + "userList:" + data.data.userList);
