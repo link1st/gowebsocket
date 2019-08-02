@@ -81,6 +81,13 @@
 			"revisionTime": "2019-06-21T16:12:01Z"
 		},
 		{
+			"checksumSHA1": "L44mNFn5HOECRliS4I2wardsEWI=",
+			"path": "github.com/magiconair/properties",
+			"revision": "de8848e004dd33dc07a2947b3d76f618a7fc7ef1",
+			"revisionTime": "2019-05-10T14:34:07Z",
+			"tree": true
+		},
+		{
 			"checksumSHA1": "74gCzvJiE6bXX3i4vIVCYhffDHc=",
 			"path": "github.com/mattn/go-isatty",
 			"revision": "da60ac76bf7019a8b005f8dd1ad9d1a0e6434155",
