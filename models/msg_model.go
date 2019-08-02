@@ -39,16 +39,19 @@ func getTextMsgData(cmd, uuId, msgId, message string) string {
 	return head.String()
 }
 
+// 文本消息
 func GetTextMsgData(uuId, msgId, message string) string {
 
 	return getTextMsgData("msg", uuId, msgId, message)
 }
 
+// 用户进入消息
 func GetTextMsgDataEnter(uuId, msgId, message string) string {
 
 	return getTextMsgData("enter", uuId, msgId, message)
 }
 
+// 用户退出消息
 func GetTextMsgDataExit(uuId, msgId, message string) string {
 
 	return getTextMsgData("exit", uuId, msgId, message)
