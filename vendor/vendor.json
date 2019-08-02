@@ -68,6 +68,13 @@
 			"tree": true
 		},
 		{
+			"checksumSHA1": "p69e55AvzlZ8BesAkDXyTUejpeg=",
+			"path": "github.com/hashicorp/hcl",
+			"revision": "cf7d376da96d9cecec7c7483cec2735efe54a410",
+			"revisionTime": "2019-06-11T12:32:18Z",
+			"tree": true
+		},
+		{
 			"checksumSHA1": "4DgEcOv2o9NyZAHCbdS76mToqpU=",
 			"path": "github.com/json-iterator/go",
 			"revision": "27518f6661eba504be5a7a9a9f6d9460d892ade3",
