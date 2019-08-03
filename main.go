@@ -13,6 +13,7 @@ import (
 	"github.com/spf13/viper"
 	"gowebsocket/lib/redislib"
 	"gowebsocket/routers"
+	"gowebsocket/servers/grpcserver"
 	"gowebsocket/servers/task"
 	"gowebsocket/servers/websocket"
 	"io"
@@ -39,6 +40,8 @@ func main() {
 	task.ServerInit()
 
 	go websocket.StartWebSocket()
+	// grpc
+	go grpcserver.Init()
 
 	httpPort := viper.GetString("app.httpPort")
 	http.ListenAndServe(":"+httpPort, router)
