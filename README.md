@@ -20,7 +20,7 @@ golang websocket websocket 中间键，单机支持百万连接，使用gin框�
 
 
 ### js发送消息
-```$xslt
+```$js
 ws = new WebSocket("ws://127.0.0.1:8089/acc");
  
 // setTimeout(时间，"JS代码");
@@ -72,7 +72,6 @@ govendor add -tree  github.com/spf13/jwalterweatherman
 govendor add -tree  github.com/spf13/pflag
 govendor add -tree  github.com/subosito/gotenv
 govendor add -tree  golang.org/x/text/transform
-govendor add -tree  golang.org/x/text
 govendor add -tree  golang.org/x/text/unicode
 ```
 
