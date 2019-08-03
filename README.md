@@ -178,6 +178,15 @@ http{
 
 ```
 
+#### 压测前准备
+- 内核调优
+- ulimit -n 1000000
+- `vim /etc/sysctl.conf`
+```bash
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_tw_recycle = 0
+```
+
 #### 待办事项
 - gin log日志(请求日志+debug日志)
 - 读取配置文件 完成

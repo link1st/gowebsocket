@@ -123,6 +123,12 @@ func (c *Client) write() {
 
 // 读取客户端数据
 func (c *Client) SendMsg(msg []byte) {
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("SendMsg stop:", r, string(debug.Stack()))
+		}
+	}()
+
 	c.Send <- msg
 }
 

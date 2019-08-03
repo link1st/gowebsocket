@@ -100,7 +100,7 @@ func ProcessData(client *Client, message []byte) {
 		return
 	}
 
-	client.Send <- headByte
+	client.SendMsg(headByte)
 
 	fmt.Println("acc_response send", client.Addr, client.AppId, client.UserId, "cmd", cmd, "code", code)
 

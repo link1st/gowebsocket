@@ -100,7 +100,7 @@ func (manager *ClientManager) DelUsers(key string) {
 func (manager *ClientManager) sendAll(message []byte, ignore *Client) {
 	for conn := range manager.Clients {
 		if conn != ignore {
-			conn.Send <- message
+			conn.SendMsg(message)
 		}
 	}
 }
