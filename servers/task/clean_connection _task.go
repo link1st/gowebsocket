@@ -15,7 +15,7 @@ import (
 )
 
 func Init() {
-	Timer(3*time.Second, 30*time.Second, cleanConnection, "")
+	Timer(3*time.Second, 30*time.Second, cleanConnection, "", nil, nil)
 
 }
 

@@ -35,6 +35,9 @@ func main() {
 	// 定时任务
 	task.Init()
 
+	// 服务注册
+	task.ServerInit()
+
 	go websocket.StartWebSocket()
 
 	httpPort := viper.GetString("app.httpPort")

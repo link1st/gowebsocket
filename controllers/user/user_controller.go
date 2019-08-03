@@ -12,6 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"gowebsocket/common"
 	"gowebsocket/controllers"
+	"gowebsocket/lib/cache"
 	"gowebsocket/servers/users"
 	"strconv"
 )
@@ -63,6 +64,13 @@ func SendMessage(c *gin.Context) {
 	appId, _ := strconv.ParseInt(appIdStr, 10, 32)
 
 	data := make(map[string]interface{})
+
+	if cache.SeqDuplicates(msgId) {
+		fmt.Println("给用户发送消息 重复提交:", msgId)
+		controllers.Response(c, common.OK, "", data)
+
+		return
+	}
 
 	sendResults, err := users.SendUserMessage(uint32(appId), userId, msgId, message)
 	if err != nil {

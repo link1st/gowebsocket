@@ -12,6 +12,7 @@ import (
 	"github.com/gorilla/websocket"
 	"github.com/spf13/viper"
 	"gowebsocket/helper"
+	"gowebsocket/models"
 	"net/http"
 	"time"
 )
@@ -27,6 +28,12 @@ var (
 func GetAppIds() []uint32 {
 
 	return appIds
+}
+
+func GetServer() (server *models.Server) {
+	server = models.NewServer(serverIp, serverPort)
+
+	return
 }
 
 func InAppIds(appId uint32) (inAppId bool) {
