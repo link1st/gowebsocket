@@ -35,6 +35,9 @@ func setErr(rsp proto.Message, code uint32, message string) {
 	case *protobuf.SendMsgRsp:
 		v.RetCode = code
 		v.ErrMsg = message
+	case *protobuf.SendMsgAllRsp:
+		v.RetCode = code
+		v.ErrMsg = message
 	case *protobuf.GetUserListRsp:
 		v.RetCode = code
 		v.ErrMsg = message
@@ -92,13 +95,14 @@ func (s *server) SendMsg(c context.Context, req *protobuf.SendMsgReq) (rsp *prot
 
 	setErr(rsp, common.OK, "")
 
+	fmt.Println("grpc_response 给本机用户发消息", rsp.String())
 	return
 }
 
-// 给本机用户发消息
+// 给本机全体用户发消息
 func (s *server) SendMsgAll(c context.Context, req *protobuf.SendMsgAllReq) (rsp *protobuf.SendMsgAllRsp, err error) {
 
-	fmt.Println("grpc_request 给本机用户发消息", req.String())
+	fmt.Println("grpc_request 给本机全体用户发消息", req.String())
 
 	rsp = &protobuf.SendMsgAllRsp{}
 
@@ -106,6 +110,8 @@ func (s *server) SendMsgAll(c context.Context, req *protobuf.SendMsgAllReq) (rsp
 	websocket.AllSendMessages(req.GetAppId(), req.GetUserId(), data)
 
 	setErr(rsp, common.OK, "")
+
+	fmt.Println("grpc_response 给本机全体用户发消息:", rsp.String())
 
 	return
 }
@@ -123,7 +129,9 @@ func (s *server) GetUserList(c context.Context, req *protobuf.GetUserListReq) (r
 	setErr(rsp, common.OK, "")
 	rsp.UserId = userList
 
-	return nil, nil
+	fmt.Println("grpc_response 获取本机用户列表:", rsp.String())
+
+	return
 }
 
 // rpc server

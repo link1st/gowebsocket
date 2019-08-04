@@ -55,6 +55,7 @@ func SendMsgAll(server *models.Server, seq string, appId uint32, userId string, 
 	}
 
 	sendMsgId = rsp.GetSendMsgId()
+	fmt.Println("给全体用户发送消息 成功:", sendMsgId)
 
 	return
 }
@@ -79,18 +80,19 @@ func GetUserList(server *models.Server) (userIds []string, err error) {
 	req := protobuf.GetUserListReq{}
 	rsp, err := c.GetUserList(ctx, &req)
 	if err != nil {
-		fmt.Println("获取用户列表", err)
+		fmt.Println("获取用户列表 发送请求错误:", err)
 
 		return
 	}
 
 	if rsp.GetRetCode() != common.OK {
-		fmt.Println("获取用户列表", rsp.String())
+		fmt.Println("获取用户列表 返回码错误:", rsp.String())
 
 		return
 	}
 
 	userIds = rsp.GetUserId()
+	fmt.Println("获取用户列表 成功:", userIds)
 
 	return
 }

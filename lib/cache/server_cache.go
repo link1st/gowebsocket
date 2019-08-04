@@ -57,7 +57,7 @@ func DelServerInfo(server *models.Server) (err error) {
 	redisClient := redislib.GetClient()
 	number, err := redisClient.Do("hDel", key, server.String()).Int()
 	if err != nil {
-		fmt.Println("SetServerInfo", key, number, err)
+		fmt.Println("DelServerInfo", key, number, err)
 
 		return
 	}
@@ -82,7 +82,7 @@ func GetServerAll(currentTime uint64) (servers []*models.Server, err error) {
 	val, err := redisClient.Do("hGetAll", key).Result()
 
 	valByte, _ := json.Marshal(val)
-	fmt.Println("SetServerInfo", key, string(valByte))
+	fmt.Println("GetServerAll", key, string(valByte))
 
 	serverMap, err := redisClient.HGetAll(key).Result()
 	if err != nil {
@@ -94,7 +94,7 @@ func GetServerAll(currentTime uint64) (servers []*models.Server, err error) {
 	for key, value := range serverMap {
 		valueUint64, err := strconv.ParseUint(value, 10, 64)
 		if err != nil {
-			fmt.Println("SetServerInfo", key, err)
+			fmt.Println("GetServerAll", key, err)
 
 			return nil, err
 		}
@@ -106,7 +106,7 @@ func GetServerAll(currentTime uint64) (servers []*models.Server, err error) {
 
 		server, err := models.StringToServer(key)
 		if err != nil {
-			fmt.Println("SetServerInfo", key, err)
+			fmt.Println("GetServerAll", key, err)
 
 			return nil, err
 		}
