@@ -188,6 +188,13 @@
 			"revisionTime": "2019-07-11T09:16:12Z"
 		},
 		{
+			"checksumSHA1": "CbpjEkkOeh0fdM/V8xKDdI0AA88=",
+			"path": "golang.org/x/text/secure/bidirule",
+			"revision": "342b2e1fbaa52c93f31447ad2c6abc048c63e475",
+			"revisionTime": "2018-12-15T17:52:45Z",
+			"tree": true
+		},
+		{
 			"checksumSHA1": "077XDBzIUFgsmcIXAkuxn/bi92g=",
 			"path": "golang.org/x/text/transform",
 			"revision": "342b2e1fbaa52c93f31447ad2c6abc048c63e475",

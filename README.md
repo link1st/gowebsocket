@@ -55,7 +55,7 @@ ws.close();
 ```
 
 #### goVendor
-```bash
+```
 govendor add github.com/gin-gonic/gin@v1.4.0
 govendor add -tree github.com/go-redis/redis
 govendor add -tree github.com/gorilla/websocket
@@ -73,6 +73,14 @@ govendor add -tree  github.com/spf13/pflag
 govendor add -tree  github.com/subosito/gotenv
 govendor add -tree  golang.org/x/text/transform
 govendor add -tree  golang.org/x/text/unicode
+
+# grpc
+govendor add -tree google.golang.org/grpc
+govendor add -tree google.golang.org/grpc/codes
+govendor add -tree github.com/golang/protobuf
+govendor add -tree golang.org/x/net
+govendor add -tree google.golang.org/genproto/googleapis
+govendor add -tree golang.org/x/text/secure/bidirule
 ```
 
 
