@@ -14,8 +14,10 @@ import (
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 	"gowebsocket/common"
+	"gowebsocket/models"
 	"gowebsocket/protobuf"
 	"gowebsocket/servers/users"
+	"gowebsocket/servers/websocket"
 	"log"
 	"net"
 )
@@ -99,34 +101,23 @@ func (s *server) SendMsgAll(c context.Context, req *protobuf.SendMsgAllReq) (rsp
 
 	rsp = &protobuf.SendMsgAllRsp{}
 
-	sendResults, err := users.SendUserMessageAll(req.GetAppId(), req.GetUserId(), req.GetMsg(), req.GetMsg())
-	if err != nil {
-		fmt.Println("系统错误", err)
-		setErr(rsp, common.ServerError, "")
-
-		return rsp, nil
-	}
-
-	if !sendResults {
-		fmt.Println("发送失败", err)
-		setErr(rsp, common.OperationFailure, "")
-
-		return rsp, nil
-	}
+	data := models.GetTextMsgData(req.GetUserId(), req.GetSeq(), req.GetMsg())
+	websocket.AllSendMessages(req.GetAppId(), req.GetUserId(), data)
 
 	setErr(rsp, common.OK, "")
 
 	return
 }
 
-// 获取用户列表
+// 获取本机用户列表
 func (s *server) GetUserList(c context.Context, req *protobuf.GetUserListReq) (rsp *protobuf.GetUserListRsp, err error) {
 
-	fmt.Println("grpc_request 获取用户列表", req.String())
+	fmt.Println("grpc_request 获取本机用户列表", req.String())
 
 	rsp = &protobuf.GetUserListRsp{}
 
-	userList := users.UserList()
+	// 本机
+	userList := websocket.GetUserList()
 
 	setErr(rsp, common.OK, "")
 	rsp.UserId = userList
