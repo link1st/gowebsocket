@@ -103,7 +103,7 @@ func SendMessageAll(c *gin.Context) {
 		return
 	}
 
-	sendResults, err := websocket.SendUserMessageAll(uint32(appId), userId, msgId, models.MessageTypeText, message)
+	sendResults, err := websocket.SendUserMessageAll(uint32(appId), userId, msgId, models.MessageCmdMsg, message)
 	if err != nil {
 		data["sendResultsErr"] = err.Error()
 

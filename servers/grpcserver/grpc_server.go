@@ -76,7 +76,7 @@ func (s *server) SendMsg(c context.Context, req *protobuf.SendMsgReq) (rsp *prot
 		return
 	}
 
-	data := models.GetMsgData(req.GetUserId(), req.GetSeq(), req.GetType(), req.GetMsg())
+	data := models.GetMsgData(req.GetUserId(), req.GetSeq(), req.GetCms(), req.GetMsg())
 	sendResults, err := websocket.SendUserMessageLocal(req.GetAppId(), req.GetUserId(), data)
 	if err != nil {
 		fmt.Println("系统错误", err)
@@ -105,7 +105,7 @@ func (s *server) SendMsgAll(c context.Context, req *protobuf.SendMsgAllReq) (rsp
 
 	rsp = &protobuf.SendMsgAllRsp{}
 
-	data := models.GetMsgData(req.GetUserId(), req.GetSeq(), req.GetType(), req.GetMsg())
+	data := models.GetMsgData(req.GetUserId(), req.GetSeq(), req.GetCms(), req.GetMsg())
 	websocket.AllSendMessages(req.GetAppId(), req.GetUserId(), data)
 
 	setErr(rsp, common.OK, "")

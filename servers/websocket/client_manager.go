@@ -129,7 +129,7 @@ func (manager *ClientManager) EventLogin(login *login) {
 	fmt.Println("EventLogin 用户登录", client.Addr, login.AppId, login.UserId)
 
 	orderId := helper.GetOrderIdTime()
-	SendUserMessageAll(login.AppId, login.UserId, orderId, models.MessageTypeEnter, "哈喽~")
+	SendUserMessageAll(login.AppId, login.UserId, orderId, models.MessageCmdEnter, "哈喽~")
 
 }
 
@@ -155,7 +155,7 @@ func (manager *ClientManager) EventUnregister(client *Client) {
 
 	if client.UserId != "" {
 		orderId := helper.GetOrderIdTime()
-		SendUserMessageAll(client.AppId, client.UserId, orderId, models.MessageTypeExit, "用户已经离开~")
+		SendUserMessageAll(client.AppId, client.UserId, orderId, models.MessageCmdExit, "用户已经离开~")
 	}
 }
 

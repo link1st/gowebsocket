@@ -11,8 +11,10 @@ import "gowebsocket/common"
 
 const (
 	MessageTypeText = "text"
-	MessageTypeEnter = "enter"
-	MessageTypeExit = "exit"
+
+	MessageCmdMsg = "msg"
+	MessageCmdEnter = "enter"
+	MessageCmdExit = "exit"
 )
 
 // 消息的定义
@@ -42,9 +44,9 @@ func getTextMsgData(cmd, uuId, msgId, message string) string {
 }
 
 // 文本消息
-func GetMsgData(uuId, msgId, msgType, message string) string {
+func GetMsgData(uuId, msgId, cmd, message string) string {
 
-	return getTextMsgData(msgType, uuId, msgId, message)
+	return getTextMsgData(cmd, uuId, msgId, message)
 }
 
 // 文本消息

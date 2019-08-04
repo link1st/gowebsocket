@@ -40,9 +40,10 @@ message SendMsgReq {
     string seq = 1; // 序列号
     uint32 appId = 2; // 用户ID
     string userId = 3; // 用户ID
-    string type = 4; // type
-    string msg = 5; // msg
-    bool isLocal = 6; // 是否查询本机 acc内部调用为:true(本机查询不到即结束)
+    string cms = 4; // cms 动作: msg/enter/exit
+    string type = 5; // type 消息类型，默认是 text
+    string msg = 6; // msg
+    bool isLocal = 7; // 是否查询本机 acc内部调用为:true(本机查询不到即结束)
 }
 
 message SendMsgRsp {
@@ -56,8 +57,9 @@ message SendMsgAllReq {
     string seq = 1; // 序列号
     uint32 appId = 2; // 用户ID
     string userId = 3; // 用户ID
-    string type = 4; // type
-    string msg = 5; // msg
+    string cms = 4; // cms 动作: msg/enter/exit
+    string type = 5; // type 消息类型，默认是 text
+    string msg = 6; // msg
 }
 
 message SendMsgAllRsp {
@@ -65,7 +67,6 @@ message SendMsgAllRsp {
     string errMsg = 2;
     string sendMsgId = 3;
 }
-
 
 // 获取用户列表
 message GetUserListReq {
