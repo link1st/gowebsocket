@@ -13,6 +13,7 @@ import (
 	"gowebsocket/common"
 	"gowebsocket/controllers"
 	"gowebsocket/lib/cache"
+	"gowebsocket/models"
 	"gowebsocket/servers/websocket"
 	"strconv"
 )
@@ -102,7 +103,7 @@ func SendMessageAll(c *gin.Context) {
 		return
 	}
 
-	sendResults, err := websocket.SendUserMessageAll(uint32(appId), userId, msgId, message)
+	sendResults, err := websocket.SendUserMessageAll(uint32(appId), userId, msgId, models.MessageTypeText, message)
 	if err != nil {
 		data["sendResultsErr"] = err.Error()
 

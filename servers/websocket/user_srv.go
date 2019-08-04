@@ -114,7 +114,7 @@ func SendUserMessageLocal(appId uint32, userId string, data string) (sendResults
 }
 
 // 给全体用户发消息
-func SendUserMessageAll(appId uint32, userId string, msgId, message string) (sendResults bool, err error) {
+func SendUserMessageAll(appId uint32, userId string, msgId, msgType, message string) (sendResults bool, err error) {
 	sendResults = true
 
 	currentTime := uint64(time.Now().Unix())
@@ -127,10 +127,10 @@ func SendUserMessageAll(appId uint32, userId string, msgId, message string) (sen
 
 	for _, server := range servers {
 		if IsLocal(server) {
-			data := models.GetTextMsgData(userId, msgId, message)
+			data := models.GetMsgData(userId, msgId, msgType, message)
 			AllSendMessages(appId, userId, data)
 		} else {
-			grpcclient.SendMsgAll(server, msgId, appId, userId, "text", message)
+			grpcclient.SendMsgAll(server, msgId, appId, userId, msgType, message)
 		}
 	}
 

@@ -10,7 +10,9 @@ package models
 import "gowebsocket/common"
 
 const (
-	messageTypeText = "text"
+	MessageTypeText = "text"
+	MessageTypeEnter = "enter"
+	MessageTypeExit = "exit"
 )
 
 // 消息的定义
@@ -24,7 +26,7 @@ type Message struct {
 func NewTestMsg(from string, Msg string) (message *Message) {
 
 	message = &Message{
-		Type: messageTypeText,
+		Type: MessageTypeText,
 		From: from,
 		Msg:  Msg,
 	}
@@ -37,6 +39,12 @@ func getTextMsgData(cmd, uuId, msgId, message string) string {
 	head := NewResponseHead(msgId, cmd, common.OK, "Ok", textMsg)
 
 	return head.String()
+}
+
+// 文本消息
+func GetMsgData(uuId, msgId, msgType, message string) string {
+
+	return getTextMsgData(msgType, uuId, msgId, message)
 }
 
 // 文本消息
