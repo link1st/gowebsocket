@@ -188,6 +188,13 @@
 			"tree": true
 		},
 		{
+			"checksumSHA1": "UsY4LGt4TS1mQboqhAAHBCo8ufE=",
+			"path": "google.golang.org/grpc",
+			"revision": "92635fa6bffd9db9b2cca8ce8f978bfebabd9c29",
+			"revisionTime": "2019-07-30T17:14:53Z",
+			"tree": true
+		},
+		{
 			"checksumSHA1": "P/k5ZGf0lEBgpKgkwy++F7K1PSg=",
 			"path": "gopkg.in/go-playground/validator.v8",
 			"revision": "5f1438d3fca68893a817e4a66806cea46a9e4ebf",
