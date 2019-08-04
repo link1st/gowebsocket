@@ -23,9 +23,9 @@ const (
 )
 
 // 根据错误码 获取错误信息
-func GetErrorMessage(code int, message string) string {
+func GetErrorMessage(code uint32, message string) string {
 	var codeMessage string
-	codeMap := map[int]string{
+	codeMap := map[uint32]string{
 		OK:                 "Success",
 		NotLoggedIn:        "未登录",
 		ParameterIllegal:   "参数不合法",

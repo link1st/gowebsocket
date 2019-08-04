@@ -18,8 +18,14 @@ type TimerFunc func(interface{}) bool
  * @fun   定时执行function
  * @param fun参数
  */
-func Timer(delay, tick time.Duration, fun TimerFunc, param interface{}) {
+func Timer(delay, tick time.Duration, fun TimerFunc, param interface{}, funcDefer TimerFunc, paramDefer interface{}) {
 	go func() {
+		defer func() {
+			if funcDefer != nil {
+				funcDefer(paramDefer)
+			}
+		}()
+
 		if fun == nil {
 			return
 		}

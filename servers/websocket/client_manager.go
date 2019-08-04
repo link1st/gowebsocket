@@ -23,7 +23,7 @@ type ClientManager struct {
 	Users       map[string]*Client // 登录的用户 // appId+uuid
 	UserLock    sync.RWMutex       // 读写锁
 	Register    chan *Client       // 连接连接处理
-	Login       chan *Login        // 用户登录处理
+	Login       chan *login        // 用户登录处理
 	Unregister  chan *Client       // 断开连接处理程序
 	Broadcast   chan []byte        // 广播 向全部成员发送数据
 }
@@ -33,7 +33,7 @@ func NewClientManager() (clientManager *ClientManager) {
 		Clients:    make(map[*Client]bool),
 		Users:      make(map[string]*Client),
 		Register:   make(chan *Client, 1000),
-		Login:      make(chan *Login, 1000),
+		Login:      make(chan *login, 1000),
 		Unregister: make(chan *Client, 1000),
 		Broadcast:  make(chan []byte, 1000),
 	}
@@ -100,7 +100,7 @@ func (manager *ClientManager) DelUsers(key string) {
 func (manager *ClientManager) sendAll(message []byte, ignore *Client) {
 	for conn := range manager.Clients {
 		if conn != ignore {
-			conn.Send <- message
+			conn.SendMsg(message)
 		}
 	}
 }
@@ -115,20 +115,22 @@ func (manager *ClientManager) EventRegister(client *Client) {
 }
 
 // 用户登录
-func (manager *ClientManager) EventLogin(Login *Login) {
+func (manager *ClientManager) EventLogin(login *login) {
 	manager.ClientsLock.RLock()
 	defer manager.ClientsLock.RUnlock()
 
-	client := Login.Client
+	client := login.Client
 	// 连接存在，在添加
-	if _, ok := manager.Clients[Login.Client]; ok {
-		userKey := Login.GetKey()
-		manager.AddUsers(userKey, Login.Client)
+	if _, ok := manager.Clients[login.Client]; ok {
+		userKey := login.GetKey()
+		manager.AddUsers(userKey, login.Client)
 	}
 
-	fmt.Println("EventLogin 用户登录", client.Addr, Login.AppId, Login.UserId)
+	fmt.Println("EventLogin 用户登录", client.Addr, login.AppId, login.UserId)
 
-	AllSendMessages(Login.AppId, Login.UserId, models.GetTextMsgDataEnter(Login.UserId, helper.GetOrderIdTime(), "哈喽~"))
+	orderId := helper.GetOrderIdTime()
+	SendUserMessageAll(login.AppId, login.UserId, orderId, models.MessageCmdEnter, "哈喽~")
+
 }
 
 // 用户断开连接
@@ -152,7 +154,8 @@ func (manager *ClientManager) EventUnregister(client *Client) {
 	fmt.Println("EventUnregister 用户断开连接", client.Addr, client.AppId, client.UserId)
 
 	if client.UserId != "" {
-		AllSendMessages(client.AppId, client.UserId, models.GetTextMsgDataExit(client.UserId, helper.GetOrderIdTime(), "用户已经离开~"))
+		orderId := helper.GetOrderIdTime()
+		SendUserMessageAll(client.AppId, client.UserId, orderId, models.MessageCmdExit, "用户已经离开~")
 	}
 }
 

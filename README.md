@@ -20,7 +20,7 @@ golang websocket websocket 中间键，单机支持百万连接，使用gin框�
 
 
 ### js发送消息
-```$xslt
+```$js
 ws = new WebSocket("ws://127.0.0.1:8089/acc");
  
 // setTimeout(时间，"JS代码");
@@ -55,7 +55,7 @@ ws.close();
 ```
 
 #### goVendor
-```bash
+```
 govendor add github.com/gin-gonic/gin@v1.4.0
 govendor add -tree github.com/go-redis/redis
 govendor add -tree github.com/gorilla/websocket
@@ -72,8 +72,15 @@ govendor add -tree  github.com/spf13/jwalterweatherman
 govendor add -tree  github.com/spf13/pflag
 govendor add -tree  github.com/subosito/gotenv
 govendor add -tree  golang.org/x/text/transform
-govendor add -tree  golang.org/x/text
 govendor add -tree  golang.org/x/text/unicode
+
+# grpc
+govendor add -tree google.golang.org/grpc
+govendor add -tree google.golang.org/grpc/codes
+govendor add -tree github.com/golang/protobuf
+govendor add -tree golang.org/x/net
+govendor add -tree google.golang.org/genproto/googleapis
+govendor add -tree golang.org/x/text/secure/bidirule
 ```
 
 
@@ -179,17 +186,28 @@ http{
 
 ```
 
+#### 压测前准备
+- 内核调优
+- ulimit -n 1000000
+- `vim /etc/sysctl.conf`
+```bash
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_tw_recycle = 0
+```
+
 #### 待办事项
 - gin log日志(请求日志+debug日志)
 - 读取配置文件 完成
 - 定时脚本，清理过期未心跳链接 完成
 - http接口，获取登录、链接数量 完成
 - http接口，发送push、查询有多少人在线 完成
-- grpc 程序内部通讯，发送消息
+- grpc 程序内部通讯，发送消息 完成
 - appIds 一个用户在多个平台登录
 - 界面，把所有在线的人拉倒一个群里面，发送消息 完成
-- ~~单聊~~、群聊
-- 实现分布式，水平扩张
+- ~~单聊~~、群聊 完成
+- 实现分布式，水平扩张 完成
+- 压测脚本
+- 文档整理
 
 #### 小项
 - 定义文本消息结构 完成
@@ -202,3 +220,10 @@ http{
 - 引入机器人 待定
 
 ### 后期可以改进优化的地方
+- 登录，使用微信登录 获取昵称、头像等
+- 有账号系统、资料系统
+- 界面优化、适配手机端
+- 消息 文本消息(支持表情)、图片、语音、视频消息
+- 微服务注册、发现、熔断等
+- 添加配置项，单台机器最大连接数量
+

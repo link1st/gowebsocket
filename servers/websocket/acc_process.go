@@ -15,7 +15,7 @@ import (
 	"sync"
 )
 
-type DisposeFunc func(client *Client, seq string, message []byte) (code int, msg string, data interface{})
+type DisposeFunc func(client *Client, seq string, message []byte) (code uint32, msg string, data interface{})
 
 var (
 	handlers        = make(map[string]DisposeFunc)
@@ -73,7 +73,7 @@ func ProcessData(client *Client, message []byte) {
 	cmd := request.Cmd
 
 	var (
-		code int
+		code uint32
 		msg  string
 		data interface{}
 	)
@@ -100,7 +100,7 @@ func ProcessData(client *Client, message []byte) {
 		return
 	}
 
-	client.Send <- headByte
+	client.SendMsg(headByte)
 
 	fmt.Println("acc_response send", client.Addr, client.AppId, client.UserId, "cmd", cmd, "code", code)
 

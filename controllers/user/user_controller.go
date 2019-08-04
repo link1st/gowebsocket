@@ -12,7 +12,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"gowebsocket/common"
 	"gowebsocket/controllers"
-	"gowebsocket/servers/users"
+	"gowebsocket/lib/cache"
+	"gowebsocket/models"
+	"gowebsocket/servers/websocket"
 	"strconv"
 )
 
@@ -26,7 +28,7 @@ func List(c *gin.Context) {
 
 	data := make(map[string]interface{})
 
-	userList := users.UserList()
+	userList := websocket.UserList()
 	data["userList"] = userList
 
 	controllers.Response(c, common.OK, "", data)
@@ -43,7 +45,7 @@ func Online(c *gin.Context) {
 
 	data := make(map[string]interface{})
 
-	online := users.CheckUserOnline(uint32(appId), userId)
+	online := websocket.CheckUserOnline(uint32(appId), userId)
 	data["userId"] = userId
 	data["online"] = online
 
@@ -64,10 +66,16 @@ func SendMessage(c *gin.Context) {
 
 	data := make(map[string]interface{})
 
-	sendResults, err := users.SendUserMessage(uint32(appId), userId, msgId, message)
+	if cache.SeqDuplicates(msgId) {
+		fmt.Println("给用户发送消息 重复提交:", msgId)
+		controllers.Response(c, common.OK, "", data)
+
+		return
+	}
+
+	sendResults, err := websocket.SendUserMessage(uint32(appId), userId, msgId, message)
 	if err != nil {
 		data["sendResultsErr"] = err.Error()
-
 	}
 
 	data["sendResults"] = sendResults
@@ -88,8 +96,14 @@ func SendMessageAll(c *gin.Context) {
 	appId, _ := strconv.ParseInt(appIdStr, 10, 32)
 
 	data := make(map[string]interface{})
+	if cache.SeqDuplicates(msgId) {
+		fmt.Println("给用户发送消息 重复提交:", msgId)
+		controllers.Response(c, common.OK, "", data)
 
-	sendResults, err := users.SendUserMessageAll(uint32(appId), userId, msgId, message)
+		return
+	}
+
+	sendResults, err := websocket.SendUserMessageAll(uint32(appId), userId, msgId, models.MessageCmdMsg, message)
 	if err != nil {
 		data["sendResultsErr"] = err.Error()
 

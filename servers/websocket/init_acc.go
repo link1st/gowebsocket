@@ -12,6 +12,7 @@ import (
 	"github.com/gorilla/websocket"
 	"github.com/spf13/viper"
 	"gowebsocket/helper"
+	"gowebsocket/models"
 	"net/http"
 	"time"
 )
@@ -27,6 +28,20 @@ var (
 func GetAppIds() []uint32 {
 
 	return appIds
+}
+
+func GetServer() (server *models.Server) {
+	server = models.NewServer(serverIp, serverPort)
+
+	return
+}
+
+func IsLocal(server *models.Server) (isLocal bool) {
+	if server.Ip == serverIp && server.Port == serverPort {
+		isLocal = true
+	}
+
+	return
 }
 
 func InAppIds(appId uint32) (inAppId bool) {
@@ -48,7 +63,9 @@ func StartWebSocket() {
 	serverIp = helper.GetServerIp()
 
 	webSocketPort := viper.GetString("app.webSocketPort")
-	serverPort = webSocketPort
+	rpcPort := viper.GetString("app.rpcPort")
+
+	serverPort = rpcPort
 
 	http.HandleFunc("/acc", wsPage)
 
@@ -56,18 +73,24 @@ func StartWebSocket() {
 	go clientManager.start()
 	fmt.Println("WebSocket 启动程序成功", serverIp, serverPort)
 
-	http.ListenAndServe(":"+serverPort, nil)
+	http.ListenAndServe(":"+webSocketPort, nil)
 }
 
 func wsPage(w http.ResponseWriter, req *http.Request) {
 
 	// 升级协议
-	conn, err := (&websocket.Upgrader{CheckOrigin: func(r *http.Request) bool { return true }}).Upgrade(w, req, nil)
+	conn, err := (&websocket.Upgrader{CheckOrigin: func(r *http.Request) bool {
+		fmt.Println("升级协议", "ua:", r.Header["User-Agent"], "referer:", r.Header["Referer"])
+
+		return true
+	}}).Upgrade(w, req, nil)
 	if err != nil {
 		http.NotFound(w, req)
 
 		return
 	}
+
+	conn.CloseHandler()
 
 	fmt.Println("webSocket 建立连接:", conn.RemoteAddr().String())
 

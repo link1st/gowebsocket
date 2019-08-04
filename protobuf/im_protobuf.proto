@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.protobuf";
+option java_outer_classname = "ProtobufProto";
+
+
+package protobuf;
+
+// The AccServer service definition.
+service AccServer {
+    // 查询用户是否在线
+    rpc QueryUsersOnline (QueryUsersOnlineReq) returns (QueryUsersOnlineRsp) {
+    }
+    // 发送消息
+    rpc SendMsg (SendMsgReq) returns (SendMsgRsp) {
+    }
+    // 发送消息
+    rpc SendMsgAll (SendMsgAllReq) returns (SendMsgAllRsp) {
+    }
+    // 获取用户列表
+    rpc GetUserList (GetUserListReq) returns (GetUserListRsp) {
+    }
+}
+
+// 查询用户是否在线
+message QueryUsersOnlineReq {
+    uint32 appId = 1; // AppID
+    string userId = 2; // 用户ID
+}
+
+message QueryUsersOnlineRsp {
+    uint32 retCode = 1;
+    string errMsg = 2;
+    bool online = 3;
+}
+
+// 发送消息
+message SendMsgReq {
+    string seq = 1; // 序列号
+    uint32 appId = 2; // 用户ID
+    string userId = 3; // 用户ID
+    string cms = 4; // cms 动作: msg/enter/exit
+    string type = 5; // type 消息类型，默认是 text
+    string msg = 6; // msg
+    bool isLocal = 7; // 是否查询本机 acc内部调用为:true(本机查询不到即结束)
+}
+
+message SendMsgRsp {
+    uint32 retCode = 1;
+    string errMsg = 2;
+    string sendMsgId = 3;
+}
+
+// 发送消息
+message SendMsgAllReq {
+    string seq = 1; // 序列号
+    uint32 appId = 2; // 用户ID
+    string userId = 3; // 用户ID
+    string cms = 4; // cms 动作: msg/enter/exit
+    string type = 5; // type 消息类型，默认是 text
+    string msg = 6; // msg
+}
+
+message SendMsgAllRsp {
+    uint32 retCode = 1;
+    string errMsg = 2;
+    string sendMsgId = 3;
+}
+
+// 获取用户列表
+message GetUserListReq {
+}
+
+message GetUserListRsp {
+    uint32 retCode = 1;
+    string errMsg = 2;
+    repeated string userId = 3;
+}

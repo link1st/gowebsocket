@@ -18,7 +18,7 @@ type BaseController struct {
 }
 
 // 获取全部请求解析到map
-func Response(c *gin.Context, code int, msg string, data map[string]interface{}) {
+func Response(c *gin.Context, code uint32, msg string, data map[string]interface{}) {
 	message := common.Response(code, msg, data)
 
 	// 允许跨域

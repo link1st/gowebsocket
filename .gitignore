@@ -16,3 +16,4 @@
 *.log
 .DS_Store
 config/app.yaml
+main
