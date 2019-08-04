@@ -18,7 +18,7 @@ import (
 )
 
 // 用户登录
-func LoginController(client *Client, seq string, message []byte) (code int, msg string, data interface{}) {
+func LoginController(client *Client, seq string, message []byte) (code uint32, msg string, data interface{}) {
 
 	code = common.OK
 	currentTime := uint64(time.Now().Unix())
@@ -73,7 +73,7 @@ func LoginController(client *Client, seq string, message []byte) (code int, msg 
 }
 
 // 心跳接口
-func HeartbeatController(client *Client, seq string, message []byte) (code int, msg string, data interface{}) {
+func HeartbeatController(client *Client, seq string, message []byte) (code uint32, msg string, data interface{}) {
 
 	code = common.OK
 	currentTime := uint64(time.Now().Unix())

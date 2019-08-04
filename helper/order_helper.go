@@ -14,7 +14,7 @@ import (
 
 func GetOrderIdTime() (orderId string) {
 
-	currentTime := time.Now().Unix()
+	currentTime := time.Now().Nanosecond()
 	orderId = fmt.Sprintf("%d", currentTime)
 
 	return

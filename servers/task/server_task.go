@@ -33,7 +33,7 @@ func server(param interface{}) (result bool) {
 	currentTime := uint64(time.Now().Unix())
 	fmt.Println("服务注册", param, server, currentTime)
 
-	cache.SetServerInfo(server.String(), currentTime)
+	cache.SetServerInfo(server, currentTime)
 
 	return
 }
@@ -49,7 +49,7 @@ func serverDefer(param interface{}) (result bool) {
 	fmt.Println("服务下线", param)
 
 	server := websocket.GetServer()
-	cache.DelServerInfo(server.String())
+	cache.DelServerInfo(server)
 
 	return
 }

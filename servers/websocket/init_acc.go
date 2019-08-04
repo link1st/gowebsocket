@@ -36,6 +36,14 @@ func GetServer() (server *models.Server) {
 	return
 }
 
+func IsLocal(server *models.Server) (isLocal bool) {
+	if server.Ip == serverIp && server.Port == serverPort {
+		isLocal = true
+	}
+
+	return
+}
+
 func InAppIds(appId uint32) (inAppId bool) {
 
 	for _, value := range appIds {

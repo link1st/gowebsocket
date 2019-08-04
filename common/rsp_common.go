@@ -8,12 +8,12 @@
 package common
 
 type JsonResult struct {
-	Code int         `json:"code"`
+	Code uint32      `json:"code"`
 	Msg  string      `json:"msg"`
 	Data interface{} `json:"data"`
 }
 
-func Response(code int, message string, data interface{}) JsonResult {
+func Response(code uint32, message string, data interface{}) JsonResult {
 
 	message = GetErrorMessage(code, message)
 	jsonMap := grantMap(code, message, data)
@@ -22,7 +22,7 @@ func Response(code int, message string, data interface{}) JsonResult {
 }
 
 // 按照接口格式生成原数据数组
-func grantMap(code int, message string, data interface{}) JsonResult {
+func grantMap(code uint32, message string, data interface{}) JsonResult {
 
 	jsonMap := JsonResult{
 		Code: code,

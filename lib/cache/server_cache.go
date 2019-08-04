@@ -8,9 +8,11 @@
 package cache
 
 import (
+	"encoding/json"
 	"fmt"
-	"go-common/library/cache/redis"
 	"gowebsocket/lib/redislib"
+	"gowebsocket/models"
+	"strconv"
 )
 
 const (
@@ -26,13 +28,13 @@ func getServersHashKey() (key string) {
 }
 
 // 设置服务器信息
-func SetServerInfo(field string, currentTime uint64) (err error) {
+func SetServerInfo(server *models.Server, currentTime uint64) (err error) {
 	key := getServersHashKey()
 
 	value := fmt.Sprintf("%d", currentTime)
 
 	redisClient := redislib.GetClient()
-	number, err := redisClient.Do("hSet", key, field, value).Int()
+	number, err := redisClient.Do("hSet", key, server.String(), value).Int()
 	if err != nil {
 		fmt.Println("SetServerInfo", key, number, err)
 
@@ -50,10 +52,10 @@ func SetServerInfo(field string, currentTime uint64) (err error) {
 }
 
 // 下线服务器信息
-func DelServerInfo(field string) (err error) {
+func DelServerInfo(server *models.Server) (err error) {
 	key := getServersHashKey()
 	redisClient := redislib.GetClient()
-	number, err := redisClient.Do("hDel", key, field).Int()
+	number, err := redisClient.Do("hDel", key, server.String()).Int()
 	if err != nil {
 		fmt.Println("SetServerInfo", key, number, err)
 
@@ -70,13 +72,19 @@ func DelServerInfo(field string) (err error) {
 	return
 }
 
-func GetServerAll(currentTime uint64) (servers []string, err error) {
+func GetServerAll(currentTime uint64) (servers []*models.Server, err error) {
 
-	servers = make([]string, 0)
+	servers = make([]*models.Server, 0)
 	key := getServersHashKey()
 
 	redisClient := redislib.GetClient()
-	serverMap, err := redis.IntMap(redisClient.Do("hGetAll", key).Result())
+
+	val, err := redisClient.Do("hGetAll", key).Result()
+
+	valByte, _ := json.Marshal(val)
+	fmt.Println("SetServerInfo", key, string(valByte))
+
+	serverMap, err := redisClient.HGetAll(key).Result()
 	if err != nil {
 		fmt.Println("SetServerInfo", key, err)
 
@@ -84,11 +92,26 @@ func GetServerAll(currentTime uint64) (servers []string, err error) {
 	}
 
 	for key, value := range serverMap {
+		valueUint64, err := strconv.ParseUint(value, 10, 64)
+		if err != nil {
+			fmt.Println("SetServerInfo", key, err)
+
+			return nil, err
+		}
+
 		// 超时
-		if uint64(value)+serversHashTimeout <= currentTime {
+		if valueUint64+serversHashTimeout <= currentTime {
 			continue
 		}
-		servers = append(servers, key)
+
+		server, err := models.StringToServer(key)
+		if err != nil {
+			fmt.Println("SetServerInfo", key, err)
+
+			return nil, err
+		}
+
+		servers = append(servers, server)
 	}
 
 	return

@@ -7,30 +7,90 @@
 
 package grpcclient
 
-import "google.golang.org/grpc"
+import (
+	"context"
+	"fmt"
+	"google.golang.org/grpc"
+	"gowebsocket/common"
+	"gowebsocket/models"
+	"gowebsocket/protobuf"
+	"time"
+)
 
 // rpc client
+// 给全体用户发送消息
 // link::https://github.com/grpc/grpc-go/blob/master/examples/helloworld/greeter_client/main.go
-
-func getParameters()  {
+func SendMsgAll(server *models.Server, seq string, appId uint32, userId string, msgType string, message string) (sendMsgId string, err error) {
 	// Set up a connection to the server.
-	conn, err := grpc.Dial(address, grpc.WithInsecure())
+	conn, err := grpc.Dial(server.String(), grpc.WithInsecure())
 	if err != nil {
-		log.Fatalf("did not connect: %v", err)
+		fmt.Println("连接失败", server.String())
+
+		return
 	}
 	defer conn.Close()
-	c := pb.NewGreeterClient(conn)
 
-	// Contact the server and print out its response.
-	name := defaultName
-	if len(os.Args) > 1 {
-		name = os.Args[1]
-	}
+	c := protobuf.NewAccServerClient(conn)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	r, err := c.SayHello(ctx, &pb.HelloRequest{Name: name})
-	if err != nil {
-		log.Fatalf("could not greet: %v", err)
+
+	req := protobuf.SendMsgAllReq{
+		Seq:    seq,
+		AppId:  appId,
+		UserId: userId,
+		Type:   msgType,
+		Msg:    message,
 	}
-	log.Printf("Greeting: %s", r.Message)
+	rsp, err := c.SendMsgAll(ctx, &req)
+	if err != nil {
+		fmt.Println("给全体用户发送消息", err)
+
+		return
+	}
+
+	if rsp.GetRetCode() != common.OK {
+		fmt.Println("给全体用户发送消息", rsp.String())
+
+		return
+	}
+
+	sendMsgId = rsp.GetSendMsgId()
+
+	return
+}
+
+// 获取用户列表
+// link::https://github.com/grpc/grpc-go/blob/master/examples/helloworld/greeter_client/main.go
+func GetUserList(server *models.Server) (userIds []string, err error) {
+	userIds = make([]string, 0)
+
+	conn, err := grpc.Dial(server.String(), grpc.WithInsecure())
+	if err != nil {
+		fmt.Println("连接失败", server.String())
+
+		return
+	}
+	defer conn.Close()
+
+	c := protobuf.NewAccServerClient(conn)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+
+	req := protobuf.GetUserListReq{}
+	rsp, err := c.GetUserList(ctx, &req)
+	if err != nil {
+		fmt.Println("获取用户列表", err)
+
+		return
+	}
+
+	if rsp.GetRetCode() != common.OK {
+		fmt.Println("获取用户列表", rsp.String())
+
+		return
+	}
+
+	userIds = rsp.GetUserId()
+
+	return
 }

@@ -13,13 +13,34 @@ import (
 	"github.com/go-redis/redis"
 	"gowebsocket/lib/cache"
 	"gowebsocket/models"
+	"gowebsocket/servers/grpcclient"
 	"gowebsocket/servers/websocket"
+	"time"
 )
 
 // 查询所有用户
 func UserList() (userList []string) {
 
-	userList = websocket.GetUserList()
+	userList = make([]string, 0)
+	currentTime := uint64(time.Now().Unix())
+	servers, err := cache.GetServerAll(currentTime)
+	if err != nil {
+		fmt.Println("给全体用户发消息", err)
+
+		return
+	}
+
+	for _, server := range servers {
+		var (
+			list []string
+		)
+		if websocket.IsLocal(server) {
+			list = websocket.GetUserList()
+		} else {
+			list, _ = grpcclient.GetUserList(server)
+		}
+		userList = append(userList, list...)
+	}
 
 	return
 }
@@ -97,8 +118,22 @@ func sendUserMessageLocal(appId uint32, userId string, data string) (sendResults
 func SendUserMessageAll(appId uint32, userId string, msgId, message string) (sendResults bool, err error) {
 	sendResults = true
 
-	data := models.GetTextMsgData(userId, msgId, message)
-	websocket.AllSendMessages(appId, userId, data)
+	currentTime := uint64(time.Now().Unix())
+	servers, err := cache.GetServerAll(currentTime)
+	if err != nil {
+		fmt.Println("给全体用户发消息", err)
+
+		return
+	}
+
+	for _, server := range servers {
+		if websocket.IsLocal(server) {
+			data := models.GetTextMsgData(userId, msgId, message)
+			websocket.AllSendMessages(appId, userId, data)
+		} else {
+			grpcclient.SendMsgAll(server, msgId, appId, userId, "text", message)
+		}
+	}
 
 	return
 }

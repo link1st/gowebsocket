@@ -15,6 +15,9 @@ service AccServer {
     // 发送消息
     rpc SendMsg (SendMsgReq) returns (SendMsgRsp) {
     }
+    // 发送消息
+    rpc SendMsgAll (SendMsgAllReq) returns (SendMsgAllRsp) {
+    }
     // 获取用户列表
     rpc GetUserList (GetUserListReq) returns (GetUserListRsp) {
     }
@@ -47,6 +50,22 @@ message SendMsgRsp {
     string errMsg = 2;
     string sendMsgId = 3;
 }
+
+// 发送消息
+message SendMsgAllReq {
+    string seq = 1; // 序列号
+    uint32 appId = 2; // 用户ID
+    string userId = 3; // 用户ID
+    string type = 4; // type
+    string msg = 5; // msg
+}
+
+message SendMsgAllRsp {
+    uint32 retCode = 1;
+    string errMsg = 2;
+    string sendMsgId = 3;
+}
+
 
 // 获取用户列表
 message GetUserListReq {
