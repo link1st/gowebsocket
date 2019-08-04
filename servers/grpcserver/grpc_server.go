@@ -74,7 +74,8 @@ func (s *server) SendMsg(c context.Context, req *protobuf.SendMsgReq) (rsp *prot
 		return
 	}
 
-	sendResults, err := users.SendUserMessage(req.GetAppId(), req.GetUserId(), req.GetMsg(), req.GetMsg())
+	data := models.GetTextMsgData(req.GetUserId(), req.GetSeq(), req.GetMsg())
+	sendResults, err := users.SendUserMessageLocal(req.GetAppId(), req.GetUserId(), data)
 	if err != nil {
 		fmt.Println("系统错误", err)
 		setErr(rsp, common.ServerError, "")

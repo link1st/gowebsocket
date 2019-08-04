@@ -89,7 +89,7 @@ func SendUserMessage(appId uint32, userId string, msgId, message string) (sendRe
 	data := models.GetTextMsgData(userId, msgId, message)
 
 	// TODO::需要判断不在本机的情况
-	sendResults, err = sendUserMessageLocal(appId, userId, data)
+	sendResults, err = SendUserMessageLocal(appId, userId, data)
 	if err != nil {
 		fmt.Println("给用户发送消息", appId, userId, err)
 	}
@@ -98,7 +98,7 @@ func SendUserMessage(appId uint32, userId string, msgId, message string) (sendRe
 }
 
 // 给本机用户发送消息
-func sendUserMessageLocal(appId uint32, userId string, data string) (sendResults bool, err error) {
+func SendUserMessageLocal(appId uint32, userId string, data string) (sendResults bool, err error) {
 
 	client := websocket.GetUserClient(appId, userId)
 	if client == nil {
