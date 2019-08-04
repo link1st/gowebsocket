@@ -16,7 +16,6 @@ import (
 	"gowebsocket/common"
 	"gowebsocket/models"
 	"gowebsocket/protobuf"
-	"gowebsocket/servers/users"
 	"gowebsocket/servers/websocket"
 	"log"
 	"net"
@@ -54,7 +53,7 @@ func (s *server) QueryUsersOnline(c context.Context, req *protobuf.QueryUsersOnl
 
 	rsp = &protobuf.QueryUsersOnlineRsp{}
 
-	online := users.CheckUserOnline(req.GetAppId(), req.GetUserId())
+	online := websocket.CheckUserOnline(req.GetAppId(), req.GetUserId())
 
 	setErr(req, common.OK, "")
 	rsp.Online = online
@@ -78,7 +77,7 @@ func (s *server) SendMsg(c context.Context, req *protobuf.SendMsgReq) (rsp *prot
 	}
 
 	data := models.GetTextMsgData(req.GetUserId(), req.GetSeq(), req.GetMsg())
-	sendResults, err := users.SendUserMessageLocal(req.GetAppId(), req.GetUserId(), data)
+	sendResults, err := websocket.SendUserMessageLocal(req.GetAppId(), req.GetUserId(), data)
 	if err != nil {
 		fmt.Println("系统错误", err)
 		setErr(rsp, common.ServerError, "")

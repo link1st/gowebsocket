@@ -60,7 +60,7 @@ func LoginController(client *Client, seq string, message []byte) (code uint32, m
 	}
 
 	// 用户登录
-	login := &Login{
+	login := &login{
 		AppId:  request.AppId,
 		UserId: request.UserId,
 		Client: client,

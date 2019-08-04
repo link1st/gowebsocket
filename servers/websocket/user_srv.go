@@ -5,7 +5,7 @@
 * Time: 12:27
  */
 
-package users
+package websocket
 
 import (
 	"errors"
@@ -14,7 +14,6 @@ import (
 	"gowebsocket/lib/cache"
 	"gowebsocket/models"
 	"gowebsocket/servers/grpcclient"
-	"gowebsocket/servers/websocket"
 	"time"
 )
 
@@ -34,8 +33,8 @@ func UserList() (userList []string) {
 		var (
 			list []string
 		)
-		if websocket.IsLocal(server) {
-			list = websocket.GetUserList()
+		if IsLocal(server) {
+			list = GetUserList()
 		} else {
 			list, _ = grpcclient.GetUserList(server)
 		}
@@ -49,7 +48,7 @@ func UserList() (userList []string) {
 func CheckUserOnline(appId uint32, userId string) (online bool) {
 	// 全平台查询
 	if appId == 0 {
-		for _, appId := range websocket.GetAppIds() {
+		for _, appId := range GetAppIds() {
 			online, _ = checkUserOnline(appId, userId)
 			if online == true {
 				break
@@ -64,7 +63,7 @@ func CheckUserOnline(appId uint32, userId string) (online bool) {
 
 // 查询用户 是否在线
 func checkUserOnline(appId uint32, userId string) (online bool, err error) {
-	key := websocket.GetUserKey(appId, userId)
+	key := GetUserKey(appId, userId)
 	userOnline, err := cache.GetUserOnlineInfo(key)
 	if err != nil {
 		if err == redis.Nil {
@@ -100,7 +99,7 @@ func SendUserMessage(appId uint32, userId string, msgId, message string) (sendRe
 // 给本机用户发送消息
 func SendUserMessageLocal(appId uint32, userId string, data string) (sendResults bool, err error) {
 
-	client := websocket.GetUserClient(appId, userId)
+	client := GetUserClient(appId, userId)
 	if client == nil {
 		err = errors.New("用户不在线")
 
@@ -127,9 +126,9 @@ func SendUserMessageAll(appId uint32, userId string, msgId, message string) (sen
 	}
 
 	for _, server := range servers {
-		if websocket.IsLocal(server) {
+		if IsLocal(server) {
 			data := models.GetTextMsgData(userId, msgId, message)
-			websocket.AllSendMessages(appId, userId, data)
+			AllSendMessages(appId, userId, data)
 		} else {
 			grpcclient.SendMsgAll(server, msgId, appId, userId, "text", message)
 		}
