@@ -63,7 +63,9 @@ func StartWebSocket() {
 	serverIp = helper.GetServerIp()
 
 	webSocketPort := viper.GetString("app.webSocketPort")
-	serverPort = webSocketPort
+	rpcPort := viper.GetString("app.rpcPort")
+
+	serverPort = rpcPort
 
 	http.HandleFunc("/acc", wsPage)
 
@@ -71,7 +73,7 @@ func StartWebSocket() {
 	go clientManager.start()
 	fmt.Println("WebSocket 启动程序成功", serverIp, serverPort)
 
-	http.ListenAndServe(":"+serverPort, nil)
+	http.ListenAndServe(":"+webSocketPort, nil)
 }
 
 func wsPage(w http.ResponseWriter, req *http.Request) {
