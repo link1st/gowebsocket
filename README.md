@@ -6,15 +6,17 @@
     - [2.1 webSocket 是什么](#21-webSocket-是什么)
     - [2.2 webSocket的兼容性](#22-webSocket的兼容性)
     - [2.3 为什么要用webSocket](#23-为什么要用webSocket)
+    - [2.4 webSocket建立过程](#23-webSocket建立过程)
 - [3、如何实现基于webSocket的长链接系统](#3如何实现基于webSocket的长链接系统)
     - [3.1 使用go实现webSocket服务端](#31-使用go实现webSocket服务端)
-        - [3.1.1 启动端口兼容听](#311-启动端口兼容听)
+        - [3.1.1 启动端口监听](#311-启动端口监听)
         - [3.1.2 升级协议](#312-升级协议)
         - [3.1.3 客户端连接的管理](#313-客户端连接的管理)
         - [3.1.4 注册客户端的socket的写的异步处理程序](#314-注册客户端的socket的写的异步处理程序)
         - [3.1.5 注册客户端的socket的读的异步处理程序](#315-注册客户端的socket的读的异步处理程序)
         - [3.1.6 接收客户端数据并处理](#316-接收客户端数据并处理)
         - [3.1.7 使用路由的方式处理客户端的请求数据](#317-使用路由的方式处理客户端的请求数据)
+        - [3.1.8 防止内存溢出和Goroutine不回收](#318-防止内存溢出和Goroutine不回收)
     - [3.2 使用javaScript实现webSocket客户端](#32-使用javaScript实现webSocket客户端)
         - [3.2.1 启动并注册监听程序](#321-启动并注册监听程序)
         - [3.2.2 发送数据](#322-发送数据)
@@ -43,12 +45,12 @@
 ## 1、项目说明
 #### 1.1 goWebSocket
 
-golang websocket websocket 中间键，单机支持百万连接，使用gin框架、nginx负载、可以水平部署、程序内部相互通讯、使用grpc通讯协议。
+golang websocket，单机支持百万连接，使用gin框架、nginx负载、可以水平部署、程序内部相互通讯、使用grpc通讯协议。
 
-本文将介绍如何实现一个聊天系统(IM)。
+本文将介绍如何实现一个基于websocket聊天(IM)分布式系统。
 
 #### 1.2 项目体验
-- [聊天首页](http://im.91vh.com/home/index)
+- [聊天首页](http://im.91vh.com/home/index) 或者在新的窗口打开 http://im.91vh.com/home/index
 - 打开连接以后进入聊天界面
 - 多人群聊可以同时打开两个窗口
 
@@ -58,8 +60,10 @@ WebSocket 协议在2008年诞生，2011年成为国际标准。所有浏览器�
 
 它的最大特点就是，服务器可以主动向客户端推送信息，客户端也可以主动向服务器发送信息，是真正的双向平等对话，属于服务器推送技术的一种。
 
+- HTTP和WebSocket在通讯过程的比较
 ![HTTP协议和WebSocket比较](https://img.mukewang.com/5d4cf0750001bc4706280511.png)
 
+- HTTP和webSocket都支持配置证书，`ws://` 无证书 `wss://` 配置证书的协议标识
 ![HTTP协议和WebSocket比较](https://img.mukewang.com/5d4cf1180001493404180312.jpg)
 
 - HTTP和webSocket的比较
@@ -79,18 +83,59 @@ Android可以使用java-webSocket对webSocket支持
 iOS 4.2及更高版本具有WebSockets支持
 
 ### 2.3 为什么要用webSocket
-- 从业务上出发
+- 从业务上出发，需要一个主动通达客户端的能力
  1. 目前大多数的请求都是使用HTTP，都是由客户端发起一个请求，有服务端处理，然后返回结果，不可以服务端主动向某一个客户端主动发送数据 ![服务端处理一个请求](https://img.mukewang.com/5d4cf5650001773612800720.jpg)
  2. 大多数场景我们需要主动通知用户，如:聊天系统、用户完成任务主动告诉用户、一些运营活动需要通知到在线的用户
+- 在没有长链接的时候通过客户端主动轮询获取数据
+- 可以通过一种方式实现，多种不同平台(H5/Android/IOS)去使用
 
+
+### 2.4 webSocket建立过程
+- 1. 客户端先发起升级协议的请求
+
+客户端发起升级协议的请求，采用标准的HTTP报文格式，在报文中添加头部信息 `Connection: Upgrade`表明连接需要升级
+`Upgrade: websocket`需要升级到 websocket协议
+`Sec-WebSocket-Version: 13` 协议的版本为13
+`Sec-WebSocket-Key: I6qjdEaqYljv3+9x+GrhqA==` 这个是base64 encode 的值，是浏览器随机生成的，与服务器响应的 `Sec-WebSocket-Accept`对应
+
+```
+# Request Headers
+Connection: Upgrade
+Host: im.91vh.com
+Origin: http://im.91vh.com
+Pragma: no-cache
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+Sec-WebSocket-Key: I6qjdEaqYljv3+9x+GrhqA==
+Sec-WebSocket-Version: 13
+Upgrade: websocket
+```
+
+![浏览器 Network](https://img.mukewang.com/5d4d2336000197a315881044.png)
+
+- 2. 服务器响应升级协议
+服务端接收到升级协议的请求，如果服务端支持升级协议会做如下响应:
+返回: 
+`Status Code: 101 Switching Protocols` 表示支持切换协议
+
+```
+# Response Headers
+Connection: upgrade
+Date: Fri, 09 Aug 2019 07:36:59 GMT
+Sec-WebSocket-Accept: mB5emvxi2jwTUhDdlRtADuBax9E=
+Server: nginx/1.12.1
+Upgrade: websocket
+```
+
+- 3. 升级协议完成以后，客户端和服 服务器就可以相互发送数据
+
+![websocket接收和发送数据](https://img.mukewang.com/5d4d23a50001fd6a15800716.png)
 
 ## 3、如何实现基于webSocket的长链接系统
 
 ### 3.1 使用go实现webSocket服务端
 
-#### 3.1.1 启动端口兼容听
-- go实现webSocket可以使用
-
+#### 3.1.1 启动端口监听
+- websocket需要监听端口，所以需要在`golang` 成功的 `main` 函数中用协程的方式去启动程序
 - **main.go** 实现启动
 
 ```
@@ -101,27 +146,15 @@ go websocket.StartWebSocket()
 ```
 // 启动程序
 func StartWebSocket() {
-
-	serverIp = helper.GetServerIp()
-
-	webSocketPort := viper.GetString("app.webSocketPort")
-	rpcPort := viper.GetString("app.rpcPort")
-
-	serverPort = rpcPort
-
 	http.HandleFunc("/acc", wsPage)
-
-	// 添加处理程序
-	go clientManager.start()
-	fmt.Println("WebSocket 启动程序成功", serverIp, serverPort)
-
-	http.ListenAndServe(":"+webSocketPort, nil)
+	http.ListenAndServe(":8089", nil)
 }
 ```
 
 #### 3.1.2 升级协议
-- 客户端是通过http请求发送到服务端，我们需要对http协议进行升级
+- 客户端是通过http请求发送到服务端，我们需要对http协议进行升级为websocket协议
 - 对http请求进行升级 [gorilla/websocket](https://github.com/gorilla/websocket) 已经做得很好了，我们直接使用就可以了
+- 在实际使用的时候，建议每个连接使用两个协程处理客户端请求数据和向客户端发送数据，虽然开启协程会占用一些内存，但是读取分离，减少收发数据堵塞的可能
 - **init_acc.go**
 
 ```
@@ -139,8 +172,6 @@ func wsPage(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	conn.CloseHandler()
-
 	fmt.Println("webSocket 建立连接:", conn.RemoteAddr().String())
 
 	currentTime := uint64(time.Now().Unix())
@@ -156,6 +187,9 @@ func wsPage(w http.ResponseWriter, req *http.Request) {
 
 #### 3.1.3 客户端连接的管理
 - 当前程序有多少用户连接，还需要对用户广播的需要，这里我们就需要一个管理者，处理这些事件
+- 记录全部的连接、登录用户的可以通过 **appId+uuid** 查到用户连接
+- 使用map存储，就涉及到多协程并发读写的问题，所以需要加读写锁
+- 定义四个channel ，分别处理客户端建立连接、用户登录、断开连接、全员广播事件
 
 ```
 // 连接管理
@@ -170,6 +204,7 @@ type ClientManager struct {
 	Broadcast   chan []byte        // 广播 向全部成员发送数据
 }
 
+// 初始化
 func NewClientManager() (clientManager *ClientManager) {
 	clientManager = &ClientManager{
 		Clients:    make(map[*Client]bool),
@@ -185,6 +220,9 @@ func NewClientManager() (clientManager *ClientManager) {
 ```
 
 #### 3.1.4 注册客户端的socket的写的异步处理程序
+- 防止发生程序崩溃，所以需要捕获异常
+- 为了显示异常崩溃位置这里使用`string(debug.Stack())`打印调用堆栈信息
+- 如果写入数据失败了，可能连接有问题，就关闭连接(可以连带关闭**读的Goroutine**)
 - **client.go**
 
 ```
@@ -221,8 +259,7 @@ func (c *Client) write() {
 
 #### 3.1.5 注册客户端的socket的读的异步处理程序
 - 循环读取客户端发送的数据并处理
-- 防止发生程序崩溃，所以需要捕捉异常
-- 为了显示异常崩溃位置这里使用`string(debug.Stack())`打印调用堆栈信息
+- 如果读取数据失败了，关闭channel(可以连带关闭**写的Goroutine**)
 - **client.go**
 
 ```
@@ -255,6 +292,21 @@ func (c *Client) read() {
 ```
 
 #### 3.1.6 接收客户端数据并处理
+- 约定发送和接收请求数据格式，为了js处理方便，采用了`json`的数据格式发送和接收数据
+
+- 登录发送数据示例:
+```
+{"seq":"1565336219141-266129","cmd":"login","data":{"userId":"马远","appId":101}}
+```
+- 登录响应数据示例:
+```
+{"seq":"1565336219141-266129","cmd":"login","response":{"code":200,"codeMsg":"Success","data":null}}
+```
+- websocket是双向的数据通讯，可以连续发送，如果发送的数据需要服务端回复，就需要一个**seq**来确定服务端的响应是回复哪一次的请求数据
+- cmd 是用来确定动作，websocket没有类似于http的url,所以规定 cmd 是什么动作
+- 目前的动作有:login/heartbeat 用来登录，和连接保活(长时间没有数据发送的长连接容易被浏览器、移动中间商、nginx、服务端程序断开)
+
+
 - **request_model.go** 约定的请求数据格式
 
 ```
@@ -311,6 +363,34 @@ func WebsocketInit() {
 	websocket.Register("heartbeat", websocket.HeartbeatController)
 }
 ```
+
+#### 3.1.8 防止内存溢出和Goroutine不回收
+- 1. 定时任务清除超时连接
+没有登录的连接和登录的连接6分钟没有心跳则断开连接
+
+**client_manager.go**
+
+```
+// 定时清理超时连接
+func ClearTimeoutConnections() {
+    currentTime := uint64(time.Now().Unix())
+
+    for client := range clientManager.Clients {
+        if client.IsHeartbeatTimeout(currentTime) {
+            fmt.Println("心跳时间超时 关闭连接", client.Addr, client.UserId, client.LoginTime, client.HeartbeatTime)
+
+            client.Socket.Close()
+        }
+    }
+}
+```
+- 2. 监控用户连接、Goroutine数
+十个内存溢出有九个和Goroutine有关
+添加一个http的接口，可以查看系统的状态，防止Goroutine不回收
+[查看系统状态](http://im.91vh.com/system/state?isDebug=true)
+
+- 3. Nginx 配置不活跃的连接释放时间，防止忘记关闭的连接
+
 ### 3.2 使用javaScript实现webSocket客户端
 #### 3.2.1 启动并注册监听程序
 - js 建立连接，并处理连接成功、收到数据、断开连接的事件处理
@@ -359,36 +439,19 @@ ws.close();
 - 项目架构图 (待定)
 
 ### 4.2 项目依赖
+
+- 本项目只需要使用 redis 和 golang 
 - 本项目使用govendor管理依赖，克隆本项目就可以直接使用
-
 ```
-govendor add github.com/gin-gonic/gin@v1.4.0
-govendor add -tree github.com/go-redis/redis
-govendor add -tree github.com/gorilla/websocket
-govendor add -tree github.com/spf13/viper
-
-# viper 依赖
-govendor add -tree  github.com/fsnotify/fsnotify
-govendor add -tree github.com/hashicorp/hcl
-govendor add -tree github.com/magiconair/properties
-govendor add -tree github.com/mitchellh/mapstructure
-govendor add -tree  github.com/pelletier/go-toml
-govendor add -tree  github.com/spf13/afero
-govendor add -tree  github.com/spf13/cast
-govendor add -tree  github.com/spf13/jwalterweatherman
-govendor add -tree  github.com/spf13/pflag
-govendor add -tree  github.com/subosito/gotenv
-govendor add -tree  golang.org/x/text/transform
-govendor add -tree  golang.org/x/text/unicode
-
-# grpc
-govendor add -tree google.golang.org/grpc
-govendor add -tree google.golang.org/grpc/codes
-govendor add -tree github.com/golang/protobuf
-govendor add -tree golang.org/x/net
-govendor add -tree google.golang.org/genproto/googleapis
-govendor add -tree golang.org/x/text/secure/bidirule
+# 主要使用到的包
+github.com/gin-gonic/gin@v1.4.0
+-tree github.com/go-redis/redis
+-tree github.com/gorilla/websocket
+-tree github.com/spf13/viper
+-tree google.golang.org/grpc
+-tree github.com/golang/protobuf
 ```
+
 
 ### 4.3 项目启动 
 - 克隆项目
@@ -541,6 +604,9 @@ net.ipv4.tcp_tw_recycle = 0
 - 待压测，如果大家有压测的结果欢迎补充
 
 ### 6.3 压测数据
+- 项目在实际使用的时候，每个连接约占 24Kb内存，一个Goroutine 约占11kb
+- 支持百万连接需要22G内存
+
 | 在线用户数 |   cup  |  内存   |  I/O  | net.out |
 | :----:   | :----: | :----: | :----: | :----: |
 | 1W       |        |        |        |        |
@@ -607,6 +673,8 @@ IM实现细节:
 [维基百科 WebSocket](https://zh.wikipedia.org/wiki/WebSocket)
 
 [阮一峰 WebSocket教程](http://www.ruanyifeng.com/blog/2017/05/websocket.html)
+
+[WebSocket协议：5分钟从入门到精通](https://www.cnblogs.com/chyingp/p/websocket-deep-in.html)
 
 [link1st gowebsocket](https://github.com/link1st/gowebsocket)
 
