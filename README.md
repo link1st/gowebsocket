@@ -54,7 +54,8 @@ golang websocket，单机支持百万连接，使用gin框架、nginx负载、�
 本文将介绍如何实现一个基于websocket聊天(IM)分布式系统。
 
 #### 1.2 项目体验
-- [聊天首页](http://im.91vh.com/home/index) 或者在新的窗口打开 http://im.91vh.com/home/index
+- [项目地址 gowebsocket](https://github.com/link1st/gowebsocket)
+- [IM-聊天首页](http://im.91vh.com/home/index) 或者在新的窗口打开 http://im.91vh.com/home/index
 - 打开连接以后进入聊天界面
 - 多人群聊可以同时打开两个窗口
 
