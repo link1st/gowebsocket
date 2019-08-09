@@ -1,7 +1,7 @@
 ## 目录
-- [1、项目说明](#1、项目说明)
-    - [1.1 goWebSocket](#1.1 goWebSocket)
-    - [1.2 项目体验](#1.2 项目体验)
+* [1、项目说明](#1、项目说明)
+    * [1.1 goWebSocket](#1.1 goWebSocket)
+    * [1.2 项目体验](#1.2 项目体验)
 - [2、介绍webSocket](#2、介绍webSocket)
     - [2.1 webSocket 是什么](#2.1 webSocket 是什么)
     - [2.2 webSocket的兼容性](#2.2 webSocket的兼容性)
