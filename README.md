@@ -1,3 +1,7 @@
+使用golang实现websocket通讯，单机支持百万连接，使用gin框架、nginx负载、可以水平部署、程序内部相互通讯、使用grpc通讯协议。
+
+本文将介绍如何实现一个基于websocket聊天(IM)分布式系统。
+
 ## 目录
 * [1、项目说明](#1项目说明)
     * [1.1 goWebSocket](#11-goWebSocket)
@@ -6,7 +10,7 @@
     - [2.1 webSocket 是什么](#21-webSocket-是什么)
     - [2.2 webSocket的兼容性](#22-webSocket的兼容性)
     - [2.3 为什么要用webSocket](#23-为什么要用webSocket)
-    - [2.4 webSocket建立过程](#23-webSocket建立过程)
+    - [2.4 webSocket建立过程](#24-webSocket建立过程)
 - [3、如何实现基于webSocket的长链接系统](#3如何实现基于webSocket的长链接系统)
     - [3.1 使用go实现webSocket服务端](#31-使用go实现webSocket服务端)
         - [3.1.1 启动端口监听](#311-启动端口监听)
