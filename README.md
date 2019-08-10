@@ -50,9 +50,12 @@
 ## 1、项目说明
 #### 1.1 goWebSocket
 
-golang websocket，单机支持百万连接，使用gin框架、nginx负载、可以水平部署、程序内部相互通讯、使用grpc通讯协议。
-
 本文将介绍如何实现一个基于websocket聊天(IM)分布式系统。
+
+使用golang实现websocket通讯，单机支持百万连接，使用gin框架、nginx负载、可以水平部署、程序内部相互通讯、使用grpc通讯协议。
+
+
+![网站架构图](https://img.mukewang.com/5d4e510000018ff510320842.png)
 
 #### 1.2 项目体验
 - [项目地址 gowebsocket](https://github.com/link1st/gowebsocket)
@@ -311,7 +314,7 @@ func (c *Client) read() {
 - websocket是双向的数据通讯，可以连续发送，如果发送的数据需要服务端回复，就需要一个**seq**来确定服务端的响应是回复哪一次的请求数据
 - cmd 是用来确定动作，websocket没有类似于http的url,所以规定 cmd 是什么动作
 - 目前的动作有:login/heartbeat 用来登录，和连接保活(长时间没有数据发送的长连接容易被浏览器、移动中间商、nginx、服务端程序断开)
-
+- 为什么需要AppId,UserId是表示用户的唯一字段，设计的时候为了做成通用性，设计AppId用来表示用户在哪个平台登录的(web、app、ios等)
 
 - **request_model.go** 约定的请求数据格式
 
@@ -390,11 +393,12 @@ func ClearTimeoutConnections() {
     }
 }
 ```
+
 - 2. 读写的Goroutine有一个失败，则相互关闭
 `write()`Goroutine写入数据失败，关闭`c.Socket.Close()`连接，会关闭`read()`Goroutine
 `read()`Goroutine读取数据失败，关闭`close(c.Send)`连接，会关闭`write()`Goroutine
 
-- 3. 客户端关闭释放内存
+- 3. 客户端主动关闭
 关闭读写的Goroutine
 从`ClientManager`删除连接
 
@@ -600,6 +604,7 @@ http{
 }
 
 ```
+- 原因:Nginx代理webSocket的时候就会遇到Nginx的设计问题 **End-to-end and Hop-by-hop Headers** 
 
 
 ## 6、压测
@@ -631,8 +636,18 @@ net.ipv4.tcp_tw_recycle = 0
 ## 7、如何基于webSocket实现一个分布式Im
 ### 7.1 说明
 - 参考本项目源码
+- 为了方便演示，IM系统和webSocket(acc)系统合并在一个系统中
+- IM系统接口:
+获取全部在线的用户，查询单前服务的全部用户+集群中服务的全部用户
+发送消息，这里采用的是http接口发送(微信网页版发送消息也是http接口)，这里考虑主要是两点:
+1.服务分离，让acc系统尽量的简单一点，不掺杂其它业务逻辑
+2.发送消息是走http接口，不使用webSocket连接，才用收和发送数据分离的方式，可以加快收发数据的效率
 
 ### 7.2 架构
+
+![用户连接时序图](https://img.mukewang.com/5d4e515500014e2310780609.png)
+
+![分布是系统随机给用户发送消息](https://img.mukewang.com/5d4e56f70001e91711730688.png)
 
 
 ## 8、回顾和反思
