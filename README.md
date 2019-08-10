@@ -645,7 +645,12 @@ net.ipv4.tcp_tw_recycle = 0
 
 ### 7.2 架构
 
+- 项目启动注册和用户连接时序图
+
 ![用户连接时序图](https://img.mukewang.com/5d4e515500014e2310780609.png)
+
+
+- 其它系统(IM、任务)向webSocket(acc)系统连接的用户发送消息时序图
 
 ![分布是系统随机给用户发送消息](https://img.mukewang.com/5d4e56f70001e91711730688.png)
 
