@@ -2,7 +2,7 @@
 
 使用golang实现websocket通讯，单机可以支持百万连接，使用gin框架、nginx负载、可以水平部署、程序内部相互通讯、使用grpc通讯协议。
 
-本文内容比较长，如果直接想clone项目体验直接进入[4、goWebSocket 项目](#4goWebSocket-项目) [1.2 项目体验](#12-项目体验),文本从介绍webSocket是什么开始，然后开始介绍这个项目，以及在Nginx中配置域名做webSocket的转发，然后介绍如何搭建一个分布式系统。
+本文内容比较长，如果直接想clone项目体验直接进入[项目体验](#12-项目体验) [goWebSocket项目下载](#4goWebSocket-项目) ,文本从介绍webSocket是什么开始，然后开始介绍这个项目，以及在Nginx中配置域名做webSocket的转发，然后介绍如何搭建一个分布式系统。
 
 
 ## 目录
