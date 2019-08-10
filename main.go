@@ -19,6 +19,8 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"os/exec"
+	"time"
 )
 
 func main() {
@@ -42,6 +44,8 @@ func main() {
 	go websocket.StartWebSocket()
 	// grpc
 	go grpcserver.Init()
+
+	go open()
 
 	httpPort := viper.GetString("app.httpPort")
 	http.ListenAndServe(":"+httpPort, router)
@@ -75,4 +79,17 @@ func initConfig() {
 
 func initRedis() {
 	redislib.ExampleNewClient()
+}
+
+func open() {
+
+	time.Sleep(200 * time.Microsecond)
+
+	httpUrl := viper.GetString("app.httpUrl")
+	httpUrl = "http://"+httpUrl + "/home/index"
+
+	fmt.Println("访问页面体验:", httpUrl)
+
+	cmd := exec.Command("open", httpUrl)
+	cmd.Output()
 }

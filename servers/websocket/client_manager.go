@@ -227,7 +227,6 @@ func GetUserClient(appId uint32, userId string) (client *Client) {
 
 // 定时清理超时连接
 func ClearTimeoutConnections() {
-
 	currentTime := uint64(time.Now().Unix())
 
 	for client := range clientManager.Clients {

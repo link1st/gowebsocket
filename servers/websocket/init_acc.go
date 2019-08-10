@@ -90,8 +90,6 @@ func wsPage(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	conn.CloseHandler()
-
 	fmt.Println("webSocket 建立连接:", conn.RemoteAddr().String())
 
 	currentTime := uint64(time.Now().Unix())
