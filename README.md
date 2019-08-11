@@ -476,11 +476,11 @@ ws.close();
 ```
 # 主要使用到的包
 github.com/gin-gonic/gin@v1.4.0
--tree github.com/go-redis/redis
--tree github.com/gorilla/websocket
--tree github.com/spf13/viper
--tree google.golang.org/grpc
--tree github.com/golang/protobuf
+github.com/go-redis/redis
+github.com/gorilla/websocket
+github.com/spf13/viper
+google.golang.org/grpc
+github.com/golang/protobuf
 ```
 
 
