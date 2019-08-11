@@ -33,8 +33,9 @@
     - [4.3 项目启动](#43-项目启动)
     - [4.4 Nginx配置](#44-Nginx配置)
 - [5、webSocket项目Nginx配置](#5webSocket项目Nginx配置)
-    - [5.1 nginx配置](#51-nginx配置)
-    - [5.2 问题处理](#52-问题处理)
+    - [5.1 为什么要配置Nginx](#51-为什么要配置Nginx)
+    - [5.2 nginx配置](#52-nginx配置)
+    - [5.3 问题处理](#53-问题处理)
 - [6、压测](#6压测)
     - [6.1 Linux内核优化](#61-Linux内核优化)
     - [6.2 压测准备](#62-压测准备)
@@ -531,9 +532,14 @@ go run main.go
 - 到这里，就可以体验到基于webSocket的IM系统
 
 ## 5、webSocket项目Nginx配置
-### 5.1 nginx配置
+### 5.1 为什么要配置Nginx
+- 使用nginx实现内外网分离，对外只暴露Nginx的Ip(一般的互联网企业会在nginx之前加一层LVS做负载均衡)，减少入侵的可能
+- 使用Nginx可以利用Nginx的负载功能，前端再使用的时候只需要连接固定的域名，通过Nginx将流量分发了到不同的机器
+- 同时我们也可以使用Nginx的不同的负载策略(轮询、weight、ip_hash)
+
+### 5.2 nginx配置
 - 使用域名 **im.91vh.com** 为示例，参考配置
-- 一级目录**im.91vh.com/acc** 是给webSocket使用，是用nginx流转发功能，转发到golang 8089 端口处理
+- 一级目录**im.91vh.com/acc** 是给webSocket使用，是用nginx stream转发功能(nginx 1.3.31 开始支持，使用Tengine配置也是相同的)，转发到golang 8089 端口处理
 - 其它目录是给HTTP使用，转发到golang 8080 端口处理
 
 ```
@@ -585,7 +591,7 @@ server {
 ```
 
 
-### 5.2 问题处理
+### 5.3 问题处理
 - 运行nginx测试命令，查看配置文件是否正确
 ```
 /link/server/tengine/sbin/nginx -t
