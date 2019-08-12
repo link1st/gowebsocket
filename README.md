@@ -425,6 +425,8 @@ func ClearTimeoutConnections() {
 
 - 5. Nginx 配置不活跃的连接释放时间，防止忘记关闭的连接
 
+- 6. 使用 pprof 分析性能、耗时
+
 ### 3.2 使用javaScript实现webSocket客户端
 #### 3.2.1 启动并注册监听程序
 - js 建立连接，并处理连接成功、收到数据、断开连接的事件处理
