@@ -1,4 +1,8 @@
-本文将介绍如何实现一个基于websocket聊天(IM)分布式系统。
+# 基于websocket单台机器支持百万连接分布式聊天(IM)系统
+
+
+
+本文将介绍如何实现一个基于websocket分布式聊天(IM)系统。
 
 使用golang实现websocket通讯，单机可以支持百万连接，使用gin框架、nginx负载、可以水平部署、程序内部相互通讯、使用grpc通讯协议。
 
