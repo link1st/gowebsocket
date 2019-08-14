@@ -35,7 +35,6 @@
     - [4.1 项目说明](#41-项目说明)
     - [4.2 项目依赖](#42-项目依赖)
     - [4.3 项目启动](#43-项目启动)
-    - [4.4 Nginx配置](#44-Nginx配置)
 - [5、webSocket项目Nginx配置](#5webSocket项目Nginx配置)
     - [5.1 为什么要配置Nginx](#51-为什么要配置Nginx)
     - [5.2 nginx配置](#52-nginx配置)
@@ -47,6 +46,7 @@
 - [7、如何基于webSocket实现一个分布式Im](#7如何基于webSocket实现一个分布式Im)
     - [7.1 说明](#71-说明)
     - [7.2 架构](#72-架构)
+    - [7.3 分布式系统部署](#73-分布式系统部署)
 - [8、回顾和反思](#8回顾和反思)
     - [8.1 在其它系统应用](#81-在其它系统应用)
     - [8.2 需要完善、优化](#82-需要完善优化)
@@ -680,6 +680,71 @@ net.ipv4.tcp_tw_recycle = 0
 - 其它系统(IM、任务)向webSocket(acc)系统连接的用户发送消息时序图
 
 ![分布是系统随机给用户发送消息](https://img.mukewang.com/5d4e56f70001e91711730688.png)
+
+
+### 7.3 分布式系统部署
+- 用水平部署两个项目(gowebsocket和gowebsocket1)演示分部署
+- 项目之间如何相互通讯:项目启动以后将项目Ip、rpcPort注册到redis中，让其它项目可以发现，需要通讯的时候使用gRpc进行通讯
+- gowebsocket
+
+```
+# app.yaml 配置文件信息
+app:
+  logFile: log/gin.log
+  httpPort: 8080
+  webSocketPort: 8089
+  rpcPort: 9001
+  httpUrl: im.91vh.com
+  webSocketUrl:  im.91vh.com
+
+# 在启动项目
+go run main.go 
+
+```
+
+- gowebsocket1 
+
+```
+# 将第一个项目拷贝一份
+cp -rf gowebsocket gowebsocket1
+# app.yaml 修改配置文件
+app:
+  logFile: log/gin.log
+  httpPort: 8081
+  webSocketPort: 8090
+  rpcPort: 9002
+  httpUrl: im.91vh.com
+  webSocketUrl:  im.91vh.com
+
+# 在启动第二个项目
+go run main.go 
+```
+
+- Nginx配置
+在之前Nginx配置项中添加第二台机器的Ip和端口
+```
+upstream  go-im
+{
+    server 127.0.0.1:8080 weight=1 max_fails=2 fail_timeout=10s;
+    server 127.0.0.1:8081 weight=1 max_fails=2 fail_timeout=10s;
+    keepalive 16;
+}
+
+upstream  go-acc
+{
+    server 127.0.0.1:8089 weight=1 max_fails=2 fail_timeout=10s;
+    server 127.0.0.1:8090 weight=1 max_fails=2 fail_timeout=10s;
+    keepalive 16;
+}
+```
+- 配置完成以后重启Nginx
+- 重启以后请求，验证是否符合预期:
+ 查看请求是否落在两个项目上
+ 实验两个用户分别连接不同的项目(gowebsocket和gowebsocket1)是否也可以相互发送消息
+
+- 关于分布式部署
+ 本项目只是演示了这个项目如何分布式部署，以及分布式部署以后模块如何进行相互通讯
+ 完全解决系统没有单点的故障，还需 Nginx集群、redis cluster等
 
 
 ## 8、回顾和反思
