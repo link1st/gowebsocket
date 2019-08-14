@@ -431,7 +431,7 @@ func ClearTimeoutConnections() {
 #### 3.2.1 启动并注册监听程序
 - js 建立连接，并处理连接成功、收到数据、断开连接的事件处理
 
-```$js
+```
 ws = new WebSocket("ws://127.0.0.1:8089/acc");
 
  
@@ -455,6 +455,7 @@ ws.onclose = function(evt) {
 #### 3.2.2 发送数据
 - 需要注意:连接建立成功以后才可以发送数据
 - 建立连接以后由客户端向服务器发送数据示例
+
 ```
 登录:
 ws.send('{"seq":"2323","cmd":"login","data":{"userId":"11","appId":101}}');
@@ -480,6 +481,7 @@ ws.close();
 
 - 本项目只需要使用 redis 和 golang 
 - 本项目使用govendor管理依赖，克隆本项目就可以直接使用
+
 ```
 # 主要使用到的包
 github.com/gin-gonic/gin@v1.4.0
@@ -511,6 +513,7 @@ vim app.yaml
 cd ..
 ```
 - 配置文件说明
+
 ```
 app:
   logFile: log/gin.log # 日志文件位置
@@ -530,9 +533,11 @@ redis:
 ```
 
 - 启动项目
+
 ```
 go run main.go
 ```
+
 - 进入IM聊天地址
 [http://127.0.0.1:8080/home/index](http://127.0.0.1:8080/home/index)
 - 到这里，就可以体验到基于webSocket的IM系统
@@ -599,15 +604,19 @@ server {
 
 ### 5.3 问题处理
 - 运行nginx测试命令，查看配置文件是否正确
+
 ```
 /link/server/tengine/sbin/nginx -t
 
 ```
+
 - 如果出现错误
+
 ```
 nginx: [emerg] unknown "connection_upgrade" variable
 configuration file /link/server/tengine/conf/nginx.conf test failed
 ```
+
 - 处理方法
 - 在**nginx.com**添加
 
@@ -628,17 +637,21 @@ http{
 }
 
 ```
+
 - 原因:Nginx代理webSocket的时候就会遇到Nginx的设计问题 **End-to-end and Hop-by-hop Headers** 
 
 
 ## 6、压测
 ### 6.1 Linux内核优化
 - 设置文件打开句柄数
+
 ```
 ulimit -n 1000000
 ```
+
 - 设置sockets连接参数
-```bash
+
+```
 vim /etc/sysctl.conf
 net.ipv4.tcp_tw_reuse = 1
 net.ipv4.tcp_tw_recycle = 0
@@ -662,7 +675,7 @@ net.ipv4.tcp_tw_recycle = 0
 ### 7.1 说明
 - 参考本项目源码
 - [gowebsocket v1.0.0 单机版Im系统](https://github.com/link1st/gowebsocket/tree/v1.0.0)
-- [gowebsocket v1.0.0 分布式Im系统](https://github.com/link1st/gowebsocket/tree/v2.0.0)
+- [gowebsocket v2.0.0 分布式Im系统](https://github.com/link1st/gowebsocket/tree/v2.0.0)
 
 - 为了方便演示，IM系统和webSocket(acc)系统合并在一个系统中
 - IM系统接口:
