@@ -31,7 +31,7 @@ func server(param interface{}) (result bool) {
 
 	server := websocket.GetServer()
 	currentTime := uint64(time.Now().Unix())
-	fmt.Println("服务注册", param, server, currentTime)
+	fmt.Println("定时任务，服务注册", param, server, currentTime)
 
 	cache.SetServerInfo(server, currentTime)
 
