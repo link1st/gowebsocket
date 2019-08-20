@@ -96,6 +96,19 @@ func (manager *ClientManager) DelUsers(key string) {
 	delete(manager.Users, key)
 }
 
+// 获取用户的key
+func (manager *ClientManager) GetUserKeys() (userKeys []string) {
+
+	userKeys = make([]string, 0)
+	manager.UserLock.Lock()
+	defer manager.UserLock.Unlock()
+	for key := range manager.Users {
+		userKeys = append(userKeys, key)
+	}
+
+	return
+}
+
 // 向全部成员(除了自己)发送数据
 func (manager *ClientManager) sendAll(message []byte, ignore *Client) {
 	for conn := range manager.Clients {
@@ -206,10 +219,7 @@ func GetManagerInfo(isDebug string) (managerInfo map[string]interface{}) {
 			clients = append(clients, client.Addr)
 		}
 
-		users := make([]string, 0)
-		for key := range clientManager.Users {
-			users = append(users, key)
-		}
+		users := clientManager.GetUserKeys()
 
 		managerInfo["clients"] = clients
 		managerInfo["users"] = users
@@ -243,6 +253,9 @@ func GetUserList() (userList []string) {
 
 	userList = make([]string, 0)
 	fmt.Println("获取全部用户")
+
+	clientManager.UserLock.RLock()
+	defer clientManager.UserLock.RUnlock()
 
 	for _, v := range clientManager.Users {
 		userList = append(userList, v.UserId)
