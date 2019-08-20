@@ -17,6 +17,17 @@ import (
 	"time"
 )
 
+// ping
+func PingController(client *Client, seq string, message []byte) (code uint32, msg string, data interface{}) {
+
+	code = common.OK
+	fmt.Println("webSocket_request ping接口", client.Addr, seq, message)
+
+	data = "pong"
+
+	return
+}
+
 // 用户登录
 func LoginController(client *Client, seq string, message []byte) (code uint32, msg string, data interface{}) {
 

@@ -462,7 +462,10 @@ ws.send('{"seq":"2323","cmd":"login","data":{"userId":"11","appId":101}}');
 
 心跳:
 ws.send('{"seq":"2324","cmd":"heartbeat","data":{}}');
- 
+
+ping 查看服务是否正常:
+ws.send('{"seq":"2324","cmd":"ping","data":{}}');
+
 关闭连接:
 ws.close();
 ```
