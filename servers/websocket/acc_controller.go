@@ -58,6 +58,13 @@ func LoginController(client *Client, seq string, message []byte) (code uint32, m
 		return
 	}
 
+	if client.IsLogin() {
+		fmt.Println("用户登录 用户已经登录", client.AppId, client.UserId, seq)
+		code = common.OperationFailure
+
+		return
+	}
+
 	client.Login(request.AppId, request.UserId, currentTime)
 
 	// 存储数据
