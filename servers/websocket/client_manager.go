@@ -50,6 +50,54 @@ func GetUserKey(appId uint32, userId string) (key string) {
 
 /**************************  manager  ***************************************/
 
+func (manager *ClientManager) InClient(client *Client) (ok bool) {
+	manager.ClientsLock.RLock()
+	defer manager.ClientsLock.RUnlock()
+
+	// 连接存在，在添加
+	_, ok = manager.Clients[client]
+
+	return
+}
+
+// GetClients
+func (manager *ClientManager) GetClients() (clients map[*Client]bool) {
+
+	clients = make(map[*Client]bool)
+
+	manager.ClientsRange(func(client *Client, value bool) (result bool) {
+		clients[client] = value
+
+		return true
+	})
+
+	return
+}
+
+// 遍历
+func (manager *ClientManager) ClientsRange(f func(client *Client, value bool) (result bool)) {
+
+	manager.ClientsLock.RLock()
+	defer manager.ClientsLock.RUnlock()
+
+	for key, value := range manager.Clients {
+		result := f(key, value)
+		if result == false {
+			return
+		}
+	}
+
+	return
+}
+
+// GetClientsLen
+func (manager *ClientManager) GetClientsLen() (clientsLen int) {
+
+	clientsLen = len(manager.Clients)
+
+	return
+}
+
 // 添加客户端
 func (manager *ClientManager) AddClients(client *Client) {
 	manager.ClientsLock.Lock()
@@ -63,7 +111,9 @@ func (manager *ClientManager) DelClients(client *Client) {
 	manager.ClientsLock.Lock()
 	defer manager.ClientsLock.Unlock()
 
-	delete(manager.Clients, client)
+	if _, ok := manager.Clients[client]; ok {
+		delete(manager.Clients, client)
+	}
 }
 
 // 获取用户的连接
@@ -76,6 +126,13 @@ func (manager *ClientManager) GetUserClient(appId uint32, userId string) (client
 	if value, ok := manager.Users[userKey]; ok {
 		client = value
 	}
+
+	return
+}
+
+// GetClientsLen
+func (manager *ClientManager) GetUsersLen() (userLen int) {
+	userLen = len(manager.Users)
 
 	return
 }
@@ -93,15 +150,18 @@ func (manager *ClientManager) DelUsers(key string) {
 	manager.UserLock.Lock()
 	defer manager.UserLock.Unlock()
 
-	delete(manager.Users, key)
+	fmt.Println("DelUsers 4")
+	if _, ok := manager.Users[key]; ok {
+		delete(manager.Users, key)
+	}
 }
 
 // 获取用户的key
 func (manager *ClientManager) GetUserKeys() (userKeys []string) {
 
 	userKeys = make([]string, 0)
-	manager.UserLock.Lock()
-	defer manager.UserLock.Unlock()
+	manager.UserLock.RLock()
+	defer manager.UserLock.RUnlock()
 	for key := range manager.Users {
 		userKeys = append(userKeys, key)
 	}
@@ -109,9 +169,42 @@ func (manager *ClientManager) GetUserKeys() (userKeys []string) {
 	return
 }
 
+// 获取用户的key
+func (manager *ClientManager) GetUserList() (userList []string) {
+
+	userList = make([]string, 0)
+
+	clientManager.UserLock.RLock()
+	defer clientManager.UserLock.RUnlock()
+
+	for _, v := range clientManager.Users {
+		userList = append(userList, v.UserId)
+		fmt.Println("GetUserList", v.AppId, v.UserId, v.Addr)
+	}
+
+	fmt.Println("GetUserList", clientManager.Users)
+
+	return
+}
+
+// 获取用户的key
+func (manager *ClientManager) GetUserClients() (clients []*Client) {
+
+	clients = make([]*Client, 0)
+	manager.UserLock.RLock()
+	defer manager.UserLock.RUnlock()
+	for _, v := range manager.Users {
+		clients = append(clients, v)
+	}
+
+	return
+}
+
 // 向全部成员(除了自己)发送数据
 func (manager *ClientManager) sendAll(message []byte, ignore *Client) {
-	for conn := range manager.Clients {
+
+	clients := manager.GetUserClients()
+	for _, conn := range clients {
 		if conn != ignore {
 			conn.SendMsg(message)
 		}
@@ -129,12 +222,10 @@ func (manager *ClientManager) EventRegister(client *Client) {
 
 // 用户登录
 func (manager *ClientManager) EventLogin(login *login) {
-	manager.ClientsLock.RLock()
-	defer manager.ClientsLock.RUnlock()
 
 	client := login.Client
 	// 连接存在，在添加
-	if _, ok := manager.Clients[login.Client]; ok {
+	if manager.InClient(client) {
 		userKey := login.GetKey()
 		manager.AddUsers(userKey, login.Client)
 	}
@@ -143,7 +234,6 @@ func (manager *ClientManager) EventLogin(login *login) {
 
 	orderId := helper.GetOrderIdTime()
 	SendUserMessageAll(login.AppId, login.UserId, orderId, models.MessageCmdEnter, "哈喽~")
-
 }
 
 // 用户断开连接
@@ -190,7 +280,8 @@ func (manager *ClientManager) start() {
 
 		case message := <-manager.Broadcast:
 			// 广播事件
-			for conn := range manager.Clients {
+			clients := manager.GetClients()
+			for conn := range clients {
 				select {
 				case conn.Send <- message:
 				default:
@@ -206,22 +297,24 @@ func (manager *ClientManager) start() {
 func GetManagerInfo(isDebug string) (managerInfo map[string]interface{}) {
 	managerInfo = make(map[string]interface{})
 
-	managerInfo["clientsLen"] = len(clientManager.Clients)
-	managerInfo["usersLen"] = len(clientManager.Users)
+	managerInfo["clientsLen"] = clientManager.GetClientsLen()
+	managerInfo["usersLen"] = clientManager.GetUsersLen()
 	managerInfo["chanRegisterLen"] = len(clientManager.Register)
 	managerInfo["chanLoginLen"] = len(clientManager.Login)
 	managerInfo["chanUnregisterLen"] = len(clientManager.Unregister)
 	managerInfo["chanBroadcastLen"] = len(clientManager.Broadcast)
 
 	if isDebug == "true" {
-		clients := make([]string, 0)
-		for client := range clientManager.Clients {
-			clients = append(clients, client.Addr)
-		}
+		addrList := make([]string, 0)
+		clientManager.ClientsRange(func(client *Client, value bool) (result bool) {
+			addrList = append(addrList, client.Addr)
+
+			return true
+		})
 
 		users := clientManager.GetUserKeys()
 
-		managerInfo["clients"] = clients
+		managerInfo["clients"] = addrList
 		managerInfo["users"] = users
 	}
 
@@ -239,7 +332,8 @@ func GetUserClient(appId uint32, userId string) (client *Client) {
 func ClearTimeoutConnections() {
 	currentTime := uint64(time.Now().Unix())
 
-	for client := range clientManager.Clients {
+	clients := clientManager.GetClients()
+	for client := range clients {
 		if client.IsHeartbeatTimeout(currentTime) {
 			fmt.Println("心跳时间超时 关闭连接", client.Addr, client.UserId, client.LoginTime, client.HeartbeatTime)
 
@@ -250,16 +344,9 @@ func ClearTimeoutConnections() {
 
 // 获取全部用户
 func GetUserList() (userList []string) {
-
-	userList = make([]string, 0)
 	fmt.Println("获取全部用户")
 
-	clientManager.UserLock.RLock()
-	defer clientManager.UserLock.RUnlock()
-
-	for _, v := range clientManager.Users {
-		userList = append(userList, v.UserId)
-	}
+	userList = clientManager.GetUserList()
 
 	return
 }

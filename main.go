@@ -83,7 +83,7 @@ func initRedis() {
 
 func open() {
 
-	time.Sleep(100 * time.Millisecond)
+	time.Sleep(500 * time.Millisecond)
 
 	httpUrl := viper.GetString("app.httpUrl")
 	httpUrl = "http://"+httpUrl + "/home/index"
