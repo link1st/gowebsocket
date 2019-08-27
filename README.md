@@ -10,9 +10,9 @@
 
 
 ## 目录
-* [1、项目说明](#1项目说明)
-    * [1.1 goWebSocket](#11-goWebSocket)
-    * [1.2 项目体验](#12-项目体验)
+- [1、项目说明](#1项目说明)
+    - [1.1 goWebSocket](#11-goWebSocket)
+    - [1.2 项目体验](#12-项目体验)
 - [2、介绍webSocket](#2介绍webSocket)
     - [2.1 webSocket 是什么](#21-webSocket-是什么)
     - [2.2 webSocket的兼容性](#22-webSocket的兼容性)
@@ -664,6 +664,8 @@ net.ipv4.tcp_tw_recycle = 0
 - 待压测，如果大家有压测的结果欢迎补充
 - 后续会出专门的教程,从申请机器、写压测用例、内核优化、得出压测数据
 
+- **关于压测请移步** [go-stress-testing](https://github.com/link1st/go-stress-testing)，从申请机器开始，优化内核，部署项目压测，解释压测的原理
+
 ### 6.3 压测数据
 - 项目在实际使用的时候，每个连接约占 24Kb内存，一个Goroutine 约占11kb
 - 支持百万连接需要22G内存
@@ -825,7 +827,9 @@ IM实现细节:
 
 [WebSocket协议：5分钟从入门到精通](https://www.cnblogs.com/chyingp/p/websocket-deep-in.html)
 
-[link1st gowebsocket](https://github.com/link1st/gowebsocket)
+[go-stress-testing 单台机器100w连接压测实战](https://github.com/link1st/go-stress-testing)
 
+github 搜:link1st 查看项目 gowebsocket
 
+[https://github.com/link1st/gowebsocket](https://github.com/link1st/gowebsocket)
 
