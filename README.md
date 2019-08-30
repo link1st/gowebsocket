@@ -680,6 +680,8 @@ root hard core unlimited
 * hard core unlimited
 ```
 
+修改完成以后需要重启机器配置才能生效
+
 - 修改系统级别文件句柄数量
 
 file-max的值需要大于limits设置的值
@@ -693,6 +695,8 @@ cat /proc/sys/fs/file-max
 
 - 设置sockets连接参数
 
+`vim /etc/sysctl.conf` 
+
 ```
 # 配置参考
 net.ipv4.ip_local_port_range = 1024 65000
@@ -703,6 +707,8 @@ vim /etc/sysctl.conf
 net.ipv4.tcp_tw_reuse = 1
 net.ipv4.tcp_tw_recycle = 0
 ```
+
+`sysctl -p` 修改配置以后使得配置生效命令
 
 ### 6.2 压测准备
 - 待压测，如果大家有压测的结果欢迎补充
