@@ -648,13 +648,57 @@ http{
 ### 6.1 Linux内核优化
 - 设置文件打开句柄数
 
+被压测服务器需要保持100W长连接，客户和服务器端是通过socket通讯的，每个连接需要建立一个socket，程序需要保持100W长连接就需要单个程序能打开100W个文件句柄
+
+
 ```
+# 查看系统默认的值
+ulimit -n
+# 设置最大打开文件数
 ulimit -n 1000000
+```
+
+通过修改配置文件的方式修改程序最大打开句柄数
+
+```
+root soft nofile 1040000
+root hard nofile 1040000
+
+root soft nofile 1040000
+root hard nproc 1040000
+
+root soft core unlimited
+root hard core unlimited
+
+* soft nofile 1040000
+* hard nofile 1040000
+
+* soft nofile 1040000
+* hard nproc 1040000
+
+* soft core unlimited
+* hard core unlimited
+```
+
+- 修改系统级别文件句柄数量
+
+file-max的值需要大于limits设置的值
+
+
+```
+# file-max 设置的值参考
+cat /proc/sys/fs/file-max
+12553500
 ```
 
 - 设置sockets连接参数
 
 ```
+# 配置参考
+net.ipv4.ip_local_port_range = 1024 65000
+net.ipv4.tcp_mem = 786432 2097152 3145728
+net.ipv4.tcp_rmem = 4096 4096 16777216
+net.ipv4.tcp_wmem = 4096 4096 16777216
 vim /etc/sysctl.conf
 net.ipv4.tcp_tw_reuse = 1
 net.ipv4.tcp_tw_recycle = 0
@@ -664,17 +708,25 @@ net.ipv4.tcp_tw_recycle = 0
 - 待压测，如果大家有压测的结果欢迎补充
 - 后续会出专门的教程,从申请机器、写压测用例、内核优化、得出压测数据
 
-- **关于压测请移步** [go-stress-testing](https://github.com/link1st/go-stress-testing)，从申请机器开始，优化内核，部署项目压测，解释压测的原理
+- **关于压测请移步**
+- [go实现的压测工具【单台机器100w连接压测实战】](https://github.com/link1st/go-stress-testing)
+- 用go语言实现一款压测工具，然后对本项目进行压测，实现单台机器100W长连接
 
 ### 6.3 压测数据
-- 项目在实际使用的时候，每个连接约占 24Kb内存，一个Goroutine 约占11kb
-- 支持百万连接需要22G内存
+- 项目在实际使用的时候，每个连接约占 27Kb内存
+- 支持百万连接需要25G内存，单台机器实现百万长连接是可以实现的
 
-| 在线用户数 |   cup  |  内存   |  I/O  | net.out |
-| :----:   | :----: | :----: | :----: | :----: |
-| 1W       |        |        |        |        |
-| 10W      |        |        |        |        |
-| 100W     |        |        |        |        |
+- 记录内存使用情况，分别记录了1W到100W连接数内存使用情况
+
+| 连接数      |  内存 |
+| :----:     | :----:|
+|   10000    | 281M  |
+|   100000   | 2.7g  |
+|   200000   | 5.4g  |
+|   500000   | 13.1g |
+|   1000000  | 25.8g |
+
+- [压测详细数据](https://github.com/link1st/go-stress-testing#65-%E5%8E%8B%E6%B5%8B%E6%95%B0%E6%8D%AE)
 
 ## 7、如何基于webSocket实现一个分布式Im
 ### 7.1 说明
