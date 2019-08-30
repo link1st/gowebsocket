@@ -699,13 +699,12 @@ cat /proc/sys/fs/file-max
 
 ```
 # 配置参考
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_tw_recycle = 0
 net.ipv4.ip_local_port_range = 1024 65000
 net.ipv4.tcp_mem = 786432 2097152 3145728
 net.ipv4.tcp_rmem = 4096 4096 16777216
 net.ipv4.tcp_wmem = 4096 4096 16777216
-vim /etc/sysctl.conf
-net.ipv4.tcp_tw_reuse = 1
-net.ipv4.tcp_tw_recycle = 0
 ```
 
 `sysctl -p` 修改配置以后使得配置生效命令
