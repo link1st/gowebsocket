@@ -29,7 +29,10 @@ func Timer(delay, tick time.Duration, fun TimerFunc, param interface{}, funcDefe
 		if fun == nil {
 			return
 		}
+
 		t := time.NewTimer(delay)
+		defer t.Stop()
+
 		for {
 			select {
 			case <-t.C:
