@@ -86,7 +86,7 @@ func open() {
 	time.Sleep(500 * time.Millisecond)
 
 	httpUrl := viper.GetString("app.httpUrl")
-	httpUrl = "http://"+httpUrl + "/home/index"
+	httpUrl = "http://" + httpUrl + "/home/index"
 
 	fmt.Println("访问页面体验:", httpUrl)
 
