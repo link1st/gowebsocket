@@ -146,14 +146,22 @@ func (manager *ClientManager) AddUsers(key string, client *Client) {
 }
 
 // 删除用户
-func (manager *ClientManager) DelUsers(key string) {
+func (manager *ClientManager) DelUsers(client *Client) (result bool) {
 	manager.UserLock.Lock()
 	defer manager.UserLock.Unlock()
 
-	fmt.Println("DelUsers 4")
-	if _, ok := manager.Users[key]; ok {
+	key := GetUserKey(client.AppId, client.UserId)
+	if value, ok := manager.Users[key]; ok {
+		// 判断是否为相同的用户
+		if value.Addr != client.Addr {
+
+			return
+		}
 		delete(manager.Users, key)
+		result = true
 	}
+
+	return
 }
 
 // 获取用户的key
@@ -241,8 +249,12 @@ func (manager *ClientManager) EventUnregister(client *Client) {
 	manager.DelClients(client)
 
 	// 删除用户连接
-	userKey := GetUserKey(client.AppId, client.UserId)
-	manager.DelUsers(userKey)
+	deleteResult := manager.DelUsers(client)
+	if deleteResult == false {
+		// 不是当前连接的客户端
+
+		return
+	}
 
 	// 清除redis登录数据
 	userOnline, err := cache.GetUserOnlineInfo(client.GetKey())
