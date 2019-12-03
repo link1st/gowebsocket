@@ -808,7 +808,7 @@ net.ipv4.tcp_wmem = 4096 4096 16777216
 
 - 项目启动注册和用户连接时序图
 
-![用户连接时序图](https://img.mukewang.com/5d4e515500014e2310780609.png)
+![用户连接时序图](https://img.mukewang.com/5de5d6bf00011c8e08740728.png)
 
 
 - 其它系统(IM、任务)向webSocket(acc)系统连接的用户发送消息时序图
