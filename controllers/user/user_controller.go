@@ -64,6 +64,9 @@ func SendMessage(c *gin.Context) {
 
 	appId, _ := strconv.ParseInt(appIdStr, 10, 32)
 
+	// TODO::进行用户权限认证，一般是客户端传入TOKEN，然后检验TOKEN是否合法，通过TOKEN解析出来用户ID
+	// 本项目只是演示，所以直接过去客户端传入的用户ID(userId)
+
 	data := make(map[string]interface{})
 
 	if cache.SeqDuplicates(msgId) {
