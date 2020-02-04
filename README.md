@@ -952,4 +952,8 @@ github 搜:link1st 查看项目 gowebsocket
 ### 赞助商
 
 感谢[JetBrains](https://www.jetbrains.com/?from=gowebsocket)对本项目的支持！
-[![JetBrains 图片](https://img.mukewang.com/5e3967430001f8e120001668.png =200x200)](https://www.jetbrains.com/?from=gowebsocket)
+<p align="center">
+    <a href="https://www.jetbrains.com/?from=gowebsocket">
+        <img border="0" src="https://img.mukewang.com/5e3967430001f8e120001668.png" width="200"/>
+    </a>
+</p>
