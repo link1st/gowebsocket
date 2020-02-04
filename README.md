@@ -934,7 +934,7 @@ IM实现细节:
 - 本文虽然号称单台机器能有百万长连接(内存上能满足)，但是实际在场景远比这个复杂(cpu有些压力)，当然了如果你有这么大的业务量可以购买更多的机器更好的去支撑你的业务，本程序只是演示如何在实际工作用使用webSocket.
 - 参考本文，你可以实现出来符合你需要的程序
 
-## 9、参考文献
+### 9、参考文献
 
 [维基百科 WebSocket](https://zh.wikipedia.org/wiki/WebSocket)
 
@@ -948,3 +948,8 @@ github 搜:link1st 查看项目 gowebsocket
 
 [https://github.com/link1st/gowebsocket](https://github.com/link1st/gowebsocket)
 
+
+### 赞助商
+
+感谢[JetBrains](https://www.jetbrains.com/?from=gowebsocket)对本项目的支持！
+[![JetBrains 图片](https://img.mukewang.com/5e3967430001f8e120001668.png "JetBrains")](https://www.jetbrains.com/?from=gowebsocket)
