@@ -951,7 +951,7 @@ github 搜:link1st 查看项目 gowebsocket
 ### 意见反馈
 
 - 在项目中遇到问题可以直接在这里找找答案或者提问 [issues](https://github.com/link1st/gowebsocket/issues)
-- 也可以添加我的微信，直接反馈给我
+- 也可以添加我的微信(申请信息填写:公司、姓名，我好备注下)，直接反馈给我
 ![添加link1st微信](https://img.mukewang.com/5eb376b60001ddc208300832.png)
 
 ### 赞助商
