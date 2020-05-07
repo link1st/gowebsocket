@@ -952,11 +952,16 @@ github 搜:link1st 查看项目 gowebsocket
 
 - 在项目中遇到问题可以直接在这里找找答案或者提问 [issues](https://github.com/link1st/gowebsocket/issues)
 - 也可以添加我的微信(申请信息填写:公司、姓名，我好备注下)，直接反馈给我
-![添加link1st微信](https://img.mukewang.com/5eb376b60001ddc208300832.png)
+<br/>
+<p align="center">
+     <img border="0" src="https://img.mukewang.com/5eb376b60001ddc208300832.png" alt="添加link1st的微信" width="200"/>
+</p>
+
 
 ### 赞助商
 
-感谢[JetBrains](https://www.jetbrains.com/?from=gowebsocket)对本项目的支持！
+- 感谢[JetBrains](https://www.jetbrains.com/?from=gowebsocket)对本项目的支持！
+<br/>
 <p align="center">
     <a href="https://www.jetbrains.com/?from=gowebsocket">
         <img border="0" src="https://img.mukewang.com/5e3967430001f8e120001668.png" width="200"/>
