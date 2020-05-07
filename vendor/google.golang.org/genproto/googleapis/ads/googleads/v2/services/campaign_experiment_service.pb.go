@@ -691,8 +691,10 @@ type ListCampaignExperimentAsyncErrorsResponse struct {
 func (m *ListCampaignExperimentAsyncErrorsResponse) Reset() {
 	*m = ListCampaignExperimentAsyncErrorsResponse{}
 }
-func (m *ListCampaignExperimentAsyncErrorsResponse) String() string { return proto.CompactTextString(m) }
-func (*ListCampaignExperimentAsyncErrorsResponse) ProtoMessage()    {}
+func (m *ListCampaignExperimentAsyncErrorsResponse) String() string {
+	return proto.CompactTextString(m)
+}
+func (*ListCampaignExperimentAsyncErrorsResponse) ProtoMessage() {}
 func (*ListCampaignExperimentAsyncErrorsResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_fe5841845e481fad, []int{12}
 }

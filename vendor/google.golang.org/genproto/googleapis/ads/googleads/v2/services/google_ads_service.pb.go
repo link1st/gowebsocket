@@ -2167,7 +2167,8 @@ func (*MutateOperationResponse_CustomerFeedResult) isMutateOperationResponse_Res
 
 func (*MutateOperationResponse_CustomerLabelResult) isMutateOperationResponse_Response() {}
 
-func (*MutateOperationResponse_CustomerNegativeCriterionResult) isMutateOperationResponse_Response() {}
+func (*MutateOperationResponse_CustomerNegativeCriterionResult) isMutateOperationResponse_Response() {
+}
 
 func (*MutateOperationResponse_CustomerResult) isMutateOperationResponse_Response() {}
 

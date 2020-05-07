@@ -560,8 +560,10 @@ type LabelImageClassificationOperationMetadata struct {
 func (m *LabelImageClassificationOperationMetadata) Reset() {
 	*m = LabelImageClassificationOperationMetadata{}
 }
-func (m *LabelImageClassificationOperationMetadata) String() string { return proto.CompactTextString(m) }
-func (*LabelImageClassificationOperationMetadata) ProtoMessage()    {}
+func (m *LabelImageClassificationOperationMetadata) String() string {
+	return proto.CompactTextString(m)
+}
+func (*LabelImageClassificationOperationMetadata) ProtoMessage() {}
 func (*LabelImageClassificationOperationMetadata) Descriptor() ([]byte, []int) {
 	return fileDescriptor_1364cf1609076a0d, []int{5}
 }
@@ -818,8 +820,10 @@ type LabelVideoClassificationOperationMetadata struct {
 func (m *LabelVideoClassificationOperationMetadata) Reset() {
 	*m = LabelVideoClassificationOperationMetadata{}
 }
-func (m *LabelVideoClassificationOperationMetadata) String() string { return proto.CompactTextString(m) }
-func (*LabelVideoClassificationOperationMetadata) ProtoMessage()    {}
+func (m *LabelVideoClassificationOperationMetadata) String() string {
+	return proto.CompactTextString(m)
+}
+func (*LabelVideoClassificationOperationMetadata) ProtoMessage() {}
 func (*LabelVideoClassificationOperationMetadata) Descriptor() ([]byte, []int) {
 	return fileDescriptor_1364cf1609076a0d, []int{11}
 }
@@ -906,8 +910,10 @@ type LabelVideoObjectTrackingOperationMetadata struct {
 func (m *LabelVideoObjectTrackingOperationMetadata) Reset() {
 	*m = LabelVideoObjectTrackingOperationMetadata{}
 }
-func (m *LabelVideoObjectTrackingOperationMetadata) String() string { return proto.CompactTextString(m) }
-func (*LabelVideoObjectTrackingOperationMetadata) ProtoMessage()    {}
+func (m *LabelVideoObjectTrackingOperationMetadata) String() string {
+	return proto.CompactTextString(m)
+}
+func (*LabelVideoObjectTrackingOperationMetadata) ProtoMessage() {}
 func (*LabelVideoObjectTrackingOperationMetadata) Descriptor() ([]byte, []int) {
 	return fileDescriptor_1364cf1609076a0d, []int{13}
 }

@@ -1110,8 +1110,10 @@ type InspectConfig_FindingLimits_InfoTypeLimit struct {
 func (m *InspectConfig_FindingLimits_InfoTypeLimit) Reset() {
 	*m = InspectConfig_FindingLimits_InfoTypeLimit{}
 }
-func (m *InspectConfig_FindingLimits_InfoTypeLimit) String() string { return proto.CompactTextString(m) }
-func (*InspectConfig_FindingLimits_InfoTypeLimit) ProtoMessage()    {}
+func (m *InspectConfig_FindingLimits_InfoTypeLimit) String() string {
+	return proto.CompactTextString(m)
+}
+func (*InspectConfig_FindingLimits_InfoTypeLimit) ProtoMessage() {}
 func (*InspectConfig_FindingLimits_InfoTypeLimit) Descriptor() ([]byte, []int) {
 	return fileDescriptor_6872a91dcb80f8dc, []int{4, 0, 0}
 }
@@ -2945,8 +2947,10 @@ type InspectDataSourceDetails_RequestedOptions struct {
 func (m *InspectDataSourceDetails_RequestedOptions) Reset() {
 	*m = InspectDataSourceDetails_RequestedOptions{}
 }
-func (m *InspectDataSourceDetails_RequestedOptions) String() string { return proto.CompactTextString(m) }
-func (*InspectDataSourceDetails_RequestedOptions) ProtoMessage()    {}
+func (m *InspectDataSourceDetails_RequestedOptions) String() string {
+	return proto.CompactTextString(m)
+}
+func (*InspectDataSourceDetails_RequestedOptions) ProtoMessage() {}
 func (*InspectDataSourceDetails_RequestedOptions) Descriptor() ([]byte, []int) {
 	return fileDescriptor_6872a91dcb80f8dc, []int{29, 0}
 }
@@ -4306,7 +4310,8 @@ type AnalyzeDataSourceRiskDetails_DeltaPresenceEstimationResult_ struct {
 
 func (*AnalyzeDataSourceRiskDetails_NumericalStatsResult_) isAnalyzeDataSourceRiskDetails_Result() {}
 
-func (*AnalyzeDataSourceRiskDetails_CategoricalStatsResult_) isAnalyzeDataSourceRiskDetails_Result() {}
+func (*AnalyzeDataSourceRiskDetails_CategoricalStatsResult_) isAnalyzeDataSourceRiskDetails_Result() {
+}
 
 func (*AnalyzeDataSourceRiskDetails_KAnonymityResult_) isAnalyzeDataSourceRiskDetails_Result() {}
 
@@ -5023,7 +5028,8 @@ func (m *AnalyzeDataSourceRiskDetails_KMapEstimationResult_KMapEstimationQuasiId
 func (m *AnalyzeDataSourceRiskDetails_KMapEstimationResult_KMapEstimationQuasiIdValues) String() string {
 	return proto.CompactTextString(m)
 }
-func (*AnalyzeDataSourceRiskDetails_KMapEstimationResult_KMapEstimationQuasiIdValues) ProtoMessage() {}
+func (*AnalyzeDataSourceRiskDetails_KMapEstimationResult_KMapEstimationQuasiIdValues) ProtoMessage() {
+}
 func (*AnalyzeDataSourceRiskDetails_KMapEstimationResult_KMapEstimationQuasiIdValues) Descriptor() ([]byte, []int) {
 	return fileDescriptor_6872a91dcb80f8dc, []int{37, 4, 0}
 }
@@ -5938,13 +5944,15 @@ func (*PrimitiveTransformation_RedactConfig) isPrimitiveTransformation_Transform
 
 func (*PrimitiveTransformation_CharacterMaskConfig) isPrimitiveTransformation_Transformation() {}
 
-func (*PrimitiveTransformation_CryptoReplaceFfxFpeConfig) isPrimitiveTransformation_Transformation() {}
+func (*PrimitiveTransformation_CryptoReplaceFfxFpeConfig) isPrimitiveTransformation_Transformation() {
+}
 
 func (*PrimitiveTransformation_FixedSizeBucketingConfig) isPrimitiveTransformation_Transformation() {}
 
 func (*PrimitiveTransformation_BucketingConfig) isPrimitiveTransformation_Transformation() {}
 
-func (*PrimitiveTransformation_ReplaceWithInfoTypeConfig) isPrimitiveTransformation_Transformation() {}
+func (*PrimitiveTransformation_ReplaceWithInfoTypeConfig) isPrimitiveTransformation_Transformation() {
+}
 
 func (*PrimitiveTransformation_TimePartConfig) isPrimitiveTransformation_Transformation() {}
 
@@ -5952,7 +5960,8 @@ func (*PrimitiveTransformation_CryptoHashConfig) isPrimitiveTransformation_Trans
 
 func (*PrimitiveTransformation_DateShiftConfig) isPrimitiveTransformation_Transformation() {}
 
-func (*PrimitiveTransformation_CryptoDeterministicConfig) isPrimitiveTransformation_Transformation() {}
+func (*PrimitiveTransformation_CryptoDeterministicConfig) isPrimitiveTransformation_Transformation() {
+}
 
 func (m *PrimitiveTransformation) GetTransformation() isPrimitiveTransformation_Transformation {
 	if m != nil {

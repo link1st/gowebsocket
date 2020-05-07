@@ -17,9 +17,13 @@ import (
 	"time"
 )
 
+const (
+	defaultAppId = 101 // 默认平台Id
+)
+
 var (
-	clientManager = NewClientManager() // 管理者
-	appIds        = []uint32{101, 102} // 全部的平台
+	clientManager = NewClientManager()                    // 管理者
+	appIds        = []uint32{defaultAppId, 102, 103, 104} // 全部的平台
 
 	serverIp   string
 	serverPort string
@@ -53,6 +57,12 @@ func InAppIds(appId uint32) (inAppId bool) {
 			return
 		}
 	}
+
+	return
+}
+
+func GetDefaultAppId() (appId uint32) {
+	appId = defaultAppId
 
 	return
 }

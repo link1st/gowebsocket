@@ -341,8 +341,10 @@ type MetricDescriptor_MetricDescriptorMetadata struct {
 func (m *MetricDescriptor_MetricDescriptorMetadata) Reset() {
 	*m = MetricDescriptor_MetricDescriptorMetadata{}
 }
-func (m *MetricDescriptor_MetricDescriptorMetadata) String() string { return proto.CompactTextString(m) }
-func (*MetricDescriptor_MetricDescriptorMetadata) ProtoMessage()    {}
+func (m *MetricDescriptor_MetricDescriptorMetadata) String() string {
+	return proto.CompactTextString(m)
+}
+func (*MetricDescriptor_MetricDescriptorMetadata) ProtoMessage() {}
 func (*MetricDescriptor_MetricDescriptorMetadata) Descriptor() ([]byte, []int) {
 	return fileDescriptor_927eaac1a24f8abb, []int{0, 0}
 }

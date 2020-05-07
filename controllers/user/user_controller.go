@@ -22,14 +22,16 @@ import (
 func List(c *gin.Context) {
 
 	appIdStr := c.Query("appId")
-	appId, _ := strconv.ParseInt(appIdStr, 10, 32)
+	appIdUint64, _ := strconv.ParseInt(appIdStr, 10, 32)
+	appId := uint32(appIdUint64)
 
 	fmt.Println("http_request 查看全部在线用户", appId)
 
 	data := make(map[string]interface{})
 
-	userList := websocket.UserList()
+	userList := websocket.UserList(appId)
 	data["userList"] = userList
+	data["userCount"] = len(userList)
 
 	controllers.Response(c, common.OK, "", data)
 }
@@ -39,13 +41,14 @@ func Online(c *gin.Context) {
 
 	userId := c.Query("userId")
 	appIdStr := c.Query("appId")
+	appIdUint64, _ := strconv.ParseInt(appIdStr, 10, 32)
+	appId := uint32(appIdUint64)
 
 	fmt.Println("http_request 查看用户是否在线", userId, appIdStr)
-	appId, _ := strconv.ParseInt(appIdStr, 10, 32)
 
 	data := make(map[string]interface{})
 
-	online := websocket.CheckUserOnline(uint32(appId), userId)
+	online := websocket.CheckUserOnline(appId, userId)
 	data["userId"] = userId
 	data["online"] = online
 
@@ -59,10 +62,10 @@ func SendMessage(c *gin.Context) {
 	userId := c.PostForm("userId")
 	msgId := c.PostForm("msgId")
 	message := c.PostForm("message")
+	appIdUint64, _ := strconv.ParseInt(appIdStr, 10, 32)
+	appId := uint32(appIdUint64)
 
 	fmt.Println("http_request 给用户发送消息", appIdStr, userId, msgId, message)
-
-	appId, _ := strconv.ParseInt(appIdStr, 10, 32)
 
 	// TODO::进行用户权限认证，一般是客户端传入TOKEN，然后检验TOKEN是否合法，通过TOKEN解析出来用户ID
 	// 本项目只是演示，所以直接过去客户端传入的用户ID(userId)
@@ -76,7 +79,7 @@ func SendMessage(c *gin.Context) {
 		return
 	}
 
-	sendResults, err := websocket.SendUserMessage(uint32(appId), userId, msgId, message)
+	sendResults, err := websocket.SendUserMessage(appId, userId, msgId, message)
 	if err != nil {
 		data["sendResultsErr"] = err.Error()
 	}
@@ -93,10 +96,10 @@ func SendMessageAll(c *gin.Context) {
 	userId := c.PostForm("userId")
 	msgId := c.PostForm("msgId")
 	message := c.PostForm("message")
+	appIdUint64, _ := strconv.ParseInt(appIdStr, 10, 32)
+	appId := uint32(appIdUint64)
 
 	fmt.Println("http_request 给全体用户发送消息", appIdStr, userId, msgId, message)
-
-	appId, _ := strconv.ParseInt(appIdStr, 10, 32)
 
 	data := make(map[string]interface{})
 	if cache.SeqDuplicates(msgId) {
@@ -106,7 +109,7 @@ func SendMessageAll(c *gin.Context) {
 		return
 	}
 
-	sendResults, err := websocket.SendUserMessageAll(uint32(appId), userId, msgId, models.MessageCmdMsg, message)
+	sendResults, err := websocket.SendUserMessageAll(appId, userId, msgId, models.MessageCmdMsg, message)
 	if err != nil {
 		data["sendResultsErr"] = err.Error()
 

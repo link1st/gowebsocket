@@ -157,8 +157,10 @@ type ClusterLoadAssignment_Policy_DropOverload struct {
 func (m *ClusterLoadAssignment_Policy_DropOverload) Reset() {
 	*m = ClusterLoadAssignment_Policy_DropOverload{}
 }
-func (m *ClusterLoadAssignment_Policy_DropOverload) String() string { return proto.CompactTextString(m) }
-func (*ClusterLoadAssignment_Policy_DropOverload) ProtoMessage()    {}
+func (m *ClusterLoadAssignment_Policy_DropOverload) String() string {
+	return proto.CompactTextString(m)
+}
+func (*ClusterLoadAssignment_Policy_DropOverload) ProtoMessage() {}
 func (*ClusterLoadAssignment_Policy_DropOverload) Descriptor() ([]byte, []int) {
 	return fileDescriptor_eds_061daabadb4e511d, []int{0, 1, 0}
 }

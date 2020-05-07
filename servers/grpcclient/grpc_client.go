@@ -62,7 +62,7 @@ func SendMsgAll(server *models.Server, seq string, appId uint32, userId string, 
 
 // 获取用户列表
 // link::https://github.com/grpc/grpc-go/blob/master/examples/helloworld/greeter_client/main.go
-func GetUserList(server *models.Server) (userIds []string, err error) {
+func GetUserList(server *models.Server, appId uint32) (userIds []string, err error) {
 	userIds = make([]string, 0)
 
 	conn, err := grpc.Dial(server.String(), grpc.WithInsecure())
@@ -77,7 +77,9 @@ func GetUserList(server *models.Server) (userIds []string, err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	req := protobuf.GetUserListReq{}
+	req := protobuf.GetUserListReq{
+		AppId: appId,
+	}
 	rsp, err := c.GetUserList(ctx, &req)
 	if err != nil {
 		fmt.Println("获取用户列表 发送请求错误:", err)

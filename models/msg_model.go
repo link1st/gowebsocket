@@ -12,9 +12,9 @@ import "gowebsocket/common"
 const (
 	MessageTypeText = "text"
 
-	MessageCmdMsg = "msg"
+	MessageCmdMsg   = "msg"
 	MessageCmdEnter = "enter"
-	MessageCmdExit = "exit"
+	MessageCmdExit  = "exit"
 )
 
 // 消息的定义

@@ -441,7 +441,9 @@ func init() {
 	proto.RegisterMapType((map[string]*Value)(nil), "google.firestore.v1.MapValue.FieldsEntry")
 }
 
-func init() { proto.RegisterFile("google/firestore/v1/document.proto", fileDescriptor_8e0f854a5c2f070c) }
+func init() {
+	proto.RegisterFile("google/firestore/v1/document.proto", fileDescriptor_8e0f854a5c2f070c)
+}
 
 var fileDescriptor_8e0f854a5c2f070c = []byte{
 	// 650 bytes of a gzipped FileDescriptorProto

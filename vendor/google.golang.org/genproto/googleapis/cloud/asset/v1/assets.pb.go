@@ -325,7 +325,9 @@ func init() {
 	proto.RegisterType((*Resource)(nil), "google.cloud.asset.v1.Resource")
 }
 
-func init() { proto.RegisterFile("google/cloud/asset/v1/assets.proto", fileDescriptor_e71186cd3ee2fb90) }
+func init() {
+	proto.RegisterFile("google/cloud/asset/v1/assets.proto", fileDescriptor_e71186cd3ee2fb90)
+}
 
 var fileDescriptor_e71186cd3ee2fb90 = []byte{
 	// 541 bytes of a gzipped FileDescriptorProto

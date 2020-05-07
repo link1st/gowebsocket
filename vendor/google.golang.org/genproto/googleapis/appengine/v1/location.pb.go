@@ -82,7 +82,9 @@ func init() {
 	proto.RegisterType((*LocationMetadata)(nil), "google.appengine.v1.LocationMetadata")
 }
 
-func init() { proto.RegisterFile("google/appengine/v1/location.proto", fileDescriptor_c86665b4be2de7f4) }
+func init() {
+	proto.RegisterFile("google/appengine/v1/location.proto", fileDescriptor_c86665b4be2de7f4)
+}
 
 var fileDescriptor_c86665b4be2de7f4 = []byte{
 	// 236 bytes of a gzipped FileDescriptorProto

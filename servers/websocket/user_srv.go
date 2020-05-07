@@ -18,7 +18,7 @@ import (
 )
 
 // 查询所有用户
-func UserList() (userList []string) {
+func UserList(appId uint32) (userList []string) {
 
 	userList = make([]string, 0)
 	currentTime := uint64(time.Now().Unix())
@@ -34,9 +34,9 @@ func UserList() (userList []string) {
 			list []string
 		)
 		if IsLocal(server) {
-			list = GetUserList()
+			list = GetUserList(appId)
 		} else {
-			list, _ = grpcclient.GetUserList(server)
+			list, _ = grpcclient.GetUserList(server, appId)
 		}
 		userList = append(userList, list...)
 	}

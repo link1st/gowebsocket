@@ -310,7 +310,9 @@ func init() {
 	proto.RegisterType((*ReadGroup_Program)(nil), "google.genomics.v1.ReadGroup.Program")
 }
 
-func init() { proto.RegisterFile("google/genomics/v1/readgroup.proto", fileDescriptor_78f10e430d3182d6) }
+func init() {
+	proto.RegisterFile("google/genomics/v1/readgroup.proto", fileDescriptor_78f10e430d3182d6)
+}
 
 var fileDescriptor_78f10e430d3182d6 = []byte{
 	// 585 bytes of a gzipped FileDescriptorProto

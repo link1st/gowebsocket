@@ -822,8 +822,10 @@ type HyperparameterOutput_HyperparameterMetric struct {
 func (m *HyperparameterOutput_HyperparameterMetric) Reset() {
 	*m = HyperparameterOutput_HyperparameterMetric{}
 }
-func (m *HyperparameterOutput_HyperparameterMetric) String() string { return proto.CompactTextString(m) }
-func (*HyperparameterOutput_HyperparameterMetric) ProtoMessage()    {}
+func (m *HyperparameterOutput_HyperparameterMetric) String() string {
+	return proto.CompactTextString(m)
+}
+func (*HyperparameterOutput_HyperparameterMetric) ProtoMessage() {}
 func (*HyperparameterOutput_HyperparameterMetric) Descriptor() ([]byte, []int) {
 	return fileDescriptor_a9e7ba15cb43988d, []int{3, 0}
 }

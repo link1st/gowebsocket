@@ -350,7 +350,9 @@ func init() {
 	proto.RegisterType((*QueryPlan)(nil), "google.spanner.v1.QueryPlan")
 }
 
-func init() { proto.RegisterFile("google/spanner/v1/query_plan.proto", fileDescriptor_14e5ab0c0507d181) }
+func init() {
+	proto.RegisterFile("google/spanner/v1/query_plan.proto", fileDescriptor_14e5ab0c0507d181)
+}
 
 var fileDescriptor_14e5ab0c0507d181 = []byte{
 	// 604 bytes of a gzipped FileDescriptorProto

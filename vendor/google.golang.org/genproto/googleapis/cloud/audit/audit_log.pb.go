@@ -351,7 +351,9 @@ func init() {
 	proto.RegisterType((*RequestMetadata)(nil), "google.cloud.audit.RequestMetadata")
 }
 
-func init() { proto.RegisterFile("google/cloud/audit/audit_log.proto", fileDescriptor_197799a4334e4cbf) }
+func init() {
+	proto.RegisterFile("google/cloud/audit/audit_log.proto", fileDescriptor_197799a4334e4cbf)
+}
 
 var fileDescriptor_197799a4334e4cbf = []byte{
 	// 576 bytes of a gzipped FileDescriptorProto

@@ -144,8 +144,10 @@ type OrganizationSettings_AssetDiscoveryConfig struct {
 func (m *OrganizationSettings_AssetDiscoveryConfig) Reset() {
 	*m = OrganizationSettings_AssetDiscoveryConfig{}
 }
-func (m *OrganizationSettings_AssetDiscoveryConfig) String() string { return proto.CompactTextString(m) }
-func (*OrganizationSettings_AssetDiscoveryConfig) ProtoMessage()    {}
+func (m *OrganizationSettings_AssetDiscoveryConfig) String() string {
+	return proto.CompactTextString(m)
+}
+func (*OrganizationSettings_AssetDiscoveryConfig) ProtoMessage() {}
 func (*OrganizationSettings_AssetDiscoveryConfig) Descriptor() ([]byte, []int) {
 	return fileDescriptor_a0c752c1a47d41ec, []int{0, 0}
 }

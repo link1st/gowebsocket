@@ -230,8 +230,10 @@ type ConversionAction_AttributionModelSettings struct {
 func (m *ConversionAction_AttributionModelSettings) Reset() {
 	*m = ConversionAction_AttributionModelSettings{}
 }
-func (m *ConversionAction_AttributionModelSettings) String() string { return proto.CompactTextString(m) }
-func (*ConversionAction_AttributionModelSettings) ProtoMessage()    {}
+func (m *ConversionAction_AttributionModelSettings) String() string {
+	return proto.CompactTextString(m)
+}
+func (*ConversionAction_AttributionModelSettings) ProtoMessage() {}
 func (*ConversionAction_AttributionModelSettings) Descriptor() ([]byte, []int) {
 	return fileDescriptor_c3f71f6866f7bfaf, []int{0, 0}
 }

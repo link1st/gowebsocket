@@ -120,10 +120,11 @@ func (s *server) GetUserList(c context.Context, req *protobuf.GetUserListReq) (r
 
 	fmt.Println("grpc_request 获取本机用户列表", req.String())
 
+	appId := req.GetAppId()
 	rsp = &protobuf.GetUserListRsp{}
 
 	// 本机
-	userList := websocket.GetUserList()
+	userList := websocket.GetUserList(appId)
 
 	setErr(rsp, common.OK, "")
 	rsp.UserId = userList

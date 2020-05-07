@@ -65,8 +65,10 @@ type AffiliateLocationFeedRelationshipTypeEnum struct {
 func (m *AffiliateLocationFeedRelationshipTypeEnum) Reset() {
 	*m = AffiliateLocationFeedRelationshipTypeEnum{}
 }
-func (m *AffiliateLocationFeedRelationshipTypeEnum) String() string { return proto.CompactTextString(m) }
-func (*AffiliateLocationFeedRelationshipTypeEnum) ProtoMessage()    {}
+func (m *AffiliateLocationFeedRelationshipTypeEnum) String() string {
+	return proto.CompactTextString(m)
+}
+func (*AffiliateLocationFeedRelationshipTypeEnum) ProtoMessage() {}
 func (*AffiliateLocationFeedRelationshipTypeEnum) Descriptor() ([]byte, []int) {
 	return fileDescriptor_57c5996a2a61f182, []int{0}
 }

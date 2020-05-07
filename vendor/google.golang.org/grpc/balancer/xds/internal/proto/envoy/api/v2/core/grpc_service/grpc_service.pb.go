@@ -403,8 +403,10 @@ type GrpcService_GoogleGrpc_ChannelCredentials struct {
 func (m *GrpcService_GoogleGrpc_ChannelCredentials) Reset() {
 	*m = GrpcService_GoogleGrpc_ChannelCredentials{}
 }
-func (m *GrpcService_GoogleGrpc_ChannelCredentials) String() string { return proto.CompactTextString(m) }
-func (*GrpcService_GoogleGrpc_ChannelCredentials) ProtoMessage()    {}
+func (m *GrpcService_GoogleGrpc_ChannelCredentials) String() string {
+	return proto.CompactTextString(m)
+}
+func (*GrpcService_GoogleGrpc_ChannelCredentials) ProtoMessage() {}
 func (*GrpcService_GoogleGrpc_ChannelCredentials) Descriptor() ([]byte, []int) {
 	return fileDescriptor_grpc_service_b85549433708d753, []int{0, 1, 2}
 }

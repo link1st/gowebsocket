@@ -566,8 +566,10 @@ type PolicyTopicEvidence_DestinationNotWorking struct {
 func (m *PolicyTopicEvidence_DestinationNotWorking) Reset() {
 	*m = PolicyTopicEvidence_DestinationNotWorking{}
 }
-func (m *PolicyTopicEvidence_DestinationNotWorking) String() string { return proto.CompactTextString(m) }
-func (*PolicyTopicEvidence_DestinationNotWorking) ProtoMessage()    {}
+func (m *PolicyTopicEvidence_DestinationNotWorking) String() string {
+	return proto.CompactTextString(m)
+}
+func (*PolicyTopicEvidence_DestinationNotWorking) ProtoMessage() {}
 func (*PolicyTopicEvidence_DestinationNotWorking) Descriptor() ([]byte, []int) {
 	return fileDescriptor_4d59a9c11d6f3bf2, []int{3, 4}
 }
@@ -724,7 +726,8 @@ func (*PolicyTopicConstraint_ResellerConstraint_) isPolicyTopicConstraint_Value(
 
 func (*PolicyTopicConstraint_CertificateMissingInCountryList) isPolicyTopicConstraint_Value() {}
 
-func (*PolicyTopicConstraint_CertificateDomainMismatchInCountryList) isPolicyTopicConstraint_Value() {}
+func (*PolicyTopicConstraint_CertificateDomainMismatchInCountryList) isPolicyTopicConstraint_Value() {
+}
 
 func (m *PolicyTopicConstraint) GetValue() isPolicyTopicConstraint_Value {
 	if m != nil {

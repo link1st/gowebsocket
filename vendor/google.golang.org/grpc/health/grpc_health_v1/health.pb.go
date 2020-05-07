@@ -301,7 +301,9 @@ var _Health_serviceDesc = grpc.ServiceDesc{
 	Metadata: "grpc/health/v1/health.proto",
 }
 
-func init() { proto.RegisterFile("grpc/health/v1/health.proto", fileDescriptor_health_6b1a06aa67f91efd) }
+func init() {
+	proto.RegisterFile("grpc/health/v1/health.proto", fileDescriptor_health_6b1a06aa67f91efd)
+}
 
 var fileDescriptor_health_6b1a06aa67f91efd = []byte{
 	// 297 bytes of a gzipped FileDescriptorProto

@@ -70,6 +70,7 @@ message SendMsgAllRsp {
 
 // 获取用户列表
 message GetUserListReq {
+    uint32 appId = 1;
 }
 
 message GetUserListRsp {

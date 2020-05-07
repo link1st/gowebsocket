@@ -211,11 +211,14 @@ type KeywordPlanNegativeKeywordOperation_Remove struct {
 	Remove string `protobuf:"bytes,3,opt,name=remove,proto3,oneof"`
 }
 
-func (*KeywordPlanNegativeKeywordOperation_Create) isKeywordPlanNegativeKeywordOperation_Operation() {}
+func (*KeywordPlanNegativeKeywordOperation_Create) isKeywordPlanNegativeKeywordOperation_Operation() {
+}
 
-func (*KeywordPlanNegativeKeywordOperation_Update) isKeywordPlanNegativeKeywordOperation_Operation() {}
+func (*KeywordPlanNegativeKeywordOperation_Update) isKeywordPlanNegativeKeywordOperation_Operation() {
+}
 
-func (*KeywordPlanNegativeKeywordOperation_Remove) isKeywordPlanNegativeKeywordOperation_Operation() {}
+func (*KeywordPlanNegativeKeywordOperation_Remove) isKeywordPlanNegativeKeywordOperation_Operation() {
+}
 
 func (m *KeywordPlanNegativeKeywordOperation) GetOperation() isKeywordPlanNegativeKeywordOperation_Operation {
 	if m != nil {
@@ -271,8 +274,10 @@ type MutateKeywordPlanNegativeKeywordsResponse struct {
 func (m *MutateKeywordPlanNegativeKeywordsResponse) Reset() {
 	*m = MutateKeywordPlanNegativeKeywordsResponse{}
 }
-func (m *MutateKeywordPlanNegativeKeywordsResponse) String() string { return proto.CompactTextString(m) }
-func (*MutateKeywordPlanNegativeKeywordsResponse) ProtoMessage()    {}
+func (m *MutateKeywordPlanNegativeKeywordsResponse) String() string {
+	return proto.CompactTextString(m)
+}
+func (*MutateKeywordPlanNegativeKeywordsResponse) ProtoMessage() {}
 func (*MutateKeywordPlanNegativeKeywordsResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_6100cff1a3faa6ff, []int{3}
 }

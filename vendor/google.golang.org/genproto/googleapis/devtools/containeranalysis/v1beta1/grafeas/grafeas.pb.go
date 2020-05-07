@@ -1567,8 +1567,10 @@ type GetVulnerabilityOccurrencesSummaryRequest struct {
 func (m *GetVulnerabilityOccurrencesSummaryRequest) Reset() {
 	*m = GetVulnerabilityOccurrencesSummaryRequest{}
 }
-func (m *GetVulnerabilityOccurrencesSummaryRequest) String() string { return proto.CompactTextString(m) }
-func (*GetVulnerabilityOccurrencesSummaryRequest) ProtoMessage()    {}
+func (m *GetVulnerabilityOccurrencesSummaryRequest) String() string {
+	return proto.CompactTextString(m)
+}
+func (*GetVulnerabilityOccurrencesSummaryRequest) ProtoMessage() {}
 func (*GetVulnerabilityOccurrencesSummaryRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_5865e5de1898162a, []int{22}
 }

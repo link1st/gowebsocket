@@ -226,13 +226,15 @@ type ApplyRecommendationOperation_MoveUnusedBudget struct {
 	MoveUnusedBudget *ApplyRecommendationOperation_MoveUnusedBudgetParameters `protobuf:"bytes,9,opt,name=move_unused_budget,json=moveUnusedBudget,proto3,oneof"`
 }
 
-func (*ApplyRecommendationOperation_CampaignBudget) isApplyRecommendationOperation_ApplyParameters() {}
+func (*ApplyRecommendationOperation_CampaignBudget) isApplyRecommendationOperation_ApplyParameters() {
+}
 
 func (*ApplyRecommendationOperation_TextAd) isApplyRecommendationOperation_ApplyParameters() {}
 
 func (*ApplyRecommendationOperation_Keyword) isApplyRecommendationOperation_ApplyParameters() {}
 
-func (*ApplyRecommendationOperation_TargetCpaOptIn) isApplyRecommendationOperation_ApplyParameters() {}
+func (*ApplyRecommendationOperation_TargetCpaOptIn) isApplyRecommendationOperation_ApplyParameters() {
+}
 
 func (*ApplyRecommendationOperation_CalloutExtension) isApplyRecommendationOperation_ApplyParameters() {
 }

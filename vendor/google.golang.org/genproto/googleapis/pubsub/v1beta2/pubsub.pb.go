@@ -1236,7 +1236,9 @@ func init() {
 	proto.RegisterType((*AcknowledgeRequest)(nil), "google.pubsub.v1beta2.AcknowledgeRequest")
 }
 
-func init() { proto.RegisterFile("google/pubsub/v1beta2/pubsub.proto", fileDescriptor_2b98a574e1e7c287) }
+func init() {
+	proto.RegisterFile("google/pubsub/v1beta2/pubsub.proto", fileDescriptor_2b98a574e1e7c287)
+}
 
 var fileDescriptor_2b98a574e1e7c287 = []byte{
 	// 1107 bytes of a gzipped FileDescriptorProto

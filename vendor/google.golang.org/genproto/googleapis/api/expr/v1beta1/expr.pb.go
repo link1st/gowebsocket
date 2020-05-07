@@ -951,7 +951,9 @@ func init() {
 	proto.RegisterType((*Literal)(nil), "google.api.expr.v1beta1.Literal")
 }
 
-func init() { proto.RegisterFile("google/api/expr/v1beta1/expr.proto", fileDescriptor_fb180304f2777248) }
+func init() {
+	proto.RegisterFile("google/api/expr/v1beta1/expr.proto", fileDescriptor_fb180304f2777248)
+}
 
 var fileDescriptor_fb180304f2777248 = []byte{
 	// 936 bytes of a gzipped FileDescriptorProto

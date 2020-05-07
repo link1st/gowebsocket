@@ -56,8 +56,10 @@ type ListNotificationChannelDescriptorsRequest struct {
 func (m *ListNotificationChannelDescriptorsRequest) Reset() {
 	*m = ListNotificationChannelDescriptorsRequest{}
 }
-func (m *ListNotificationChannelDescriptorsRequest) String() string { return proto.CompactTextString(m) }
-func (*ListNotificationChannelDescriptorsRequest) ProtoMessage()    {}
+func (m *ListNotificationChannelDescriptorsRequest) String() string {
+	return proto.CompactTextString(m)
+}
+func (*ListNotificationChannelDescriptorsRequest) ProtoMessage() {}
 func (*ListNotificationChannelDescriptorsRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_7e2bcd7194b305fe, []int{0}
 }

@@ -366,7 +366,9 @@ func init() {
 	proto.RegisterType((*QueryWriteStatusResponse)(nil), "google.bytestream.QueryWriteStatusResponse")
 }
 
-func init() { proto.RegisterFile("google/bytestream/bytestream.proto", fileDescriptor_657cab877f44cd08) }
+func init() {
+	proto.RegisterFile("google/bytestream/bytestream.proto", fileDescriptor_657cab877f44cd08)
+}
 
 var fileDescriptor_657cab877f44cd08 = []byte{
 	// 446 bytes of a gzipped FileDescriptorProto
