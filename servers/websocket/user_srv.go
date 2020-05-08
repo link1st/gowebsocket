@@ -114,7 +114,8 @@ func SendUserMessage(appId uint32, userId string, msgId, message string) (sendRe
 
 		return false, err
 	}
-	fmt.Println("给用户发送消息成功", msg)
+	fmt.Println("给用户发送消息成功-rpc", msg)
+	sendResults = true
 
 	return
 }
