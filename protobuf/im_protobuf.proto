@@ -15,7 +15,7 @@ service AccServer {
     // 发送消息
     rpc SendMsg (SendMsgReq) returns (SendMsgRsp) {
     }
-    // 发送消息
+    // 给这台机器的房间内所有用户发送消息
     rpc SendMsgAll (SendMsgAllReq) returns (SendMsgAllRsp) {
     }
     // 获取用户列表
