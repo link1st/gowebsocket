@@ -16,7 +16,7 @@ import (
 	"strconv"
 )
 
-// 查看用户是否在线
+// 聊天页面
 func Index(c *gin.Context) {
 
 	appIdStr := c.Query("appId")

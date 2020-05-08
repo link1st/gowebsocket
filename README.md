@@ -38,6 +38,20 @@
     - [4.1 项目说明](#41-项目说明)
     - [4.2 项目依赖](#42-项目依赖)
     - [4.3 项目启动](#43-项目启动)
+        - [4.4 接口文档](#44-接口文档)
+            - [4.4.1 HTTP接口文档](#441-HTTP接口文档)
+                - [4.4.1.1 接口说明](#4411-接口说明)
+                - [4.4.1.2 聊天页面](#4412-聊天页面)
+                - [4.4.1.3 获取房间用户列表](#4413-获取房间用户列表)
+                - [4.4.1.4 查询用户是否在线](#4414-查询用户是否在线)
+                - [4.4.1.5 给用户发送消息](#4415-给用户发送消息)
+                - [4.4.1.6 给全员用户发送消息](#4416-给全员用户发送消息)
+            - [4.4.2 RPC接口文档](#442-RPC接口文档)
+                - [4.4.2.1 接口说明](#4421-接口说明)
+                - [4.4.2.2 查询用户是否在线](#4422-查询用户是否在线)
+                - [4.4.2.3 发送消息](#4423-发送消息)
+                - [4.4.2.4 给指定房间所有用户发送消息](#4424-给指定房间所有用户发送消息)
+                - [4.4.2.5 获取房间内全部用户](#4425-获取房间内全部用户)
 - [5、webSocket项目Nginx配置](#5webSocket项目Nginx配置)
     - [5.1 为什么要配置Nginx](#51-为什么要配置Nginx)
     - [5.2 nginx配置](#52-nginx配置)
@@ -602,6 +616,260 @@ go run main.go
 - 进入IM聊天地址
 [http://127.0.0.1:8080/home/index](http://127.0.0.1:8080/home/index)
 - 到这里，就可以体验到基于webSocket的IM系统
+
+#### 4.4 接口文档 
+###### 4.4.1.1 接口说明
+##### 4.4.1 HTTP接口文档
+- 在接口开发和接口文档使用的过程中，规范开发流程，减少沟通成本，所以约定一下接口开发流程和文档说明
+- 接口地址
+
+ 线上:http://im.91vh.com
+
+ 测试:http://im.91vh.com
+
+
+###### 4.4.1.2 聊天页面
+- 地址:/home/index
+- 请求方式:GET
+- 接口说明:聊天页面
+- 请求参数:
+
+|  参数   |  必填   |  类型  |  说明   |  示例   |
+| :----: | :----: | :----: | :----: | :----: |
+| appId   |   是    | uint32 | appId/房间Id |   101      |
+
+- 返回参数:
+无
+
+
+###### 4.4.1.3 获取房间用户列表
+- 地址:/user/list
+- 请求方式:GET/POST
+- 接口说明:获取房间用户列表
+- 请求参数:
+
+|  参数   |  必填   |  类型  |  说明   |  示例   |
+| :----: | :----: | :----: | :----: | :----: |
+| appId   |   是    | uint32 | appId/房间Id |   101      |
+
+- 返回参数:
+
+|  参数   |  必填   |  类型  |  说明   |  示例   |
+| :----: | :----: | :----: | :----: | :----: |
+| code   |   是    | int   | 错误码  |   200  |
+| msg    |   是    | string| 错误信息 |Success |
+| data   |   是    | array | 返回数据 |        |
+| userCount   |   是    | int   | 房间内用户总数  |   1    |
+| userList| 是 | list  | 用户列表 |        |
+
+- 示例:
+
+```json
+{
+    "code": 200,
+    "msg": "Success",
+    "data": {
+        "userCount": 1,
+        "userList": [
+            "黄帝"
+        ]
+    }
+}
+```
+
+###### 4.4.1.4 查询用户是否在线
+- 地址:/user/online
+- 请求方式:GET/POST
+- 接口说明:查询用户是否在线
+- 请求参数:
+
+|  参数   |  必填   |  类型  |  说明   |  示例   |
+| :----: | :----: | :----: | :----: | :----: |
+| appId   |   是    | uint32 | appId/房间Id |   101      |
+| userId   |   是    | string | 用户Id |   黄帝     |
+
+- 返回参数:
+
+|  参数   |  必填   |  类型  |  说明   |  示例   |
+| :----: | :----: | :----: | :----: | :----: |
+| code   |   是    | int   | 错误码  |   200  |
+| msg    |   是    | string| 错误信息 |Success |
+| data   |   是    | array | 返回数据 |        |
+| online   |   是    | bool   | 发送结果 true:在线 false:不在线  |   true    |
+| userId   |   是    | string | 用户Id |   黄帝     |
+
+- 示例:
+
+```json
+{
+    "code": 200,
+    "msg": "Success",
+    "data": {
+        "online": true,
+        "userId": "黄帝"
+    }
+}
+```
+
+###### 4.4.1.5 给用户发送消息
+- 地址:/user/sendMessage
+- 请求方式:GET/POST
+- 接口说明:给用户发送消息
+- 请求参数:
+
+|  参数   |  必填   |  类型  |  说明   |  示例   |
+| :----: | :----: | :----: | :----: | :----: |
+| appId   |   是    | uint32 | appId/房间Id |   101      |
+| userId   |   是    | string | 用户id |   黄帝      |
+| message   |   是    | string | 消息内容 |   hello      |
+
+- 返回参数:
+
+|  参数   |  必填   |  类型  |  说明   |  示例   |
+| :----: | :----: | :----: | :----: | :----: |
+| code   |   是    | int   | 错误码  |   200  |
+| msg    |   是    | string| 错误信息 |Success |
+| data   |   是    | array | 返回数据 |        |
+| sendResults   |   是    | bool   | 发送结果 true:成功 false:失败  |   true    |
+
+- 示例:
+
+```json
+{
+    "code": 200,
+    "msg": "Success",
+    "data": {
+        "sendResults": true
+    }
+}
+```
+
+###### 4.4.1.6 给全员用户发送消息
+- 地址:/user/sendMessageAll
+- 请求方式:GET/POST
+- 接口说明:给全员用户发送消息
+- 请求参数:
+
+|  参数   |  必填   |  类型  |  说明   |  示例   |
+| :----: | :----: | :----: | :----: | :----: |
+| appId   |   是    | uint32 | appId/房间Id |   101      |
+| userId   |   是    | string | 用户id |   黄帝      |
+| msgId   |   是    | string | 消息Id |   避免重复发送      |
+| message   |   是    | string | 消息内容 |   hello      |
+
+- 返回参数:
+
+|  参数   |  必填   |  类型  |  说明   |  示例   |
+| :----: | :----: | :----: | :----: | :----: |
+| code   |   是    | int   | 错误码  |   200  |
+| msg    |   是    | string| 错误信息 |Success |
+| data   |   是    | array | 返回数据 |        |
+| sendResults   |   是    | bool   | 发送结果 true:成功 false:失败  |   true    |
+
+- 示例:
+
+```json
+{
+    "code": 200,
+    "msg": "Success",
+    "data": {
+        "sendResults": true
+    }
+}
+```
+
+##### 4.4.2 RPC接口文档
+###### 4.4.2.1 接口说明
+- 接口协议结构体
+```proto
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.protobuf";
+option java_outer_classname = "ProtobufProto";
+
+
+package protobuf;
+
+// The AccServer service definition.
+service AccServer {
+    // 查询用户是否在线
+    rpc QueryUsersOnline (QueryUsersOnlineReq) returns (QueryUsersOnlineRsp) {
+    }
+    // 发送消息
+    rpc SendMsg (SendMsgReq) returns (SendMsgRsp) {
+    }
+    // 发送消息
+    rpc SendMsgAll (SendMsgAllReq) returns (SendMsgAllRsp) {
+    }
+    // 获取用户列表
+    rpc GetUserList (GetUserListReq) returns (GetUserListRsp) {
+    }
+}
+
+// 查询用户是否在线
+message QueryUsersOnlineReq {
+    uint32 appId = 1; // AppID
+    string userId = 2; // 用户ID
+}
+
+message QueryUsersOnlineRsp {
+    uint32 retCode = 1;
+    string errMsg = 2;
+    bool online = 3;
+}
+
+// 发送消息
+message SendMsgReq {
+    string seq = 1; // 序列号
+    uint32 appId = 2; // appId/房间Id
+    string userId = 3; // 用户ID
+    string cms = 4; // cms 动作: msg/enter/exit
+    string type = 5; // type 消息类型，默认是 text
+    string msg = 6; // msg
+    bool isLocal = 7; // 是否查询本机 acc内部调用为:true(本机查询不到即结束)
+}
+
+message SendMsgRsp {
+    uint32 retCode = 1;
+    string errMsg = 2;
+    string sendMsgId = 3;
+}
+
+// 给这台机器的房间内所有用户发送消息
+message SendMsgAllReq {
+    string seq = 1; // 序列号
+    uint32 appId = 2; // appId/房间Id
+    string userId = 3; // 不发送的用户ID
+    string cms = 4; // cms 动作: msg/enter/exit
+    string type = 5; // type 消息类型，默认是 text
+    string msg = 6; // msg
+}
+
+message SendMsgAllRsp {
+    uint32 retCode = 1;
+    string errMsg = 2;
+    string sendMsgId = 3;
+}
+
+// 获取用户列表
+message GetUserListReq {
+    uint32 appId = 1;
+}
+
+message GetUserListRsp {
+    uint32 retCode = 1;
+    string errMsg = 2;
+    repeated string userId = 3;
+}
+```
+
+###### 4.4.2.2 查询用户是否在线
+- 参考上述协议结构体
+
+###### 4.4.2.3 发送消息
+###### 4.4.2.4 给指定房间所有用户发送消息
+###### 4.4.2.5 获取房间内全部用户
 
 ## 5、webSocket项目Nginx配置
 ### 5.1 为什么要配置Nginx

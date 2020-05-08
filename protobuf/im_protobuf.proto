@@ -38,7 +38,7 @@ message QueryUsersOnlineRsp {
 // 发送消息
 message SendMsgReq {
     string seq = 1; // 序列号
-    uint32 appId = 2; // 用户ID
+    uint32 appId = 2; // appId/房间Id
     string userId = 3; // 用户ID
     string cms = 4; // cms 动作: msg/enter/exit
     string type = 5; // type 消息类型，默认是 text
@@ -52,11 +52,11 @@ message SendMsgRsp {
     string sendMsgId = 3;
 }
 
-// 发送消息
+// 给这台机器的房间内所有用户发送消息
 message SendMsgAllReq {
     string seq = 1; // 序列号
-    uint32 appId = 2; // 用户ID
-    string userId = 3; // 用户ID
+    uint32 appId = 2; // appId/房间Id
+    string userId = 3; // 不发送的用户ID
     string cms = 4; // cms 动作: msg/enter/exit
     string type = 5; // type 消息类型，默认是 text
     string msg = 6; // msg
