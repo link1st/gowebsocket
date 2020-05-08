@@ -930,7 +930,6 @@ server {
 }
 ```
 
-
 ### 5.3 问题处理
 - 运行nginx测试命令，查看配置文件是否正确
 
@@ -976,7 +975,6 @@ http{
 
 被压测服务器需要保持100W长连接，客户和服务器端是通过socket通讯的，每个连接需要建立一个socket，程序需要保持100W长连接就需要单个程序能打开100W个文件句柄
 
-
 ```
 # 查看系统默认的值
 ulimit -n
@@ -1011,7 +1009,6 @@ root hard core unlimited
 - 修改系统级别文件句柄数量
 
 file-max的值需要大于limits设置的值
-
 
 ```
 # file-max 设置的值参考
@@ -1078,11 +1075,9 @@ net.ipv4.tcp_wmem = 4096 4096 16777216
 
 ![用户连接时序图](https://img.mukewang.com/5de5d6bf00011c8e08740728.png)
 
-
 - 其它系统(IM、任务)向webSocket(acc)系统连接的用户发送消息时序图
 
 ![分布是系统随机给用户发送消息](https://img.mukewang.com/5d4e56f70001e91711730688.png)
-
 
 ### 7.3 分布式系统部署
 - 用水平部署两个项目(gowebsocket和gowebsocket1)演示分部署
@@ -1187,8 +1182,6 @@ IM实现细节:
 - 定义加入聊天室的消息结构 完成
 - 引入机器人 待定
 
-
-
 ### 8.2 需要完善、优化
 - 登录，使用微信登录 获取昵称、头像等
 - 有账号系统、资料系统
@@ -1224,7 +1217,6 @@ github 搜:link1st 查看项目 gowebsocket
 <p align="center">
      <img border="0" src="https://img.mukewang.com/5eb376b60001ddc208300832.png" alt="添加link1st的微信" width="200"/>
 </p>
-
 
 ### 赞助商
 
