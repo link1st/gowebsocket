@@ -182,16 +182,16 @@ func (manager *ClientManager) GetUserList(appId uint32) (userList []string) {
 
 	userList = make([]string, 0)
 
-	clientManager.UserLock.RLock()
-	defer clientManager.UserLock.RUnlock()
+	manager.UserLock.RLock()
+	defer manager.UserLock.RUnlock()
 
-	for _, v := range clientManager.Users {
+	for _, v := range manager.Users {
 		if v.AppId == appId {
 			userList = append(userList, v.UserId)
 		}
 	}
 
-	fmt.Println("GetUserList len:", len(clientManager.Users))
+	fmt.Println("GetUserList len:", len(manager.Users))
 
 	return
 }
