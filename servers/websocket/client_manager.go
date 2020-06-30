@@ -321,12 +321,12 @@ func (manager *ClientManager) start() {
 func GetManagerInfo(isDebug string) (managerInfo map[string]interface{}) {
 	managerInfo = make(map[string]interface{})
 
-	managerInfo["clientsLen"] = clientManager.GetClientsLen()
-	managerInfo["usersLen"] = clientManager.GetUsersLen()
-	managerInfo["chanRegisterLen"] = len(clientManager.Register)
-	managerInfo["chanLoginLen"] = len(clientManager.Login)
-	managerInfo["chanUnregisterLen"] = len(clientManager.Unregister)
-	managerInfo["chanBroadcastLen"] = len(clientManager.Broadcast)
+	managerInfo["clientsLen"] = clientManager.GetClientsLen()        // 客户端连接数
+	managerInfo["usersLen"] = clientManager.GetUsersLen()            // 登录用户数
+	managerInfo["chanRegisterLen"] = len(clientManager.Register)     // 未处理连接事件数
+	managerInfo["chanLoginLen"] = len(clientManager.Login)           // 未处理登录事件数
+	managerInfo["chanUnregisterLen"] = len(clientManager.Unregister) // 未处理退出登录事件数
+	managerInfo["chanBroadcastLen"] = len(clientManager.Broadcast)   // 未处理广播事件数
 
 	if isDebug == "true" {
 		addrList := make([]string, 0)
@@ -338,8 +338,8 @@ func GetManagerInfo(isDebug string) (managerInfo map[string]interface{}) {
 
 		users := clientManager.GetUserKeys()
 
-		managerInfo["clients"] = addrList
-		managerInfo["users"] = users
+		managerInfo["clients"] = addrList // 客户端列表
+		managerInfo["users"] = users      // 登录用户列表
 	}
 
 	return
