@@ -874,6 +874,7 @@ message GetUserListRsp {
 ## 5、webSocket项目Nginx配置
 ### 5.1 为什么要配置Nginx
 - 使用nginx实现内外网分离，对外只暴露Nginx的Ip(一般的互联网企业会在nginx之前加一层LVS做负载均衡)，减少入侵的可能
+- 支持配置 ssl 证书，使用 `wss` 的方式实现数据加密，减少数据被抓包和篡改的可能性
 - 使用Nginx可以利用Nginx的负载功能，前端再使用的时候只需要连接固定的域名，通过Nginx将流量分发了到不同的机器
 - 同时我们也可以使用Nginx的不同的负载策略(轮询、weight、ip_hash)
 
