@@ -102,7 +102,7 @@ func ProcessData(client *Client, message []byte) {
 
 	client.SendMsg(headByte)
 
-	fmt.Println("acc_response send", client.Addr, client.AppId, client.UserId, "cmd", cmd, "code", code)
+	fmt.Println("acc_response send", client.Addr, client.AppID, client.UserID, "cmd", cmd, "code", code)
 
 	return
 }

@@ -14,6 +14,7 @@ import (
 	"gowebsocket/controllers/user"
 )
 
+// Init init
 func Init(router *gin.Engine) {
 	router.LoadHTMLGlob("views/**/*")
 
@@ -23,7 +24,7 @@ func Init(router *gin.Engine) {
 		userRouter.GET("/list", user.List)
 		userRouter.GET("/online", user.Online)
 		userRouter.POST("/sendMessage", user.SendMessage)
-		userRouter.POST("/sendMessageAll", user.SendMessageAll)
+		userRouter.POST("/sendRoomMessage", user.SendRoomMessage)
 	}
 
 	// 系统
@@ -37,6 +38,4 @@ func Init(router *gin.Engine) {
 	{
 		homeRouter.GET("/index", home.Index)
 	}
-
-	// router.POST("/user/online", user.Online)
 }

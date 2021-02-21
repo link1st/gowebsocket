@@ -53,7 +53,7 @@ func GetUserOnlineInfo(userKey string) (userOnline *models.UserOnline, err error
 		return
 	}
 
-	fmt.Println("获取用户在线数据", userKey, "time", userOnline.LoginTime, userOnline.HeartbeatTime, "AccIp", userOnline.AccIp, userOnline.IsLogoff)
+	fmt.Println("获取用户在线数据", userKey, "time", userOnline.LoginTime, userOnline.HeartbeatTime, "AccIP", userOnline.AccIP, userOnline.IsLogoff)
 
 	return
 }

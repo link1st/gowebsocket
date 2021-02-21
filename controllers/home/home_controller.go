@@ -11,26 +11,21 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
+	"gowebsocket/helper"
 	"gowebsocket/servers/websocket"
 	"net/http"
-	"strconv"
 )
 
-// 聊天页面
+// Index 聊天页面
 func Index(c *gin.Context) {
-
-	appIdStr := c.Query("appId")
-	appIdUint64, _ := strconv.ParseInt(appIdStr, 10, 32)
-	appId := uint32(appIdUint64)
-	if !websocket.InAppIds(appId) {
-		appId = websocket.GetDefaultAppId()
+	appID := helper.StrToUint32(c.Query("appID"))
+	if !websocket.InAppIDs(appID) {
+		appID = websocket.GetDefaultAppID()
 	}
-
-	fmt.Println("http_request 聊天首页", appId)
-
+	fmt.Println("http_request 聊天首页", appID)
 	data := gin.H{
 		"title":        "聊天首页",
-		"appId":        appId,
+		"appID":        appID,
 		"httpUrl":      viper.GetString("app.httpUrl"),
 		"webSocketUrl": viper.GetString("app.webSocketUrl"),
 	}

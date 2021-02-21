@@ -36,33 +36,33 @@ func NewTestMsg(from string, Msg string) (message *Message) {
 	return
 }
 
-func getTextMsgData(cmd, uuId, msgId, message string) string {
-	textMsg := NewTestMsg(uuId, message)
-	head := NewResponseHead(msgId, cmd, common.OK, "Ok", textMsg)
+func getTextMsgData(cmd, uuID, msgID, message string) string {
+	textMsg := NewTestMsg(uuID, message)
+	head := NewResponseHead(msgID, cmd, common.OK, "Ok", textMsg)
 
 	return head.String()
 }
 
 // 文本消息
-func GetMsgData(uuId, msgId, cmd, message string) string {
+func GetMsgData(uuID, msgID, cmd, message string) string {
 
-	return getTextMsgData(cmd, uuId, msgId, message)
+	return getTextMsgData(cmd, uuID, msgID, message)
 }
 
 // 文本消息
-func GetTextMsgData(uuId, msgId, message string) string {
+func GetTextMsgData(uuID, msgID, message string) string {
 
-	return getTextMsgData("msg", uuId, msgId, message)
+	return getTextMsgData("msg", uuID, msgID, message)
 }
 
 // 用户进入消息
-func GetTextMsgDataEnter(uuId, msgId, message string) string {
+func GetTextMsgDataEnter(uuID, msgID, message string) string {
 
-	return getTextMsgData("enter", uuId, msgId, message)
+	return getTextMsgData("enter", uuID, msgID, message)
 }
 
 // 用户退出消息
-func GetTextMsgDataExit(uuId, msgId, message string) string {
+func GetTextMsgDataExit(uuID, msgID, message string) string {
 
-	return getTextMsgData("exit", uuId, msgId, message)
+	return getTextMsgData("exit", uuID, msgID, message)
 }

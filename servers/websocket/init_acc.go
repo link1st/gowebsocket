@@ -18,41 +18,41 @@ import (
 )
 
 const (
-	defaultAppId = 101 // 默认平台Id
+	defaultAppID = 101 // 默认平台ID
 )
 
 var (
 	clientManager = NewClientManager()                    // 管理者
-	appIds        = []uint32{defaultAppId, 102, 103, 104} // 全部的平台
+	appIDs        = []uint32{defaultAppID, 102, 103, 104} // 全部的平台
 
-	serverIp   string
+	serverIP   string
 	serverPort string
 )
 
-func GetAppIds() []uint32 {
+func GetAppIDs() []uint32 {
 
-	return appIds
+	return appIDs
 }
 
 func GetServer() (server *models.Server) {
-	server = models.NewServer(serverIp, serverPort)
+	server = models.NewServer(serverIP, serverPort)
 
 	return
 }
 
 func IsLocal(server *models.Server) (isLocal bool) {
-	if server.Ip == serverIp && server.Port == serverPort {
+	if server.IP == serverIP && server.Port == serverPort {
 		isLocal = true
 	}
 
 	return
 }
 
-func InAppIds(appId uint32) (inAppId bool) {
+func InAppIDs(appID uint32) (inAppID bool) {
 
-	for _, value := range appIds {
-		if value == appId {
-			inAppId = true
+	for _, value := range appIDs {
+		if value == appID {
+			inAppID = true
 
 			return
 		}
@@ -61,8 +61,8 @@ func InAppIds(appId uint32) (inAppId bool) {
 	return
 }
 
-func GetDefaultAppId() (appId uint32) {
-	appId = defaultAppId
+func GetDefaultAppID() (appID uint32) {
+	appID = defaultAppID
 
 	return
 }
@@ -70,7 +70,7 @@ func GetDefaultAppId() (appId uint32) {
 // 启动程序
 func StartWebSocket() {
 
-	serverIp = helper.GetServerIp()
+	serverIP = helper.GetServerIp()
 
 	webSocketPort := viper.GetString("app.webSocketPort")
 	rpcPort := viper.GetString("app.rpcPort")
@@ -81,7 +81,7 @@ func StartWebSocket() {
 
 	// 添加处理程序
 	go clientManager.start()
-	fmt.Println("WebSocket 启动程序成功", serverIp, serverPort)
+	fmt.Println("WebSocket 启动程序成功", serverIP, serverPort)
 
 	http.ListenAndServe(":"+webSocketPort, nil)
 }

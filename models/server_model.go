@@ -14,13 +14,13 @@ import (
 )
 
 type Server struct {
-	Ip   string `json:"ip"`   // ip
+	IP   string `json:"ip"`   // ip
 	Port string `json:"port"` // 端口
 }
 
 func NewServer(ip string, port string) *Server {
 
-	return &Server{Ip: ip, Port: port}
+	return &Server{IP: ip, Port: port}
 }
 
 func (s *Server) String() (str string) {
@@ -28,7 +28,7 @@ func (s *Server) String() (str string) {
 		return
 	}
 
-	str = fmt.Sprintf("%s:%s", s.Ip, s.Port)
+	str = fmt.Sprintf("%s:%s", s.IP, s.Port)
 
 	return
 }
@@ -41,7 +41,7 @@ func StringToServer(str string) (server *Server, err error) {
 	}
 
 	server = &Server{
-		Ip:   list[0],
+		IP:   list[0],
 		Port: list[1],
 	}
 
