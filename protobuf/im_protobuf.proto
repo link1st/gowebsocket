@@ -1,5 +1,6 @@
 syntax = "proto3";
 
+option go_package = "../protobuf";
 option java_multiple_files = true;
 option java_package = "io.grpc.examples.protobuf";
 option java_outer_classname = "ProtobufProto";
@@ -10,23 +11,19 @@ package protobuf;
 // The AccServer service definition.
 service AccServer {
     // 查询用户是否在线
-    rpc QueryUsersOnline (QueryUsersOnlineReq) returns (QueryUsersOnlineRsp) {
-    }
+    rpc QueryUsersOnline (QueryUsersOnlineReq) returns (QueryUsersOnlineRsp){}
     // 发送消息
-    rpc SendMsg (SendMsgReq) returns (SendMsgRsp) {
-    }
-    // 给这台机器的房间内所有用户发送消息
-    rpc SendMsgAll (SendMsgAllReq) returns (SendMsgAllRsp) {
-    }
+    rpc SendMsg (SendMsgReq) returns (SendMsgRsp){}
+    // 发送群消息
+    rpc SendRoomMsg (SendRoomMsgReq) returns (SendRoomMsgRsp){}
     // 获取用户列表
-    rpc GetUserList (GetUserListReq) returns (GetUserListRsp) {
-    }
+    rpc GetUserList (GetUserListReq) returns (GetUserListRsp){}
 }
 
 // 查询用户是否在线
 message QueryUsersOnlineReq {
-    uint32 appId = 1; // AppID
-    string userId = 2; // 用户ID
+    uint32 appID = 1; // appID
+    string userID = 2; // userID
 }
 
 message QueryUsersOnlineRsp {
@@ -38,43 +35,46 @@ message QueryUsersOnlineRsp {
 // 发送消息
 message SendMsgReq {
     string seq = 1; // 序列号
-    uint32 appId = 2; // appId/房间Id
-    string userId = 3; // 用户ID
-    string cms = 4; // cms 动作: msg/enter/exit
-    string type = 5; // type 消息类型，默认是 text
-    string msg = 6; // msg
-    bool isLocal = 7; // 是否查询本机 acc内部调用为:true(本机查询不到即结束)
+    uint32 appID = 2; // appID
+    string sendUserID = 3; // 发送者用户ID
+    string userID = 4; // 接收者用户ID
+    string cms = 5; // cms 动作: msg/enter/exit
+    string type = 6; // type 消息类型，默认是 text
+    string msg = 7; // msg
+    bool isLocal = 8; // 是否查询本机 acc内部调用为:true(本机查询不到即结束)
 }
 
 message SendMsgRsp {
     uint32 retCode = 1;
     string errMsg = 2;
-    string sendMsgId = 3;
+    string sendMsgID = 3; // 消息ID
 }
 
 // 给这台机器的房间内所有用户发送消息
-message SendMsgAllReq {
+message SendRoomMsgReq {
     string seq = 1; // 序列号
-    uint32 appId = 2; // appId/房间Id
-    string userId = 3; // 不发送的用户ID
-    string cms = 4; // cms 动作: msg/enter/exit
-    string type = 5; // type 消息类型，默认是 text
-    string msg = 6; // msg
+    uint32 appID = 2; // appID
+    uint32 roomID = 3; // roomID
+    string userID = 4; // 发送者ID
+    string cms = 5; // cms 动作: msg/enter/exit
+    string type = 6; // type 消息类型，默认是 text
+    string msg = 7; // msg
 }
 
-message SendMsgAllRsp {
+message SendRoomMsgRsp {
     uint32 retCode = 1;
     string errMsg = 2;
-    string sendMsgId = 3;
+    string sendMsgID = 3;
 }
 
 // 获取用户列表
 message GetUserListReq {
-    uint32 appId = 1;
+    uint32 appID = 1; // appID
+    uint32 roomID = 2; // 房间ID 不填，则获取整个APP的用户
 }
 
 message GetUserListRsp {
     uint32 retCode = 1;
     string errMsg = 2;
-    repeated string userId = 3;
+    repeated string userID = 3;
 }
