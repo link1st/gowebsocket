@@ -9,12 +9,14 @@ package websocket
 
 import (
 	"fmt"
-	"github.com/gorilla/websocket"
-	"github.com/spf13/viper"
-	"gowebsocket/helper"
-	"gowebsocket/models"
 	"net/http"
 	"time"
+
+	"gowebsocket/helper"
+	"gowebsocket/models"
+
+	"github.com/gorilla/websocket"
+	"github.com/spf13/viper"
 )
 
 const (
