@@ -106,7 +106,10 @@ func SendUserMessage(appId uint32, userId string, msgId, message string) (sendRe
 
 		return false, nil
 	}
-
+	if !info.IsOnline() {
+		fmt.Println("用户不在线", key)
+		return false, nil
+	}
 	server := models.NewServer(info.AccIp, info.AccPort)
 	msg, err := grpcclient.SendMsg(server, msgId, appId, userId, models.MessageCmdMsg, models.MessageCmdMsg, message)
 	if err != nil {
