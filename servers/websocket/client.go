@@ -9,8 +9,9 @@ package websocket
 
 import (
 	"fmt"
-	"github.com/gorilla/websocket"
 	"runtime/debug"
+
+	"github.com/gorilla/websocket"
 )
 
 const (
@@ -37,6 +38,7 @@ type Client struct {
 	Addr          string          // 客户端地址
 	Socket        *websocket.Conn // 用户连接
 	Send          chan []byte     // 待发送的数据
+	SendClose     bool            // 发送是否关闭
 	AppId         uint32          // 登录的平台Id app/web/ios
 	UserId        string          // 用户Id，用户登录以后才有
 	FirstTime     uint64          // 首次连接事件
@@ -50,6 +52,7 @@ func NewClient(addr string, socket *websocket.Conn, firstTime uint64) (client *C
 		Addr:          addr,
 		Socket:        socket,
 		Send:          make(chan []byte, 100),
+		SendClose:     false,
 		FirstTime:     firstTime,
 		HeartbeatTime: firstTime,
 	}
@@ -74,7 +77,7 @@ func (c *Client) read() {
 
 	defer func() {
 		fmt.Println("读取客户端数据 关闭send", c)
-		close(c.Send)
+		c.close()
 	}()
 
 	for {
@@ -123,12 +126,12 @@ func (c *Client) write() {
 
 // 读取客户端数据
 func (c *Client) SendMsg(msg []byte) {
-
 	if c == nil {
-
 		return
 	}
-
+	if c.SendClose {
+		return
+	}
 	defer func() {
 		if r := recover(); r != nil {
 			fmt.Println("SendMsg stop:", r, string(debug.Stack()))
@@ -140,7 +143,11 @@ func (c *Client) SendMsg(msg []byte) {
 
 // 读取客户端数据
 func (c *Client) close() {
+	if c.SendClose {
+		return
+	}
 	close(c.Send)
+	c.SendClose = true
 }
 
 // 用户登录

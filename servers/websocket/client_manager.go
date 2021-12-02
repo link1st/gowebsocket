@@ -9,11 +9,12 @@ package websocket
 
 import (
 	"fmt"
+	"sync"
+	"time"
+
 	"gowebsocket/helper"
 	"gowebsocket/lib/cache"
 	"gowebsocket/models"
-	"sync"
-	"time"
 )
 
 // 连接管理
@@ -306,11 +307,7 @@ func (manager *ClientManager) start() {
 			// 广播事件
 			clients := manager.GetClients()
 			for conn := range clients {
-				select {
-				case conn.Send <- message:
-				default:
-					close(conn.Send)
-				}
+				conn.SendMsg(message)
 			}
 		}
 	}
