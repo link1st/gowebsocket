@@ -79,7 +79,7 @@
 使用golang实现websocket通讯，单机支持百万连接，使用gin框架、nginx负载、可以水平部署、程序内部相互通讯、使用grpc通讯协议。
 
 - 一般项目中webSocket使用的架构图
-![网站架构图](https://link1st-github-img.oss-cn-beijing.aliyuncs.com/img/img/网站架构图.jpeg)
+![网站架构图](https://link1st-github-img.oss-cn-beijing.aliyuncs.com/img/img/%E7%BD%91%E7%AB%99%E6%9E%B6%E6%9E%84%E5%9B%BE.png)
 
 #### 1.2 项目体验
 - [项目地址 gowebsocket](https://github.com/link1st/gowebsocket)
