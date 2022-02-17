@@ -177,7 +177,7 @@ Upgrade: websocket
 ### 3.1 使用go实现webSocket服务端
 
 #### 3.1.1 启动端口监听
-- websocket需要监听端口，所以需要在`golang` 成功的 `main` 函数中用协程的方式去启动程序
+- websocket需要监听端口，所以需要在`golang` 程序的 `main` 函数中用协程的方式去启动程序
 - **main.go** 实现启动
 
 ```
