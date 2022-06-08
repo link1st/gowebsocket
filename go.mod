@@ -1,6 +1,6 @@
 module gowebsocket
 
-go 1.14
+go 1.17
 
 require (
 	github.com/fsnotify/fsnotify v1.4.8-0.20190312181446-1485a34d5d57 // indirect
