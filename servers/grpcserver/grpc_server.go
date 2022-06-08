@@ -10,18 +10,21 @@ package grpcserver
 import (
 	"context"
 	"fmt"
-	"github.com/golang/protobuf/proto"
-	"github.com/spf13/viper"
-	"google.golang.org/grpc"
+	"log"
+	"net"
+
 	"gowebsocket/common"
 	"gowebsocket/models"
 	"gowebsocket/protobuf"
 	"gowebsocket/servers/websocket"
-	"log"
-	"net"
+
+	"github.com/golang/protobuf/proto"
+	"github.com/spf13/viper"
+	"google.golang.org/grpc"
 )
 
 type server struct {
+	protobuf.UnimplementedAccServerServer
 }
 
 func setErr(rsp proto.Message, code uint32, message string) {
@@ -47,7 +50,8 @@ func setErr(rsp proto.Message, code uint32, message string) {
 }
 
 // 查询用户是否在线
-func (s *server) QueryUsersOnline(c context.Context, req *protobuf.QueryUsersOnlineReq) (rsp *protobuf.QueryUsersOnlineRsp, err error) {
+func (s *server) QueryUsersOnline(c context.Context,
+	req *protobuf.QueryUsersOnlineReq) (rsp *protobuf.QueryUsersOnlineRsp, err error) {
 
 	fmt.Println("grpc_request 查询用户是否在线", req.String())
 
@@ -116,7 +120,8 @@ func (s *server) SendMsgAll(c context.Context, req *protobuf.SendMsgAllReq) (rsp
 }
 
 // 获取本机用户列表
-func (s *server) GetUserList(c context.Context, req *protobuf.GetUserListReq) (rsp *protobuf.GetUserListRsp, err error) {
+func (s *server) GetUserList(c context.Context, req *protobuf.GetUserListReq) (rsp *protobuf.GetUserListRsp,
+	err error) {
 
 	fmt.Println("grpc_request 获取本机用户列表", req.String())
 

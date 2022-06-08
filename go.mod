@@ -22,7 +22,8 @@ require (
 	github.com/spf13/viper v1.4.1-0.20190728125013-1b33e8258e07
 	github.com/subosito/gotenv v1.1.1 // indirect
 	github.com/ugorji/go v1.2.6 // indirect
-	google.golang.org/grpc v1.21.0
-	google.golang.org/protobuf v1.27.1 // indirect
+	golang.org/x/net v0.0.0-20220607020251-c690dde0001d // indirect
+	google.golang.org/genproto v0.0.0-20220607223854-30acc4cbd2aa // indirect
+	google.golang.org/grpc v1.47.0
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
