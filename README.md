@@ -721,6 +721,7 @@ go run main.go
 | :----: | :----: | :----: | :----: | :----: |
 | appId   |   是    | uint32 | appId/房间Id |   101      |
 | userId   |   是    | string | 用户id |   黄帝      |
+| msgId   |   是    | string | 消息Id |   避免重复发送      |
 | message   |   是    | string | 消息内容 |   hello      |
 
 - 返回参数:
