@@ -25,7 +25,7 @@ type login struct {
 	Client *Client
 }
 
-// 读取客户端数据
+// GetKey 获取 key 
 func (l *login) GetKey() (key string) {
 	key = GetUserKey(l.AppId, l.UserId)
 
@@ -57,7 +57,7 @@ func NewClient(addr string, socket *websocket.Conn, firstTime uint64) (client *C
 	return
 }
 
-// 读取客户端数据
+// GetKey 获取 key
 func (c *Client) GetKey() (key string) {
 	key = GetUserKey(c.AppId, c.UserId)
 
@@ -121,7 +121,7 @@ func (c *Client) write() {
 	}
 }
 
-// 读取客户端数据
+// SendMsg 发送数据
 func (c *Client) SendMsg(msg []byte) {
 
 	if c == nil {
@@ -138,7 +138,7 @@ func (c *Client) SendMsg(msg []byte) {
 	c.Send <- msg
 }
 
-// 读取客户端数据
+// close 关闭客户端连接
 func (c *Client) close() {
 	close(c.Send)
 }
