@@ -13,10 +13,10 @@ import (
 	"log"
 	"net"
 
-	"gowebsocket/common"
-	"gowebsocket/models"
-	"gowebsocket/protobuf"
-	"gowebsocket/servers/websocket"
+	"github.com/link1st/gowebsocket/common"
+	"github.com/link1st/gowebsocket/models"
+	"github.com/link1st/gowebsocket/protobuf"
+	"github.com/link1st/gowebsocket/servers/websocket"
 
 	"github.com/golang/protobuf/proto"
 	"github.com/spf13/viper"

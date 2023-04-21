@@ -10,11 +10,13 @@ package websocket
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/go-redis/redis"
-	"gowebsocket/common"
-	"gowebsocket/lib/cache"
-	"gowebsocket/models"
 	"time"
+
+	"github.com/link1st/gowebsocket/common"
+	"github.com/link1st/gowebsocket/lib/cache"
+	"github.com/link1st/gowebsocket/models"
+
+	"github.com/redis/go-redis/v9"
 )
 
 // ping

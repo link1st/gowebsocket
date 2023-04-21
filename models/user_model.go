@@ -35,7 +35,8 @@ type UserOnline struct {
 /**********************  数据处理  *********************************/
 
 // 用户登录
-func UserLogin(accIp, accPort string, appId uint32, userId string, addr string, loginTime uint64) (userOnline *UserOnline) {
+func UserLogin(accIp, accPort string, appId uint32, userId string, addr string,
+	loginTime uint64) (userOnline *UserOnline) {
 
 	userOnline = &UserOnline{
 		AccIp:         accIp,

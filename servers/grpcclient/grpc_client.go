@@ -11,19 +11,23 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"google.golang.org/grpc"
-	"gowebsocket/common"
-	"gowebsocket/models"
-	"gowebsocket/protobuf"
 	"time"
+
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+
+	"github.com/link1st/gowebsocket/common"
+	"github.com/link1st/gowebsocket/models"
+	"github.com/link1st/gowebsocket/protobuf"
 )
 
 // rpc client
 // 给全体用户发送消息
 // link::https://github.com/grpc/grpc-go/blob/master/examples/helloworld/greeter_client/main.go
-func SendMsgAll(server *models.Server, seq string, appId uint32, userId string, cmd string, message string) (sendMsgId string, err error) {
+func SendMsgAll(server *models.Server, seq string, appId uint32, userId string, cmd string,
+	message string) (sendMsgId string, err error) {
 	// Set up a connection to the server.
-	conn, err := grpc.Dial(server.String(), grpc.WithInsecure())
+	conn, err := grpc.Dial(server.String(), grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		fmt.Println("连接失败", server.String())
 
@@ -67,7 +71,7 @@ func SendMsgAll(server *models.Server, seq string, appId uint32, userId string, 
 func GetUserList(server *models.Server, appId uint32) (userIds []string, err error) {
 	userIds = make([]string, 0)
 
-	conn, err := grpc.Dial(server.String(), grpc.WithInsecure())
+	conn, err := grpc.Dial(server.String(), grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		fmt.Println("连接失败", server.String())
 
@@ -105,9 +109,10 @@ func GetUserList(server *models.Server, appId uint32) (userIds []string, err err
 // rpc client
 // 发送消息
 // link::https://github.com/grpc/grpc-go/blob/master/examples/helloworld/greeter_client/main.go
-func SendMsg(server *models.Server, seq string, appId uint32, userId string, cmd string, msgType string, message string) (sendMsgId string, err error) {
+func SendMsg(server *models.Server, seq string, appId uint32, userId string, cmd string, msgType string,
+	message string) (sendMsgId string, err error) {
 	// Set up a connection to the server.
-	conn, err := grpc.Dial(server.String(), grpc.WithInsecure())
+	conn, err := grpc.Dial(server.String(), grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		fmt.Println("连接失败", server.String())
 

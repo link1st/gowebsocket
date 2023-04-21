@@ -8,11 +8,14 @@
 package cache
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/go-redis/redis"
-	"gowebsocket/lib/redislib"
-	"gowebsocket/models"
+
+	"github.com/link1st/gowebsocket/lib/redislib"
+	"github.com/link1st/gowebsocket/models"
+
+	"github.com/redis/go-redis/v9"
 )
 
 const (
@@ -32,7 +35,7 @@ func GetUserOnlineInfo(userKey string) (userOnline *models.UserOnline, err error
 
 	key := getUserOnlineKey(userKey)
 
-	data, err := redisClient.Get(key).Bytes()
+	data, err := redisClient.Get(context.Background(), key).Bytes()
 	if err != nil {
 		if err == redis.Nil {
 			fmt.Println("GetUserOnlineInfo", userKey, err)
@@ -53,7 +56,8 @@ func GetUserOnlineInfo(userKey string) (userOnline *models.UserOnline, err error
 		return
 	}
 
-	fmt.Println("获取用户在线数据", userKey, "time", userOnline.LoginTime, userOnline.HeartbeatTime, "AccIp", userOnline.AccIp, userOnline.IsLogoff)
+	fmt.Println("获取用户在线数据", userKey, "time", userOnline.LoginTime, userOnline.HeartbeatTime, "AccIp",
+		userOnline.AccIp, userOnline.IsLogoff)
 
 	return
 }
@@ -71,7 +75,7 @@ func SetUserOnlineInfo(userKey string, userOnline *models.UserOnline) (err error
 		return
 	}
 
-	_, err = redisClient.Do("setEx", key, userOnlineCacheTime, string(valueByte)).Result()
+	_, err = redisClient.Do(context.Background(), "setEx", key, userOnlineCacheTime, string(valueByte)).Result()
 	if err != nil {
 		fmt.Println("设置用户在线数据 ", key, err)
 

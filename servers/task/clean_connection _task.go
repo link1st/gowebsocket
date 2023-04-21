@@ -9,9 +9,10 @@ package task
 
 import (
 	"fmt"
-	"gowebsocket/servers/websocket"
 	"runtime/debug"
 	"time"
+
+	"github.com/link1st/gowebsocket/servers/websocket"
 )
 
 func Init() {

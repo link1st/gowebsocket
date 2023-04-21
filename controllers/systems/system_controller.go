@@ -9,11 +9,12 @@ package systems
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"gowebsocket/common"
-	"gowebsocket/controllers"
-	"gowebsocket/servers/websocket"
 	"runtime"
+
+	"github.com/gin-gonic/gin"
+	"github.com/link1st/gowebsocket/common"
+	"github.com/link1st/gowebsocket/controllers"
+	"github.com/link1st/gowebsocket/servers/websocket"
 )
 
 // 查询系统状态

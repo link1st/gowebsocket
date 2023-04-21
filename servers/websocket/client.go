@@ -9,8 +9,9 @@ package websocket
 
 import (
 	"fmt"
-	"github.com/gorilla/websocket"
 	"runtime/debug"
+
+	"github.com/gorilla/websocket"
 )
 
 const (
@@ -25,7 +26,7 @@ type login struct {
 	Client *Client
 }
 
-// GetKey 获取 key 
+// GetKey 获取 key
 func (l *login) GetKey() (key string) {
 	key = GetUserKey(l.AppId, l.UserId)
 
