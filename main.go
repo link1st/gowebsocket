@@ -9,18 +9,19 @@ package main
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/spf13/viper"
-	"gowebsocket/lib/redislib"
-	"gowebsocket/routers"
-	"gowebsocket/servers/grpcserver"
-	"gowebsocket/servers/task"
-	"gowebsocket/servers/websocket"
 	"io"
 	"net/http"
 	"os"
 	"os/exec"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	"github.com/link1st/gowebsocket/lib/redislib"
+	"github.com/link1st/gowebsocket/routers"
+	"github.com/link1st/gowebsocket/servers/grpcserver"
+	"github.com/link1st/gowebsocket/servers/task"
+	"github.com/link1st/gowebsocket/servers/websocket"
+	"github.com/spf13/viper"
 )
 
 func main() {

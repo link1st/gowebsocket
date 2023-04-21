@@ -8,8 +8,10 @@
 package cache
 
 import (
+	"context"
 	"fmt"
-	"gowebsocket/lib/redislib"
+
+	"github.com/link1st/gowebsocket/lib/redislib"
 )
 
 const (
@@ -34,7 +36,7 @@ func submitAgain(from string, second int, value string) (isSubmitAgain bool) {
 	key := getSubmitAgainKey(from, value)
 
 	redisClient := redislib.GetClient()
-	number, err := redisClient.Do("setNx", key, "1").Int()
+	number, err := redisClient.Do(context.Background(), "setNx", key, "1").Int()
 	if err != nil {
 		fmt.Println("submitAgain", key, number, err)
 
@@ -48,7 +50,7 @@ func submitAgain(from string, second int, value string) (isSubmitAgain bool) {
 	// 第一次提交
 	isSubmitAgain = false
 
-	redisClient.Do("Expire", key, second)
+	redisClient.Do(context.Background(), "Expire", key, second)
 
 	return
 

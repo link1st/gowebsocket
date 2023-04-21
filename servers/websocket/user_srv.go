@@ -10,11 +10,13 @@ package websocket
 import (
 	"errors"
 	"fmt"
-	"github.com/go-redis/redis"
-	"gowebsocket/lib/cache"
-	"gowebsocket/models"
-	"gowebsocket/servers/grpcclient"
 	"time"
+
+	"github.com/link1st/gowebsocket/lib/cache"
+	"github.com/link1st/gowebsocket/models"
+	"github.com/link1st/gowebsocket/servers/grpcclient"
+
+	"github.com/redis/go-redis/v9"
 )
 
 // 查询所有用户

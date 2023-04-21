@@ -9,13 +9,14 @@ package user
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"gowebsocket/common"
-	"gowebsocket/controllers"
-	"gowebsocket/lib/cache"
-	"gowebsocket/models"
-	"gowebsocket/servers/websocket"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
+	"github.com/link1st/gowebsocket/common"
+	"github.com/link1st/gowebsocket/controllers"
+	"github.com/link1st/gowebsocket/lib/cache"
+	"github.com/link1st/gowebsocket/models"
+	"github.com/link1st/gowebsocket/servers/websocket"
 )
 
 // 查看全部在线用户

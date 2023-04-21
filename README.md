@@ -560,7 +560,7 @@ from：消息的发送者
 ```
 # 主要使用到的包
 github.com/gin-gonic/gin@v1.4.0
-github.com/go-redis/redis
+github.com/redis/go-redis/v9
 github.com/gorilla/websocket
 github.com/spf13/viper
 google.golang.org/grpc

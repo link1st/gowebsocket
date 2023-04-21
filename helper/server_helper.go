@@ -11,31 +11,10 @@ import (
 	"net"
 )
 
-// 获取服务器Ip
-// func GetServerIp() (ip string) {
-
-// 	addrs, err := net.InterfaceAddrs()
-
-// 	if err != nil {
-// 		return ""
-// 	}
-
-// 	for _, address := range addrs {
-// 		// 检查ip地址判断是否回环地址
-// 		if ipNet, ok := address.(*net.IPNet); ok && !ipNet.IP.IsLoopback() {
-// 			if ipNet.IP.To4() != nil {
-// 				ip = ipNet.IP.String()
-// 			}
-// 		}
-// 	}
-
-// 	return
-// }
-
-/**** 问题：我在本地多网卡机器上，运行分布式场景，此函数返回的ip有误导致rpc连接失败。 遂google结果如下：
- ***	1、https://www.jianshu.com/p/301aabc06972
- ***	2、https://www.cnblogs.com/chaselogs/p/11301940.html
-****/
+// GetServerIp
+// 问题：我在本地多网卡机器上，运行分布式场景，此函数返回的ip有误导致rpc连接失败。 遂google结果如下：
+// 1、https://www.jianshu.com/p/301aabc06972
+// 2、https://www.cnblogs.com/chaselogs/p/11301940.html
 func GetServerIp() string {
 	ip, err := externalIP()
 	if err != nil {

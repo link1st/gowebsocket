@@ -8,7 +8,7 @@
 package routers
 
 import (
-	"gowebsocket/servers/websocket"
+	"github.com/link1st/gowebsocket/servers/websocket"
 )
 
 // Websocket 路由
