@@ -1,6 +1,12 @@
 # 基于websocket单台机器支持百万连接分布式聊天(IM)系统
-
-
+[![Release](https://img.shields.io/github/v/release/link1st/gowebsocket)](https://github.com/link1st/gowebsocket/releases)
+[![License](https://img.shields.io/github/license/link1st/gowebsocket)](https://github.com/link1st/gowebsocket/blob/master/LICENSE)
+[![Go Report Card](https://goreportcard.com/badge/github.com/link1st/gowebsocket)](https://goreportcard.com/report/github.com/link1st/gowebsocket)
+[![OpenIssue](https://img.shields.io/github/issues/link1st/gowebsocket)](https://github.com/link1st/gowebsocket/issues)
+[![ClosedIssue](https://img.shields.io/github/issues-closed/link1st/gowebsocket)](https://github.com/link1st/gowebsocket/issues?q=is%3Aissue+is%3Aclosed)
+![Stars](https://img.shields.io/github/stars/link1st/gowebsocket)
+![Forks](https://img.shields.io/github/forks/link1st/gowebsocket)
+[![Stargazers over time](https://starchart.cc/link1st/gowebsocket.svg?variant=adaptive)](https://starchart.cc/link1st/gowebsocket)
 
 本文将介绍如何实现一个基于websocket分布式聊天(IM)系统。
 
