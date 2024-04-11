@@ -17,8 +17,8 @@ import (
 
 // SendMsgAll 给全体用户发送消息
 // link::https://github.com/grpc/grpc-go/blob/master/examples/helloworld/greeter_client/main.go
-func SendMsgAll(server *models.Server, seq string, appId uint32, userId string, cmd string,
-	message string) (sendMsgId string, err error) {
+func SendMsgAll(server *models.Server, seq string, appID uint32, userID string, cmd string,
+	message string) (sendMsgID string, err error) {
 	// Set up a connection to the server.
 	conn, err := grpc.Dial(server.String(), grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
@@ -32,8 +32,8 @@ func SendMsgAll(server *models.Server, seq string, appId uint32, userId string, 
 	defer cancel()
 	req := protobuf.SendMsgAllReq{
 		Seq:    seq,
-		AppId:  appId,
-		UserId: userId,
+		AppID:  appID,
+		UserID: userID,
 		Cms:    cmd,
 		Msg:    message,
 	}
@@ -49,15 +49,15 @@ func SendMsgAll(server *models.Server, seq string, appId uint32, userId string, 
 
 		return
 	}
-	sendMsgId = rsp.GetSendMsgId()
-	fmt.Println("给全体用户发送消息 成功:", sendMsgId)
+	sendMsgID = rsp.GetSendMsgID()
+	fmt.Println("给全体用户发送消息 成功:", sendMsgID)
 	return
 }
 
 // GetUserList 获取用户列表
 // link::https://github.com/grpc/grpc-go/blob/master/examples/helloworld/greeter_client/main.go
-func GetUserList(server *models.Server, appId uint32) (userIds []string, err error) {
-	userIds = make([]string, 0)
+func GetUserList(server *models.Server, appID uint32) (userIDs []string, err error) {
+	userIDs = make([]string, 0)
 	conn, err := grpc.Dial(server.String(), grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		fmt.Println("连接失败", server.String())
@@ -68,7 +68,7 @@ func GetUserList(server *models.Server, appId uint32) (userIds []string, err err
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 	req := protobuf.GetUserListReq{
-		AppId: appId,
+		AppID: appID,
 	}
 	rsp, err := c.GetUserList(ctx, &req)
 	if err != nil {
@@ -80,15 +80,15 @@ func GetUserList(server *models.Server, appId uint32) (userIds []string, err err
 		err = errors.New(fmt.Sprintf("发送消息失败 code:%d", rsp.GetRetCode()))
 		return
 	}
-	userIds = rsp.GetUserId()
-	fmt.Println("获取用户列表 成功:", userIds)
+	userIDs = rsp.GetUserID()
+	fmt.Println("获取用户列表 成功:", userIDs)
 	return
 }
 
 // SendMsg 发送消息
 // link::https://github.com/grpc/grpc-go/blob/master/examples/helloworld/greeter_client/main.go
-func SendMsg(server *models.Server, seq string, appId uint32, userId string, cmd string, msgType string,
-	message string) (sendMsgId string, err error) {
+func SendMsg(server *models.Server, seq string, appID uint32, userID string, cmd string, msgType string,
+	message string) (sendMsgID string, err error) {
 	// Set up a connection to the server.
 	conn, err := grpc.Dial(server.String(), grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
@@ -101,8 +101,8 @@ func SendMsg(server *models.Server, seq string, appId uint32, userId string, cmd
 	defer cancel()
 	req := protobuf.SendMsgReq{
 		Seq:     seq,
-		AppId:   appId,
-		UserId:  userId,
+		AppID:   appID,
+		UserID:  userID,
 		Cms:     cmd,
 		Type:    msgType,
 		Msg:     message,
@@ -118,7 +118,7 @@ func SendMsg(server *models.Server, seq string, appId uint32, userId string, cmd
 		err = errors.New(fmt.Sprintf("发送消息失败 code:%d", rsp.GetRetCode()))
 		return
 	}
-	sendMsgId = rsp.GetSendMsgId()
-	fmt.Println("发送消息 成功:", sendMsgId)
+	sendMsgID = rsp.GetSendMsgID()
+	fmt.Println("发送消息 成功:", sendMsgID)
 	return
 }

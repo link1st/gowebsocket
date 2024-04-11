@@ -275,11 +275,11 @@
         }
 
 
-        function sendId() {
+        function sendID() {
 
             let timeStamp = currentTime();
-            let randId = randomNumber(100000, 999999);
-            let id = timeStamp + "-" + randId;
+            let randID = randomNumber(100000, 999999);
+            let id = timeStamp + "-" + randID;
 
             return id
         }
@@ -344,12 +344,12 @@
             // person = prompt("请输入你的名字", "hello-" + currentTime());
             // if (person != null) {
             //     console.log("用户准备登陆:" + person);
-            //     ws.send('{"seq":"' + sendId() + '","cmd":"login","data":{"userId":"' + person + '","appId":101}}');
+            //     ws.send('{"seq":"' + sendID() + '","cmd":"login","data":{"userID":"' + person + '","appID":101}}');
             // }
 
             person = randomNumber(10000, 99999)
             console.log("用户准备登陆:" + person);
-            ws.send('{"seq":"' + sendId() + '","cmd":"login","data":{"userId":"' + person + '","appId":101}}');
+            ws.send('{"seq":"' + sendID() + '","cmd":"login","data":{"userID":"' + person + '","appID":101}}');
 
             // 定时心跳
             setInterval(heartbeat, 30 * 1000)
@@ -384,7 +384,7 @@
         // 心跳
         function heartbeat() {
             console.log("定时心跳:" + person);
-            ws.send('{"seq":"' + sendId() + '","cmd":"heartbeat","data":{}}');
+            ws.send('{"seq":"' + sendID() + '","cmd":"heartbeat","data":{}}');
 
         }
 
@@ -409,9 +409,9 @@
                     type: "POST",
                     url: 'http://127.0.0.1:8080/user/sendMessageAll',
                     data: {
-                        appId: "101",
-                        userId: person,
-                        msgId: sendId(),
+                        appID: "101",
+                        userID: person,
+                        msgID: sendID(),
                         message: msg,
                     },
                     contentType: "application/x-www-form-urlencoded",

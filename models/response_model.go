@@ -5,7 +5,7 @@ import "encoding/json"
 
 // Head 响应数据头
 type Head struct {
-	Seq      string    `json:"seq"`      // 消息的Id
+	Seq      string    `json:"seq"`      // 消息的ID
 	Cmd      string    `json:"cmd"`      // 消息的cmd 动作
 	Response *Response `json:"response"` // 消息体
 }

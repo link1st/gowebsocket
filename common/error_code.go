@@ -5,7 +5,7 @@ const (
 	OK                 = 200  // Success
 	NotLoggedIn        = 1000 // 未登录
 	ParameterIllegal   = 1001 // 参数不合法
-	UnauthorizedUserId = 1002 // 非法的用户Id
+	UnauthorizedUserID = 1002 // 非法的用户 ID
 	Unauthorized       = 1003 // 未授权
 	ServerError        = 1004 // 系统错误
 	NotData            = 1005 // 没有数据
@@ -23,7 +23,7 @@ func GetErrorMessage(code uint32, message string) string {
 		OK:                 "Success",
 		NotLoggedIn:        "未登录",
 		ParameterIllegal:   "参数不合法",
-		UnauthorizedUserId: "非法的用户Id",
+		UnauthorizedUserID: "非法的用户ID",
 		Unauthorized:       "未授权",
 		NotData:            "没有数据",
 		ServerError:        "系统错误",

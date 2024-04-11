@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>{{ .title }}--房间Id({{ .appId }})</title>
+    <title>{{ .title }}--房间ID({{ .appID }})</title>
     <style type="text/css">
     /*公共样式*/
     body,
@@ -267,16 +267,16 @@
         <div class="room-list">
             <div>
                 <b>房间列表:</b><br>
-               <a href="/home/index?appId=101">聊天室-Id:101</a>
-               <a href="/home/index?appId=102">聊天室-Id:102</a>
-               <a href="/home/index?appId=103">聊天室-Id:103</a>
-               <a href="/home/index?appId=104">聊天室-Id:104</a>
+               <a href="/home/index?appID=101">聊天室-ID:101</a>
+               <a href="/home/index?appID=102">聊天室-ID:102</a>
+               <a href="/home/index?appID=103">聊天室-ID:103</a>
+               <a href="/home/index?appID=104">聊天室-ID:104</a>
            </div>
         </div>
 
         <script src="http://91vh.com/js/jquery-2.1.4.min.js"></script>
         <script type="text/javascript">
-        appId = {{ .appId }};
+        appID = {{ .appID }};
 
         function currentTime() {
             let timeStamp = (new Date()).valueOf();
@@ -299,11 +299,11 @@
         }
 
 
-        function sendId() {
+        function sendID() {
 
             let timeStamp = currentTime();
-            let randId = randomNumber(100000, 999999);
-            let id = timeStamp + "-" + randId;
+            let randID = randomNumber(100000, 999999);
+            let id = timeStamp + "-" + randID;
 
             return id
         }
@@ -368,13 +368,13 @@
             // person = prompt("请输入你的名字", "hello-" + currentTime());
             // if (person != null) {
             //     console.log("用户准备登陆:" + person);
-            //     ws.send('{"seq":"' + sendId() + '","cmd":"login","data":{"userId":"' + person + '","appId":'+ appId +'}}');
+            //     ws.send('{"seq":"' + sendID() + '","cmd":"login","data":{"userID":"' + person + '","appID":'+ appID +'}}');
             // }
 
            person =  getName();
            // person = randomNumber(10000, 99999)
             console.log("用户准备登陆:" + person);
-            ws.send('{"seq":"' + sendId() + '","cmd":"login","data":{"userId":"' + person + '","appId":'+ appId +'}}');
+            ws.send('{"seq":"' + sendID() + '","cmd":"login","data":{"userID":"' + person + '","appID":'+ appID +'}}');
 
             // 定时心跳
             setInterval(heartbeat, 30 * 1000)
@@ -409,7 +409,7 @@
         // 心跳
         function heartbeat() {
             console.log("定时心跳:" + person);
-            ws.send('{"seq":"' + sendId() + '","cmd":"heartbeat","data":{}}');
+            ws.send('{"seq":"' + sendID() + '","cmd":"heartbeat","data":{}}');
 
         }
 
@@ -434,9 +434,9 @@
                     type: "POST",
                     url: 'http://{{ .httpUrl }}/user/sendMessageAll',
                     data: {
-                        appId: appId,
-                        userId: person,
-                        msgId: sendId(),
+                        appID: appID,
+                        userID: person,
+                        msgID: sendID(),
                         message: msg,
                     },
                     contentType: "application/x-www-form-urlencoded",
@@ -454,7 +454,7 @@
         function getUserList() {
             $.ajax({
                 type: "GET",
-                url: "http://{{ .httpUrl }}/user/list?appId=" + appId,
+                url: "http://{{ .httpUrl }}/user/list?appID=" + appID,
                 dataType: "json",
                 success: function(data) {
                     console.log("user list:" + data.code + "userList:" + data.data.userList);

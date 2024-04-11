@@ -236,7 +236,7 @@ func wsPage(w http.ResponseWriter, req *http.Request) {
 
 #### 3.1.3 客户端连接的管理
 - 当前程序有多少用户连接，还需要对用户广播的需要，这里我们就需要一个管理者(clientManager)，处理这些事件:
-- 记录全部的连接、登录用户的可以通过 **appId+uuid** 查到用户连接
+- 记录全部的连接、登录用户的可以通过 **appID+uuid** 查到用户连接
 - 使用map存储，就涉及到多协程并发读写的问题，所以需要加读写锁
 - 定义四个channel ，分别处理客户端建立连接、用户登录、断开连接、全员广播事件
 
@@ -245,7 +245,7 @@ func wsPage(w http.ResponseWriter, req *http.Request) {
 type ClientManager struct {
 	Clients     map[*Client]bool   // 全部的连接
 	ClientsLock sync.RWMutex       // 读写锁
-	Users       map[string]*Client // 登录的用户 // appId+uuid
+	Users       map[string]*Client // 登录的用户 // appID+uuid
 	UserLock    sync.RWMutex       // 读写锁
 	Register    chan *Client       // 连接连接处理
 	Login       chan *login        // 用户登录处理
@@ -345,7 +345,7 @@ func (c *Client) read() {
 
 - 登录发送数据示例:
 ```
-{"seq":"1565336219141-266129","cmd":"login","data":{"userId":"马远","appId":101}}
+{"seq":"1565336219141-266129","cmd":"login","data":{"userID":"马远","appID":101}}
 ```
 - 登录响应数据示例:
 ```
@@ -354,7 +354,7 @@ func (c *Client) read() {
 - websocket是双向的数据通讯，可以连续发送，如果发送的数据需要服务端回复，就需要一个**seq**来确定服务端的响应是回复哪一次的请求数据
 - cmd 是用来确定动作，websocket没有类似于http的url,所以规定 cmd 是什么动作
 - 目前的动作有:login/heartbeat 用来发送登录请求和连接保活(长时间没有数据发送的长连接容易被浏览器、移动中间商、nginx、服务端程序断开)
-- 为什么需要AppId,UserId是表示用户的唯一字段，设计的时候为了做成通用性，设计AppId用来表示用户在哪个平台登录的(web、app、ios等)，方便后续扩展
+- 为什么需要AppID,UserID是表示用户的唯一字段，设计的时候为了做成通用性，设计AppID用来表示用户在哪个平台登录的(web、app、ios等)，方便后续扩展
 
 - **request_model.go** 约定的请求数据格式
 
@@ -362,7 +362,7 @@ func (c *Client) read() {
 /************************  请求数据  **************************/
 // 通用请求数据格式
 type Request struct {
-	Seq  string      `json:"seq"`            // 消息的唯一Id
+	Seq  string      `json:"seq"`            // 消息的唯一ID
 	Cmd  string      `json:"cmd"`            // 请求命令字
 	Data interface{} `json:"data,omitempty"` // 数据 json
 }
@@ -370,13 +370,13 @@ type Request struct {
 // 登录请求数据
 type Login struct {
 	ServiceToken string `json:"serviceToken"` // 验证用户是否登录
-	AppId        uint32 `json:"appId,omitempty"`
-	UserId       string `json:"userId,omitempty"`
+	AppID        uint32 `json:"appID,omitempty"`
+	UserID       string `json:"userID,omitempty"`
 }
 
 // 心跳请求数据
 type HeartBeat struct {
-	UserId string `json:"userId,omitempty"`
+	UserID string `json:"userID,omitempty"`
 }
 ```
 
@@ -385,7 +385,7 @@ type HeartBeat struct {
 ```
 /************************  响应数据  **************************/
 type Head struct {
-	Seq      string    `json:"seq"`      // 消息的Id
+	Seq      string    `json:"seq"`      // 消息的ID
 	Cmd      string    `json:"cmd"`      // 消息的cmd 动作
 	Response *Response `json:"response"` // 消息体
 }
@@ -426,7 +426,7 @@ func ClearTimeoutConnections() {
 
     for client := range clientManager.Clients {
         if client.IsHeartbeatTimeout(currentTime) {
-            fmt.Println("心跳时间超时 关闭连接", client.Addr, client.UserId, client.LoginTime, client.HeartbeatTime)
+            fmt.Println("心跳时间超时 关闭连接", client.Addr, client.UserID, client.LoginTime, client.HeartbeatTime)
 
             client.Socket.Close()
         }
@@ -482,7 +482,7 @@ ws.onclose = function(evt) {
 
 ```
 登录:
-ws.send('{"seq":"2323","cmd":"login","data":{"userId":"11","appId":101}}');
+ws.send('{"seq":"2323","cmd":"login","data":{"userID":"11","appID":101}}');
 
 心跳:
 ws.send('{"seq":"2324","cmd":"heartbeat","data":{}}');
@@ -611,7 +611,7 @@ redis:
   password: ""
   DB: 0
   poolSize: 30
-  minIdleConns: 30
+  minIDleConns: 30
 ```
 
 - 启动项目
@@ -643,7 +643,7 @@ go run main.go
 
 |  参数   |  必填   |  类型  |  说明   |  示例   |
 | :----: | :----: | :----: | :----: | :----: |
-| appId   |   是    | uint32 | appId/房间Id |   101      |
+| appID   |   是    | uint32 | appID/房间ID |   101      |
 
 - 返回参数:
 无
@@ -657,7 +657,7 @@ go run main.go
 
 |  参数   |  必填   |  类型  |  说明   |  示例   |
 | :----: | :----: | :----: | :----: | :----: |
-| appId   |   是    | uint32 | appId/房间Id |   101      |
+| appID   |   是    | uint32 | appID/房间ID |   101      |
 
 - 返回参数:
 
@@ -692,8 +692,8 @@ go run main.go
 
 |  参数   |  必填   |  类型  |  说明   |  示例   |
 | :----: | :----: | :----: | :----: | :----: |
-| appId   |   是    | uint32 | appId/房间Id |   101      |
-| userId   |   是    | string | 用户Id |   黄帝     |
+| appID   |   是    | uint32 | appID/房间ID |   101      |
+| userID   |   是    | string | 用户ID |   黄帝     |
 
 - 返回参数:
 
@@ -703,7 +703,7 @@ go run main.go
 | msg    |   是    | string| 错误信息 |Success |
 | data   |   是    | array | 返回数据 |        |
 | online   |   是    | bool   | 发送结果 true:在线 false:不在线  |   true    |
-| userId   |   是    | string | 用户Id |   黄帝     |
+| userID   |   是    | string | 用户ID |   黄帝     |
 
 - 示例:
 
@@ -713,7 +713,7 @@ go run main.go
     "msg": "Success",
     "data": {
         "online": true,
-        "userId": "黄帝"
+        "userID": "黄帝"
     }
 }
 ```
@@ -726,9 +726,9 @@ go run main.go
 
 |  参数   |  必填   |  类型  |  说明   |  示例   |
 | :----: | :----: | :----: | :----: | :----: |
-| appId   |   是    | uint32 | appId/房间Id |   101      |
-| userId   |   是    | string | 用户id |   黄帝      |
-| msgId   |   是    | string | 消息Id |   避免重复发送      |
+| appID   |   是    | uint32 | appID/房间ID |   101      |
+| userID   |   是    | string | 用户id |   黄帝      |
+| msgID   |   是    | string | 消息ID |   避免重复发送      |
 | message   |   是    | string | 消息内容 |   hello      |
 
 - 返回参数:
@@ -760,9 +760,9 @@ go run main.go
 
 |  参数   |  必填   |  类型  |  说明   |  示例   |
 | :----: | :----: | :----: | :----: | :----: |
-| appId   |   是    | uint32 | appId/房间Id |   101      |
-| userId   |   是    | string | 用户id |   黄帝      |
-| msgId   |   是    | string | 消息Id |   避免重复发送      |
+| appID   |   是    | uint32 | appID/房间ID |   101      |
+| userID   |   是    | string | 用户id |   黄帝      |
+| msgID   |   是    | string | 消息ID |   避免重复发送      |
 | message   |   是    | string | 消息内容 |   hello      |
 
 - 返回参数:
@@ -817,8 +817,8 @@ service AccServer {
 
 // 查询用户是否在线
 message QueryUsersOnlineReq {
-    uint32 appId = 1; // AppID
-    string userId = 2; // 用户ID
+    uint32 appID = 1; // AppID
+    string userID = 2; // 用户ID
 }
 
 message QueryUsersOnlineRsp {
@@ -830,8 +830,8 @@ message QueryUsersOnlineRsp {
 // 发送消息
 message SendMsgReq {
     string seq = 1; // 序列号
-    uint32 appId = 2; // appId/房间Id
-    string userId = 3; // 用户ID
+    uint32 appID = 2; // appID/房间ID
+    string userID = 3; // 用户ID
     string cms = 4; // cms 动作: msg/enter/exit
     string type = 5; // type 消息类型，默认是 text
     string msg = 6; // msg
@@ -841,14 +841,14 @@ message SendMsgReq {
 message SendMsgRsp {
     uint32 retCode = 1;
     string errMsg = 2;
-    string sendMsgId = 3;
+    string sendMsgID = 3;
 }
 
 // 给这台机器的房间内所有用户发送消息
 message SendMsgAllReq {
     string seq = 1; // 序列号
-    uint32 appId = 2; // appId/房间Id
-    string userId = 3; // 不发送的用户ID
+    uint32 appID = 2; // appID/房间ID
+    string userID = 3; // 不发送的用户ID
     string cms = 4; // cms 动作: msg/enter/exit
     string type = 5; // type 消息类型，默认是 text
     string msg = 6; // msg
@@ -857,18 +857,18 @@ message SendMsgAllReq {
 message SendMsgAllRsp {
     uint32 retCode = 1;
     string errMsg = 2;
-    string sendMsgId = 3;
+    string sendMsgID = 3;
 }
 
 // 获取用户列表
 message GetUserListReq {
-    uint32 appId = 1;
+    uint32 appID = 1;
 }
 
 message GetUserListRsp {
     uint32 retCode = 1;
     string errMsg = 2;
-    repeated string userId = 3;
+    repeated string userID = 3;
 }
 ```
 
@@ -1171,7 +1171,7 @@ upstream  go-acc
 - http接口，获取登录、连接数量 完成
 - http接口，发送push、查询有多少人在线 完成
 - grpc 程序内部通讯，发送消息 完成
-- appIds 一个用户在多个平台登录
+- appIDs 一个用户在多个平台登录
 - 界面，把所有在线的人拉倒一个群里面，发送消息 完成
 - ~~单聊~~、群聊 完成
 - 实现分布式，水平扩张 完成

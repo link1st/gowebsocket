@@ -14,16 +14,16 @@ import (
 
 // Index 聊天页面
 func Index(c *gin.Context) {
-	appIdStr := c.Query("appId")
-	appIdUint64, _ := strconv.ParseInt(appIdStr, 10, 32)
-	appId := uint32(appIdUint64)
-	if !websocket.InAppIds(appId) {
-		appId = websocket.GetDefaultAppId()
+	appIDStr := c.Query("appID")
+	appIDUint64, _ := strconv.ParseInt(appIDStr, 10, 32)
+	appID := uint32(appIDUint64)
+	if !websocket.InAppIDs(appID) {
+		appID = websocket.GetDefaultAppID()
 	}
-	fmt.Println("http_request 聊天首页", appId)
+	fmt.Println("http_request 聊天首页", appID)
 	data := gin.H{
 		"title":        "聊天首页",
-		"appId":        appId,
+		"appID":        appID,
 		"httpUrl":      viper.GetString("app.httpUrl"),
 		"webSocketUrl": viper.GetString("app.webSocketUrl"),
 	}

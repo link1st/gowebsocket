@@ -16,12 +16,12 @@ import (
 
 // List 查看全部在线用户
 func List(c *gin.Context) {
-	appIdStr := c.Query("appId")
-	appIdUint64, _ := strconv.ParseInt(appIdStr, 10, 32)
-	appId := uint32(appIdUint64)
-	fmt.Println("http_request 查看全部在线用户", appId)
+	appIDStr := c.Query("appID")
+	appIDUint64, _ := strconv.ParseInt(appIDStr, 10, 32)
+	appID := uint32(appIDUint64)
+	fmt.Println("http_request 查看全部在线用户", appID)
 	data := make(map[string]interface{})
-	userList := websocket.UserList(appId)
+	userList := websocket.UserList(appID)
 	data["userList"] = userList
 	data["userCount"] = len(userList)
 	controllers.Response(c, common.OK, "", data)
@@ -29,14 +29,14 @@ func List(c *gin.Context) {
 
 // Online 查看用户是否在线
 func Online(c *gin.Context) {
-	userId := c.Query("userId")
-	appIdStr := c.Query("appId")
-	appIdUint64, _ := strconv.ParseInt(appIdStr, 10, 32)
-	appId := uint32(appIdUint64)
-	fmt.Println("http_request 查看用户是否在线", userId, appIdStr)
+	userID := c.Query("userID")
+	appIDStr := c.Query("appID")
+	appIDUint64, _ := strconv.ParseInt(appIDStr, 10, 32)
+	appID := uint32(appIDUint64)
+	fmt.Println("http_request 查看用户是否在线", userID, appIDStr)
 	data := make(map[string]interface{})
-	online := websocket.CheckUserOnline(appId, userId)
-	data["userId"] = userId
+	online := websocket.CheckUserOnline(appID, userID)
+	data["userID"] = userID
 	data["online"] = online
 	controllers.Response(c, common.OK, "", data)
 }
@@ -44,23 +44,23 @@ func Online(c *gin.Context) {
 // SendMessage 给用户发送消息
 func SendMessage(c *gin.Context) {
 	// 获取参数
-	appIdStr := c.PostForm("appId")
-	userId := c.PostForm("userId")
-	msgId := c.PostForm("msgId")
+	appIDStr := c.PostForm("appID")
+	userID := c.PostForm("userID")
+	msgID := c.PostForm("msgID")
 	message := c.PostForm("message")
-	appIdUint64, _ := strconv.ParseInt(appIdStr, 10, 32)
-	appId := uint32(appIdUint64)
-	fmt.Println("http_request 给用户发送消息", appIdStr, userId, msgId, message)
+	appIDUint64, _ := strconv.ParseInt(appIDStr, 10, 32)
+	appID := uint32(appIDUint64)
+	fmt.Println("http_request 给用户发送消息", appIDStr, userID, msgID, message)
 
 	// TODO::进行用户权限认证，一般是客户端传入TOKEN，然后检验TOKEN是否合法，通过TOKEN解析出来用户ID
-	// 本项目只是演示，所以直接过去客户端传入的用户ID(userId)
+	// 本项目只是演示，所以直接过去客户端传入的用户ID(userID)
 	data := make(map[string]interface{})
-	if cache.SeqDuplicates(msgId) {
-		fmt.Println("给用户发送消息 重复提交:", msgId)
+	if cache.SeqDuplicates(msgID) {
+		fmt.Println("给用户发送消息 重复提交:", msgID)
 		controllers.Response(c, common.OK, "", data)
 		return
 	}
-	sendResults, err := websocket.SendUserMessage(appId, userId, msgId, message)
+	sendResults, err := websocket.SendUserMessage(appID, userID, msgID, message)
 	if err != nil {
 		data["sendResultsErr"] = err.Error()
 	}
@@ -71,20 +71,20 @@ func SendMessage(c *gin.Context) {
 // SendMessageAll 给全员发送消息
 func SendMessageAll(c *gin.Context) {
 	// 获取参数
-	appIdStr := c.PostForm("appId")
-	userId := c.PostForm("userId")
-	msgId := c.PostForm("msgId")
+	appIDStr := c.PostForm("appID")
+	userID := c.PostForm("userID")
+	msgID := c.PostForm("msgID")
 	message := c.PostForm("message")
-	appIdUint64, _ := strconv.ParseInt(appIdStr, 10, 32)
-	appId := uint32(appIdUint64)
-	fmt.Println("http_request 给全体用户发送消息", appIdStr, userId, msgId, message)
+	appIDUint64, _ := strconv.ParseInt(appIDStr, 10, 32)
+	appID := uint32(appIDUint64)
+	fmt.Println("http_request 给全体用户发送消息", appIDStr, userID, msgID, message)
 	data := make(map[string]interface{})
-	if cache.SeqDuplicates(msgId) {
-		fmt.Println("给用户发送消息 重复提交:", msgId)
+	if cache.SeqDuplicates(msgID) {
+		fmt.Println("给用户发送消息 重复提交:", msgID)
 		controllers.Response(c, common.OK, "", data)
 		return
 	}
-	sendResults, err := websocket.SendUserMessageAll(appId, userId, msgId, models.MessageCmdMsg, message)
+	sendResults, err := websocket.SendUserMessageAll(appID, userID, msgID, models.MessageCmdMsg, message)
 	if err != nil {
 		data["sendResultsErr"] = err.Error()
 	}

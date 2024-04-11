@@ -26,8 +26,8 @@ service AccServer {
 
 // 查询用户是否在线
 message QueryUsersOnlineReq {
-    uint32 appId = 1; // AppID
-    string userId = 2; // 用户ID
+    uint32 appID = 1; // AppID
+    string userID = 2; // 用户ID
 }
 
 message QueryUsersOnlineRsp {
@@ -39,8 +39,8 @@ message QueryUsersOnlineRsp {
 // 发送消息
 message SendMsgReq {
     string seq = 1; // 序列号
-    uint32 appId = 2; // appId/房间Id
-    string userId = 3; // 用户ID
+    uint32 appID = 2; // appID/房间ID
+    string userID = 3; // 用户ID
     string cms = 4; // cms 动作: msg/enter/exit
     string type = 5; // type 消息类型，默认是 text
     string msg = 6; // msg
@@ -50,14 +50,14 @@ message SendMsgReq {
 message SendMsgRsp {
     uint32 retCode = 1;
     string errMsg = 2;
-    string sendMsgId = 3;
+    string sendMsgID = 3;
 }
 
 // 给这台机器的房间内所有用户发送消息
 message SendMsgAllReq {
     string seq = 1; // 序列号
-    uint32 appId = 2; // appId/房间Id
-    string userId = 3; // 不发送的用户ID
+    uint32 appID = 2; // appID/房间ID
+    string userID = 3; // 不发送的用户ID
     string cms = 4; // cms 动作: msg/enter/exit
     string type = 5; // type 消息类型，默认是 text
     string msg = 6; // msg
@@ -66,16 +66,16 @@ message SendMsgAllReq {
 message SendMsgAllRsp {
     uint32 retCode = 1;
     string errMsg = 2;
-    string sendMsgId = 3;
+    string sendMsgID = 3;
 }
 
 // 获取用户列表
 message GetUserListReq {
-    uint32 appId = 1;
+    uint32 appID = 1;
 }
 
 message GetUserListRsp {
     uint32 retCode = 1;
     string errMsg = 2;
-    repeated string userId = 3;
+    repeated string userID = 3;
 }

@@ -36,25 +36,25 @@ func LoginController(client *Client, seq string, message []byte) (code uint32, m
 
 	// TODO::进行用户权限认证，一般是客户端传入TOKEN，然后检验TOKEN是否合法，通过TOKEN解析出来用户ID
 	// 本项目只是演示，所以直接过去客户端传入的用户ID
-	if request.UserId == "" || len(request.UserId) >= 20 {
-		code = common.UnauthorizedUserId
-		fmt.Println("用户登录 非法的用户", seq, request.UserId)
+	if request.UserID == "" || len(request.UserID) >= 20 {
+		code = common.UnauthorizedUserID
+		fmt.Println("用户登录 非法的用户", seq, request.UserID)
 		return
 	}
-	if !InAppIds(request.AppId) {
+	if !InAppIDs(request.AppID) {
 		code = common.Unauthorized
-		fmt.Println("用户登录 不支持的平台", seq, request.AppId)
+		fmt.Println("用户登录 不支持的平台", seq, request.AppID)
 		return
 	}
 	if client.IsLogin() {
-		fmt.Println("用户登录 用户已经登录", client.AppId, client.UserId, seq)
+		fmt.Println("用户登录 用户已经登录", client.AppID, client.UserID, seq)
 		code = common.OperationFailure
 		return
 	}
-	client.Login(request.AppId, request.UserId, currentTime)
+	client.Login(request.AppID, request.UserID, currentTime)
 
 	// 存储数据
-	userOnline := models.UserLogin(serverIp, serverPort, request.AppId, request.UserId, client.Addr, currentTime)
+	userOnline := models.UserLogin(serverIp, serverPort, request.AppID, request.UserID, client.Addr, currentTime)
 	err := cache.SetUserOnlineInfo(client.GetKey(), userOnline)
 	if err != nil {
 		code = common.ServerError
@@ -64,12 +64,12 @@ func LoginController(client *Client, seq string, message []byte) (code uint32, m
 
 	// 用户登录
 	login := &login{
-		AppId:  request.AppId,
-		UserId: request.UserId,
+		AppID:  request.AppID,
+		UserID: request.UserID,
 		Client: client,
 	}
 	clientManager.Login <- login
-	fmt.Println("用户登录 成功", seq, client.Addr, request.UserId)
+	fmt.Println("用户登录 成功", seq, client.Addr, request.UserID)
 
 	return
 }
@@ -84,9 +84,9 @@ func HeartbeatController(client *Client, seq string, message []byte) (code uint3
 		fmt.Println("心跳接口 解析数据失败", seq, err)
 		return
 	}
-	fmt.Println("webSocket_request 心跳接口", client.AppId, client.UserId)
+	fmt.Println("webSocket_request 心跳接口", client.AppID, client.UserID)
 	if !client.IsLogin() {
-		fmt.Println("心跳接口 用户未登录", client.AppId, client.UserId, seq)
+		fmt.Println("心跳接口 用户未登录", client.AppID, client.UserID, seq)
 		code = common.NotLoggedIn
 		return
 	}
@@ -94,11 +94,11 @@ func HeartbeatController(client *Client, seq string, message []byte) (code uint3
 	if err != nil {
 		if errors.Is(err, redis.Nil) {
 			code = common.NotLoggedIn
-			fmt.Println("心跳接口 用户未登录", seq, client.AppId, client.UserId)
+			fmt.Println("心跳接口 用户未登录", seq, client.AppID, client.UserID)
 			return
 		} else {
 			code = common.ServerError
-			fmt.Println("心跳接口 GetUserOnlineInfo", seq, client.AppId, client.UserId, err)
+			fmt.Println("心跳接口 GetUserOnlineInfo", seq, client.AppID, client.UserID, err)
 			return
 		}
 	}
@@ -107,7 +107,7 @@ func HeartbeatController(client *Client, seq string, message []byte) (code uint3
 	err = cache.SetUserOnlineInfo(client.GetKey(), userOnline)
 	if err != nil {
 		code = common.ServerError
-		fmt.Println("心跳接口 SetUserOnlineInfo", seq, client.AppId, client.UserId, err)
+		fmt.Println("心跳接口 SetUserOnlineInfo", seq, client.AppID, client.UserID, err)
 		return
 	}
 	return

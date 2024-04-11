@@ -14,19 +14,19 @@ import (
 )
 
 const (
-	defaultAppId = 101 // 默认平台Id
+	defaultAppID = 101 // 默认平台ID
 )
 
 var (
 	clientManager = NewClientManager()                    // 管理者
-	appIds        = []uint32{defaultAppId, 102, 103, 104} // 全部的平台
+	appIDs        = []uint32{defaultAppID, 102, 103, 104} // 全部的平台
 	serverIp      string
 	serverPort    string
 )
 
-// GetAppIds 所有平台
-func GetAppIds() []uint32 {
-	return appIds
+// GetAppIDs 所有平台
+func GetAppIDs() []uint32 {
+	return appIDs
 }
 
 // GetServer 获取服务器
@@ -43,20 +43,20 @@ func IsLocal(server *models.Server) (isLocal bool) {
 	return
 }
 
-// InAppIds in app
-func InAppIds(appId uint32) (inAppId bool) {
-	for _, value := range appIds {
-		if value == appId {
-			inAppId = true
+// InAppIDs in app
+func InAppIDs(appID uint32) (inAppID bool) {
+	for _, value := range appIDs {
+		if value == appID {
+			inAppID = true
 			return
 		}
 	}
 	return
 }
 
-// GetDefaultAppId 获取默认 appID
-func GetDefaultAppId() (appId uint32) {
-	appId = defaultAppId
+// GetDefaultAppID 获取默认 appID
+func GetDefaultAppID() (appID uint32) {
+	appID = defaultAppID
 	return
 }
 
