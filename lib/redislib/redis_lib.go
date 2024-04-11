@@ -1,10 +1,4 @@
-/**
-* Created by GoLand.
-* User: link1st
-* Date: 2019-07-25
-* Time: 14:18
- */
-
+// Package redislib redis 库
 package redislib
 
 import (
@@ -19,8 +13,8 @@ var (
 	client *redis.Client
 )
 
-func ExampleNewClient() {
-
+// NewClient 初始化 Redis 客户端
+func NewClient() {
 	client = redis.NewClient(&redis.Options{
 		Addr:         viper.GetString("redis.addr"),
 		Password:     viper.GetString("redis.password"),
@@ -28,13 +22,11 @@ func ExampleNewClient() {
 		PoolSize:     viper.GetInt("redis.poolSize"),
 		MinIdleConns: viper.GetInt("redis.minIdleConns"),
 	})
-
 	pong, err := client.Ping(context.Background()).Result()
 	fmt.Println("初始化redis:", pong, err)
-	// Output: PONG <nil>
 }
 
+// GetClient 获取客户端
 func GetClient() (c *redis.Client) {
-
 	return client
 }

@@ -1,10 +1,4 @@
-/**
- * Created by GoLand.
- * User: link1st
- * Date: 2019-07-25
- * Time: 16:24
- */
-
+// Package websocket 处理
 package websocket
 
 import (
@@ -33,7 +27,7 @@ func (l *login) GetKey() (key string) {
 	return
 }
 
-// 用户连接
+// Client 用户连接
 type Client struct {
 	Addr          string          // 客户端地址
 	Socket        *websocket.Conn // 用户连接
@@ -45,7 +39,7 @@ type Client struct {
 	LoginTime     uint64          // 登录时间 登录以后才有
 }
 
-// 初始化
+// NewClient 初始化
 func NewClient(addr string, socket *websocket.Conn, firstTime uint64) (client *Client) {
 	client = &Client{
 		Addr:          addr,
@@ -54,14 +48,12 @@ func NewClient(addr string, socket *websocket.Conn, firstTime uint64) (client *C
 		FirstTime:     firstTime,
 		HeartbeatTime: firstTime,
 	}
-
 	return
 }
 
 // GetKey 获取 key
 func (c *Client) GetKey() (key string) {
 	key = GetUserKey(c.AppId, c.UserId)
-
 	return
 }
 
@@ -72,17 +64,14 @@ func (c *Client) read() {
 			fmt.Println("write stop", string(debug.Stack()), r)
 		}
 	}()
-
 	defer func() {
 		fmt.Println("读取客户端数据 关闭send", c)
 		close(c.Send)
 	}()
-
 	for {
 		_, message, err := c.Socket.ReadMessage()
 		if err != nil {
 			fmt.Println("读取客户端数据 错误", c.Addr, err)
-
 			return
 		}
 
@@ -97,45 +86,36 @@ func (c *Client) write() {
 	defer func() {
 		if r := recover(); r != nil {
 			fmt.Println("write stop", string(debug.Stack()), r)
-
 		}
 	}()
-
 	defer func() {
 		clientManager.Unregister <- c
-		c.Socket.Close()
+		_ = c.Socket.Close()
 		fmt.Println("Client发送数据 defer", c)
 	}()
-
 	for {
 		select {
 		case message, ok := <-c.Send:
 			if !ok {
 				// 发送数据错误 关闭连接
 				fmt.Println("Client发送数据 关闭连接", c.Addr, "ok", ok)
-
 				return
 			}
-
-			c.Socket.WriteMessage(websocket.TextMessage, message)
+			_ = c.Socket.WriteMessage(websocket.TextMessage, message)
 		}
 	}
 }
 
 // SendMsg 发送数据
 func (c *Client) SendMsg(msg []byte) {
-
 	if c == nil {
-
 		return
 	}
-
 	defer func() {
 		if r := recover(); r != nil {
 			fmt.Println("SendMsg stop:", r, string(debug.Stack()))
 		}
 	}()
-
 	c.Send <- msg
 }
 
@@ -144,7 +124,7 @@ func (c *Client) close() {
 	close(c.Send)
 }
 
-// 用户登录
+// Login 用户登录
 func (c *Client) Login(appId uint32, userId string, loginTime uint64) {
 	c.AppId = appId
 	c.UserId = userId
@@ -153,31 +133,27 @@ func (c *Client) Login(appId uint32, userId string, loginTime uint64) {
 	c.Heartbeat(loginTime)
 }
 
-// 用户心跳
+// Heartbeat 用户心跳
 func (c *Client) Heartbeat(currentTime uint64) {
 	c.HeartbeatTime = currentTime
 
 	return
 }
 
-// 心跳超时
+// IsHeartbeatTimeout 心跳超时
 func (c *Client) IsHeartbeatTimeout(currentTime uint64) (timeout bool) {
 	if c.HeartbeatTime+heartbeatExpirationTime <= currentTime {
 		timeout = true
 	}
-
 	return
 }
 
-// 是否登录了
+// IsLogin 是否登录了
 func (c *Client) IsLogin() (isLogin bool) {
-
 	// 用户登录了
 	if c.UserId != "" {
 		isLogin = true
-
 		return
 	}
-
 	return
 }

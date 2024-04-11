@@ -1,10 +1,4 @@
-/**
-* Created by GoLand.
-* User: link1st
-* Date: 2019-08-03
-* Time: 16:43
- */
-
+// Package grpcserver grpc 服务器
 package grpcserver
 
 import (
@@ -13,10 +7,10 @@ import (
 	"log"
 	"net"
 
-	"github.com/link1st/gowebsocket/common"
-	"github.com/link1st/gowebsocket/models"
-	"github.com/link1st/gowebsocket/protobuf"
-	"github.com/link1st/gowebsocket/servers/websocket"
+	"github.com/link1st/gowebsocket/v2/common"
+	"github.com/link1st/gowebsocket/v2/models"
+	"github.com/link1st/gowebsocket/v2/protobuf"
+	"github.com/link1st/gowebsocket/v2/servers/websocket"
 
 	"github.com/golang/protobuf/proto"
 	"github.com/spf13/viper"

@@ -1,27 +1,21 @@
-/**
-* Created by GoLand.
-* User: link1st
-* Date: 2019-07-25
-* Time: 12:11
- */
-
+// Package controllers 控制器
 package controllers
 
 import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/link1st/gowebsocket/common"
+
+	"github.com/link1st/gowebsocket/v2/common"
 )
 
 type BaseController struct {
 	gin.Context
 }
 
-// 获取全部请求解析到map
+// Response 获取全部请求解析到map
 func Response(c *gin.Context, code uint32, msg string, data map[string]interface{}) {
 	message := common.Response(code, msg, data)
-
 	// 允许跨域
 	c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 	c.Header("Access-Control-Allow-Origin", "*") // 这是允许访问所有域
@@ -35,8 +29,6 @@ func Response(c *gin.Context, code uint32, msg string, data map[string]interface
 		"true") //  跨域请求是否需要带cookie信息 默认设置为true
 	c.Set("content-type",
 		"application/json") // 设置返回格式是json
-
 	c.JSON(http.StatusOK, message)
-
 	return
 }

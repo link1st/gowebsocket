@@ -1,10 +1,4 @@
-/**
-* Created by GoLand.
-* User: link1st
-* Date: 2019-07-25
-* Time: 12:11
- */
-
+// Package common 通用函数
 package common
 
 const (
@@ -22,7 +16,7 @@ const (
 	RoutingNotExist    = 1010 // 路由不存在
 )
 
-// 根据错误码 获取错误信息
+// GetErrorMessage 根据错误码 获取错误信息
 func GetErrorMessage(code uint32, message string) string {
 	var codeMessage string
 	codeMap := map[uint32]string{

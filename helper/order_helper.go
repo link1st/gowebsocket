@@ -1,10 +1,4 @@
-/**
-* Created by GoLand.
-* User: link1st
-* Date: 2019-08-01
-* Time: 18:13
- */
-
+// Package helper 帮助函数
 package helper
 
 import (
@@ -12,10 +6,9 @@ import (
 	"time"
 )
 
+// GetOrderIdTime 获取订单 ID
 func GetOrderIdTime() (orderId string) {
-
 	currentTime := time.Now().Nanosecond()
 	orderId = fmt.Sprintf("%d", currentTime)
-
 	return
 }

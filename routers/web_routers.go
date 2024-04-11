@@ -1,19 +1,15 @@
-/**
-* Created by GoLand.
-* User: link1st
-* Date: 2019-07-25
-* Time: 12:20
- */
-
+// Package routers 路由
 package routers
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/link1st/gowebsocket/controllers/home"
-	"github.com/link1st/gowebsocket/controllers/systems"
-	"github.com/link1st/gowebsocket/controllers/user"
+
+	"github.com/link1st/gowebsocket/v2/controllers/home"
+	"github.com/link1st/gowebsocket/v2/controllers/systems"
+	"github.com/link1st/gowebsocket/v2/controllers/user"
 )
 
+// Init http 接口路由
 func Init(router *gin.Engine) {
 	router.LoadHTMLGlob("views/**/*")
 
@@ -37,6 +33,4 @@ func Init(router *gin.Engine) {
 	{
 		homeRouter.GET("/index", home.Index)
 	}
-
-	// router.POST("/user/online", user.Online)
 }
