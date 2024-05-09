@@ -1,7 +1,7 @@
 # 基于websocket单台机器支持百万连接分布式聊天(IM)系统
 [![PkgGoDev](https://pkg.go.dev/badge/github.com/link1st/gowebsocket)](https://pkg.go.dev/github.com/link1st/gowebsocket/v2)
 [![Release](https://img.shields.io/github/v/release/link1st/gowebsocket)](https://github.com/link1st/gowebsocket/releases)
-[![Go Report Card](https://goreportcard.com/badge/github.com/link1st/gowebsocket)](https://goreportcard.com/report/github.com/link1st/gowebsocket)
+[![Go Report Card](https://goreportcard.com/badge/github.com/link1st/gowebsocket/v2)](https://goreportcard.com/report/github.com/link1st/gowebsocket/v2)
 [![OpenIssue](https://img.shields.io/github/issues/link1st/gowebsocket)](https://github.com/link1st/gowebsocket/issues)
 [![ClosedIssue](https://img.shields.io/github/issues-closed/link1st/gowebsocket)](https://github.com/link1st/gowebsocket/issues?q=is%3Aissue+is%3Aclosed)
 ![Stars](https://img.shields.io/github/stars/link1st/gowebsocket)
