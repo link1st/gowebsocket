@@ -138,9 +138,7 @@ func (manager *ClientManager) DelUsers(client *Client) (result bool) {
 
 // GetUserKeys 获取用户的key
 func (manager *ClientManager) GetUserKeys() (userKeys []string) {
-	userKeys = make([]string, 0)
-	manager.UserLock.RLock()
-	defer manager.UserLock.RUnlock()
+	userKeys = make([]string, len(manager.Users))
 	for key := range manager.Users {
 		userKeys = append(userKeys, key)
 	}
