@@ -89,7 +89,7 @@
 
 #### 1.2 项目体验
 - [项目地址 gowebsocket](https://github.com/link1st/gowebsocket)
-- [IM-聊天首页](http://im.91vh.com/home/index) 或者在新的窗口打开 http://im.91vh.com/home/index
+- [IM-聊天首页](http://im.20jd.com/home/index) 或者在新的窗口打开 http://im.20jd.com/home/index
 - 打开连接以后进入聊天界面
 - 多人群聊可以同时打开两个窗口
 
@@ -146,8 +146,8 @@ iOS 4.2及更高版本具有WebSockets支持
 ```
 # Request Headers
 Connection: Upgrade
-Host: im.91vh.com
-Origin: http://im.91vh.com
+Host: im.20jd.com
+Origin: http://im.20jd.com
 Pragma: no-cache
 Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
 Sec-WebSocket-Key: I6qjdEaqYljv3+9x+GrhqA==
@@ -444,7 +444,7 @@ func ClearTimeoutConnections() {
 - 4. 监控用户连接、Goroutine数
 十个内存溢出有九个和Goroutine有关
 添加一个http的接口，可以查看系统的状态，防止Goroutine不回收
-[查看系统状态](http://im.91vh.com/system/state?isDebug=true)
+[查看系统状态](http://im.20jd.com/system/state?isDebug=true)
 
 - 5. Nginx 配置不活跃的连接释放时间，防止忘记关闭的连接
 
@@ -537,7 +537,7 @@ from：消息的发送者
 {
   "type": "img",
   "from": "马超",
-  "url": "http://91vh.com/images/home_logo.png",
+  "url": "http://20jd.com/images/home_logo.png",
   "secret": "消息鉴权 secret",
   "size": {
     "width": 480,
@@ -629,9 +629,9 @@ go run main.go
 - 在接口开发和接口文档使用的过程中，规范开发流程，减少沟通成本，所以约定一下接口开发流程和文档说明
 - 接口地址
 
- 线上:http://im.91vh.com
+ 线上:http://im.20jd.com
 
- 测试:http://im.91vh.com
+ 测试:http://im.20jd.com
 
 
 ###### 4.4.1.2 聊天页面
@@ -886,8 +886,8 @@ message GetUserListRsp {
 - 同时我们也可以使用Nginx的不同的负载策略(轮询、weight、ip_hash)
 
 ### 5.2 nginx配置
-- 使用域名 **im.91vh.com** 为示例，参考配置
-- 一级目录**im.91vh.com/acc** 是给webSocket使用，是用nginx stream转发功能(nginx 1.3.31 开始支持，使用Tengine配置也是相同的)，转发到golang 8089 端口处理
+- 使用域名 **im.20jd.com** 为示例，参考配置
+- 一级目录**im.20jd.com/acc** 是给webSocket使用，是用nginx stream转发功能(nginx 1.3.31 开始支持，使用Tengine配置也是相同的)，转发到golang 8089 端口处理
 - 其它目录是给HTTP使用，转发到golang 8080 端口处理
 
 ```
@@ -906,7 +906,7 @@ upstream  go-acc
 
 server {
     listen       80 ;
-    server_name  im.91vh.com;
+    server_name  im.20jd.com;
     index index.html index.htm ;
 
 
@@ -1099,8 +1099,8 @@ app:
   httpPort: 8080
   webSocketPort: 8089
   rpcPort: 9001
-  httpUrl: im.91vh.com
-  webSocketUrl:  im.91vh.com
+  httpUrl: im.20jd.com
+  webSocketUrl:  im.20jd.com
 
 # 在启动项目
 go run main.go 
@@ -1118,8 +1118,8 @@ app:
   httpPort: 8081
   webSocketPort: 8090
   rpcPort: 9002
-  httpUrl: im.91vh.com
-  webSocketUrl:  im.91vh.com
+  httpUrl: im.20jd.com
+  webSocketUrl:  im.20jd.com
 
 # 在启动第二个项目
 go run main.go 

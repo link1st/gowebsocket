@@ -274,7 +274,7 @@
            </div>
         </div>
 
-        <script src="http://91vh.com/js/jquery-2.1.4.min.js"></script>
+        <script src="http://20jd.com/js/jquery-2.1.4.min.js"></script>
         <script type="text/javascript">
         appID = {{ .appID }};
 
