@@ -19,3 +19,6 @@ config/app.yaml
 main
 main_linux
 gowebsocket
+CLAUDE.md
+.claude
+
