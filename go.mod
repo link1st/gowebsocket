@@ -5,7 +5,7 @@ go 1.25.0
 require (
 	github.com/gin-gonic/gin v1.9.1
 	github.com/golang/protobuf v1.5.4
-	github.com/gorilla/websocket v1.4.2
+	github.com/gorilla/websocket v1.5.3
 	github.com/redis/go-redis/v9 v9.0.3
 	github.com/spf13/viper v1.4.1-0.20190728125013-1b33e8258e07
 	google.golang.org/grpc v1.82.1
