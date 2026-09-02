@@ -8,7 +8,7 @@ require (
 	github.com/gorilla/websocket v1.4.2
 	github.com/redis/go-redis/v9 v9.0.3
 	github.com/spf13/viper v1.4.1-0.20190728125013-1b33e8258e07
-	google.golang.org/grpc v1.82.1
+	google.golang.org/grpc v1.83.1
 	google.golang.org/protobuf v1.36.11
 )
 
